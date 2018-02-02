@@ -1,0 +1,37 @@
+{
+  "name": "Dream_Catcher",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-plugin-module-resolver": "^3.0.0",
+    "babel-preset-react-native-stage-0": "^1.0.1",
+    "jest-react-native": "^18.0.0",
+    "react-test-renderer": "16.2.0"
+  },
+  "scripts": {
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "test": "node node_modules/jest/bin/jest.js"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "dependencies": {
+    "babel-plugin-root-import": "^5.1.0",
+    "jwt-decode": "^2.2.0",
+    "mongodb": "^3.0.1",
+    "prop-types": "^15.6.0",
+    "react": "16.2.0",
+    "react-native": "0.52.0",
+    "react-native-button": "^2.2.0",
+    "react-native-router-flux": "^4.0.0-beta.28",
+    "react-native-vector-icons": "^4.5.0",
+    "react-native-voice": "^0.2.5",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0"
+  }
+}
