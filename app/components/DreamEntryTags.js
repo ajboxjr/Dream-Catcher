@@ -174,6 +174,7 @@ class DreamEntryTags extends Component{
               </View>
               <ScrollView
                 keyboardShouldPersistTaps='handled'
+                style={styles.TagListScroll}
                 ref={ref => this.scrollView = ref} >
                 <View style={styles.TagList}>
                   {tags.map((tag, i) => {
@@ -247,6 +248,7 @@ const styles= StyleSheet.create({
     flex:1,
     flexDirection: 'row',
     flexWrap:'wrap',
+    marginHorizontal:'2%',
     marginTop: '4%',
   },
   DeleteTagIcon: {
@@ -258,11 +260,12 @@ const styles= StyleSheet.create({
   TagItem: {
     width: 90,
     height: 40,
-    marginHorizontal: 10,
+    marginHorizontal: 8,
     marginBottom: 15,
     borderRadius: 3,
     shadowOffset: {width: 0, height: 4 },
     shadowOpacity: .3,
+    alignSelf:'flex-start',
     justifyContent: 'center'
   },
   TagItemText:{
@@ -275,7 +278,6 @@ const styles= StyleSheet.create({
     height: '50%',
     width: '100%',
     zIndex: 0,
-    borderWidth:1,
   },
   CreateTagIcon: {
     alignSelf: 'center',
