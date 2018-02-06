@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import { StyleSheet, Text, View, TouchableWithoutFeedback, TextInput, Animated, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableWithoutFeedback, TextInput, Animated, Image, Keyboard } from 'react-native';
 import DreamRecorder from 'components/DreamRecorder'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -13,12 +13,17 @@ class NewDreamForm extends Component{
     this.handleKeyDown = this.handleKeyDown.bind(this)
     this.submitTag = this.submitTag.bind(this)
     this.isRepeat = this.isRepeat.bind(this)
+    this.deleteTag = this.deleteTag.bind(this)
+    this._handleFinishEntry = this._handleFinishEntry.bind(this)
     this.state ={
       pendingTag: '',
       title: '',
       entry: '',
       tags: [],
     }
+  }
+  _handleFinishEntry = () => {
+    Keyboard.dismiss()
   }
   isRepeat(newTag){
     tagRepeated = false
@@ -52,6 +57,10 @@ class NewDreamForm extends Component{
     const { title, entry, tags } = this.state;
     this.props.onDream(title, entry, tags)
   }
+  deleteTag = (index) =>{
+    console.log(index);
+    this.setState({tags: this.state.tags.filter((tag, i) => i !== index )})
+  }
 
   render(){
     const { title, entry, tags } = this.state;
@@ -71,7 +80,7 @@ class NewDreamForm extends Component{
               multiline={true}
               onChangeText={(text) => this.setState({entry: text})}
               value={entry} placeholder="So What happened" />
-              <TouchableWithoutFeedback>
+              <TouchableWithoutFeedback onPress={this._handleFinishEntry}>
                 <View style={{position:'absolute', right:'2%', bottom:'10%',}}><Text>Finished</Text></View>
               </TouchableWithoutFeedback>
         </View>
@@ -92,8 +101,12 @@ class NewDreamForm extends Component{
             <View>
             {this.state.tags.map((tag,i) => (
               <View key={i} style={{flexDirection: 'row',alignItems:'center'}}>
+                <TouchableWithoutFeedback onPress={() => this.deleteTag(i)}>
+                  <View>
+                    <Icon name="cancel" size={15} />
+                  </View>
+                </TouchableWithoutFeedback>
                 <Text>{tag}</Text>
-                <Icon name="cancel" size={10} />
               </View>
             ))}
 
