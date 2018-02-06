@@ -1,32 +1,56 @@
 import React,{Component} from 'react'
 import { StyleSheet, Text, View, TouchableWithoutFeedback, TextInput, Animated, Image } from 'react-native';
 import DreamRecorder from 'components/DreamRecorder'
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
 
 class NewDreamForm extends Component{
   constructor(props){
     super(props)
-    this.formatTags = this.formatTags.bind(this)
+    this.handleNewTag = this.handleNewTag.bind(this)
     this._handleFormSubmit = this._handleFormSubmit.bind(this)
+    this.handleKeyDown = this.handleKeyDown.bind(this)
+    this.submitTag = this.submitTag.bind(this)
+    this.isRepeat = this.isRepeat.bind(this)
     this.state ={
+      pendingTag: '',
       title: '',
       entry: '',
-      tags: '',
+      tags: [],
     }
   }
+  isRepeat(newTag){
+    tagRepeated = false
+    this.state.tags.map((tag) => {
+      if(tag.toLowerCase() === newTag.toLowerCase()){
+        tagRepeated = true
+      }
+    })
+    return tagRepeated
+  }
+  submitTag = () => {
+    const {pendingTag,tags} = this.state
+    if (pendingTag !== "" && !this.isRepeat(pendingTag)){
+      this.setState({tags: [...tags,pendingTag]})
+    }
+    this.tagInput.setNativeProps({ text: '' })
+  }
+  handleKeyDown = (e) => {
+    console.log(e.nativeEvent.key);
+    if(e.nativeEvent.key == "Enter"){
 
-  formatTags = () => {
-    const { tags } = this.state;
-    const tagsarr = tags.split(" ")
-    return tagsarr
-
-
+     }
+  }
+  handleNewTag = (text) => {
+    const {pendingTag} = this.state
+    //Global Util Varliable for length of string
+        this.setState({pendingTag: text})
   }
 
   _handleFormSubmit = () => {
     const { title, entry, tags } = this.state;
-    this.props.onDream(title, entry, tags.split(" "))
+    this.props.onDream(title, entry, tags)
   }
 
   render(){
@@ -47,14 +71,33 @@ class NewDreamForm extends Component{
               multiline={true}
               onChangeText={(text) => this.setState({entry: text})}
               value={entry} placeholder="So What happened" />
+              <TouchableWithoutFeedback>
+                <View style={{position:'absolute', right:'2%', bottom:'10%',}}><Text>Finished</Text></View>
+              </TouchableWithoutFeedback>
         </View>
 
         <View style={styles.TagsContainer}>
           <TextInput
             style={styles.TagsTextBox}
-            onChangeText={(text) => this.setState({tags: text})}
-            value={tags}
-            placeholder="Tags"/>
+            onChangeText={this.handleNewTag}
+            keyboardType="default"
+            clearButtonMode="while-editing"
+            returnKeyType="next"
+            ref={ element => this.tagInput = element}
+            onKeyPress={this.handleKeyDown}
+            value={this.state.pendingTag}
+            blurOnSubmit={false}
+            onSubmitEditing={this.submitTag}
+            placeholder="Tags (max 10.)"/>
+            <View>
+            {this.state.tags.map((tag,i) => (
+              <View key={i} style={{flexDirection: 'row',alignItems:'center'}}>
+                <Text>{tag}</Text>
+                <Icon name="cancel" size={10} />
+              </View>
+            ))}
+
+            </View>
         </View>
 
         <TouchableWithoutFeedback style={styles.sumbitDreamButton} onPress={this._handleFormSubmit}>
@@ -66,6 +109,7 @@ class NewDreamForm extends Component{
     )
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     flex:1,
@@ -84,9 +128,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   newDreamEntry: {
-    flex: .6,
+    flex: .5,
     width: '90%',
     borderWidth: 1
+  },
+  TagsTextBox:{
+    borderWidth:1,
+    height: 20,
   },
   EntryImage: {
     position: 'absolute',
