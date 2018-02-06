@@ -105,7 +105,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent:'center',
     position: 'absolute',
-    resizeMode: 'cover',
+    resizeMode: 'stretch',
+    width: '100%'
   },
   DreamItemTagList: {
     flex: 1,
@@ -119,6 +120,7 @@ const styles = StyleSheet.create({
     flex:1,
     width: 65,
     marginHorizontal: 2,
+    overflow: 'hidden',
     borderRadius: 2,
     justifyContent: 'center',
     shadowOffset: {width: 0, height: 2},
