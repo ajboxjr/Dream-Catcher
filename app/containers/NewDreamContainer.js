@@ -40,15 +40,17 @@ const styles = StyleSheet.create({
   },
   newDreamHeader: {
     position: 'absolute',
-    top: '-4%',
+    top: '-5%',
     left: '1%',
     backgroundColor: '#3ED67F',
-    padding: '2%',
+    padding: '3%',
     borderRadius: 4,
     justifyContent: 'center',
   },
   newDreamHeaderText: {
-    textAlign: 'center'
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: '600',
   },
   newDreamContainer: {
     flex: .9,
