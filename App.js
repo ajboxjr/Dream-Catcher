@@ -12,7 +12,6 @@ import ProfileIcon from 'icons/ProfileIcon'
 import ListIcon from 'icons/ListIcon'
 
 //Login Scene
-import RegisterScene from 'scenes/RegisterScene'
 import LoginScene from 'scenes/LoginScene'
 // Home Scenes
 import DreamListScene from 'scenes/DreamListScene'
@@ -40,7 +39,6 @@ export default class App extends React.Component {
           <Stack key="root">
             <Scene key="login_menu" tabBarStyle={{ backgroundColor: '#eee', alignItems: 'center' }} hideNavBar={true} navTransparent={1}>
               <Scene key="scene_1" component={LoginScene} title="login" />
-              <Scene key="scene_2" component={RegisterScene} title="register" hideNavBar={false} />
             </Scene>
             <Tabs key="main_menu" tabBarStyle={{ backgroundColor: '#eee', alignItems: 'flex-end' }} >
               <Scene key="tab1" title=" " icon={ListIcon}>
