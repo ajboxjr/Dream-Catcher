@@ -34,8 +34,9 @@ export function LoginUser(username, password){
       DreamAPI.Login(username, password).then((response) => {
        if(response.sucess){
          const token = response.token
-         AsyncStorage.setItem('@token', token)
-         dispatch(loginUserSucess(token))
+         AsyncStorage.setItem('@token', token).then(() =>{
+           dispatch(loginUserSucess(token))
+         })
         }
         else{
          dispatch(loginUserFailure(response.err))
@@ -74,9 +75,10 @@ export function LoginUser(username, password){
      dispatch(requestUserSignUp())
      DreamAPI.Signup(username, password).then((response) => {
        if(response.sucess){
-         AsyncStorage.setItem('@token': response.token, (token, err) => {
-          dispatch(signUpUserSucess(token))
-          })
+         const token = response.token
+         AsyncStorage.setItem('@token', token).then(()=>{
+           dispatch(signUpUserSucess(token))
+         })
         }
         else {
           dispatch(signUpUserFailure(response.err))
