@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { View, Animated, Text, TouchableWithoutFeedback, Vibration, StyleSheet} from 'react-native'
-
+import Voice from 'react-native-voice';
 
 const DURATION = 10000
 const PATTERN = [1000, 2000, 3000]
@@ -15,9 +15,16 @@ class DreamRecorder extends Component{
     }
 
     this._handleMicPress = this._handleMicPress.bind(this)
+    // this._handleMicRelease = this._handleMicRelease.bind(this)
+    // Voice.onSpeechStart = this.onSpeechStartHandler.bind(this);
+    // Voice.onSpeechEnd = this.onSpeechEndHandler.bind(this);
+    // Voice.onSpeechResults = this.onSpeechResultsHandler.bind(this);
   }
-
+  //   _handleMicRelease = () => {
+  //   // Voice.start('en-US');
+  // }
     _handleMicPress = () => {
+      // Voice.stop()
       Vibration.vibrate(DURATION)
       Animated.sequence([
         Animated.parallel([
@@ -46,7 +53,7 @@ class DreamRecorder extends Component{
   render(){
     return(
       <View style={{width: '100%', height: '100%', position: 'absolute'}}>
-        <TouchableWithoutFeedback onPressIn={this._handleMicPress}>
+        <TouchableWithoutFeedback onPressIn={this._handleMicPress} onPressOut={this._handleMicRelease}>
           <View style={styles.RecordMicContainer}>
             <Animated.View style={[styles.circle, styles.innerCircle, { opacity: this.state.opacity, transform:[{scale: this.state.scale}]}]} />
             <Icon style={styles.RecordIcon} name='mic' size={50} color="black" />

@@ -41,9 +41,7 @@ DreamList.defaultProps = {
     title: "title",
     author: "2015-01-21T09:19:57.081Z",
     createdDate: "201-01-21T09:19:57.081Z",
-    entry: "Some entry huh. I was perusing down the street and a
-    young man with a cane jumped down the sewer. In fear I tripped and fell flat onto my face.
-    What a nightmare...",
+    entry: "Some entry huh. I was perusing down the street and a young man with a cane jumped down the sewer. In fear I tripped and fell flat onto my face. What a nightmare...",
     lastEdited: "2018-01-21T09:19:57.081Z",
     tags: ["one", "two", "three"]
   },
