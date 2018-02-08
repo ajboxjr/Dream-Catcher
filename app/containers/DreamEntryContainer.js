@@ -46,7 +46,6 @@ class DreamEntryContainer extends Component{
   render(){
     return(
       <View style={styles.container}>
-        <Text> {this.props.dream.lastEdited} </Text>
         <DreamEntryForm dream={this.props.dream}
         onEdit={this._handleEditSubmit}
         onDeleteEntry={this._handleEntryDelete} />
