@@ -14,7 +14,6 @@ class LoginScene extends React.Component {
       <View style={styles.container}>
         <View style={styles.ImageContainer}>
           <Image style={styles.Logo} source={require('assets/Dream_Catcher.png')} />
-          <Text style={styles.Slogan}> Remember Your Dreams...</Text>
         </View>
         <LoginContainer />
         <GoogleSignIn />
@@ -33,10 +32,10 @@ const styles = StyleSheet.create({
   },
   ImageContainer:{
     flex:.5,
+    justifyContent:'center'
   },
   Logo : {
     justifyContent: 'center',
-    marginTop: '15%',
   },
   Slogan:{
     flex:1,

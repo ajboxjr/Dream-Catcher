@@ -2,8 +2,7 @@ import React,{ Component } from 'react'
 import { ActivityIndicator, View, StyleSheet,Text } from 'react-native'
 import { Actions as RouteActions } from 'react-native-router-flux';
 import {Login} from 'api/Api'
-import LoginForm from 'components/LoginForm'
-import SignUpBox from 'components/SignUpBox'
+import AuthForm from 'components/AuthForm'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -15,6 +14,7 @@ class LoginContainer extends Component{
   constructor(props){
     super(props)
     this._handleLogin = this._handleLogin.bind(this)
+    this._handleSignUp = this._handleSignUp.bind(this)
   }
   //Should be a api function to check if user is logged in, for now check if token
 
@@ -25,33 +25,43 @@ class LoginContainer extends Component{
       this.props.Auth.LoginUser(username, password)
     }
   }
+  _handleSignUp = (username,password,verifyPassword) => {
+    if (username !== '' && password !== ''){
+      //JWT authentication
+      // Returns The HTTP Reponse as Json, then returns the token as json
+      if (password ===  verifyPassword){
+        this.props.Auth.SignupUser(username, password)
+      }
+      //RouteActions.tabbbar()
+    }
+  }
 
   render(){
     const { isAuthenticating } = this.props.user
     return(
       <View style={styles.Container}>
       {this.props.user.isAuthenticating ?
-         <ActivityIndicator size="large" color="#0000ff" /> :
+         <ActivityIndicator style={styles.loadingIcon} size="large" color="#0000ff" /> :
          null}
-        <LoginForm onLogin={this._handleLogin}/>
-        <SignUpBox />
+        <AuthForm
+        onLogin={this._handleLogin}
+        onSignUp={this._handleSignUp}/>
       </View>
     )
   }
 }
   const styles = StyleSheet.create({
     Container: {
-      flex: 4,
-      alignItems: 'center'
+      flex: .35,
+      alignItems: 'center',
+      width: '70%',
     },
-    loading: {
+    loadingIcon: {
       position: 'absolute',
       top: 0,
       left: 0,
       right: 0,
       bottom: 0,
-      justifyContent: 'center',
-      alignItems: 'center'
     }
   })
 
