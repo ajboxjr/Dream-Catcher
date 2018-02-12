@@ -1,7 +1,8 @@
   import React,{Component} from 'react'
 //import PropTypes from 'prop-types'
-import {View, TextInput, Text, TouchableHighlight, StyleSheet, Animated} from 'react-native'
-
+import {View, ActivityIndicator, TextInput, Text, TouchableHighlight, StyleSheet, Animated} from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Input } from 'react-native-elements';
 class AuthForm extends Component{
   constructor(props){
     super(props)
@@ -9,12 +10,16 @@ class AuthForm extends Component{
       username: '',
       password: '',
       verifyPassword: '',
+      isAuthenticating: false,
       isLogin: true,
       opacity: new Animated.Value(1)
     }
     this._handleLoginClick = this._handleLoginClick.bind(this)
     this._handleSignUpClick = this._handleSignUpClick.bind(this)
     this._handleAuthSwitch = this._handleAuthSwitch.bind(this)
+  }
+  componentWillMount(){
+    this.setState({isAuthenticating: this.props.isLoading})
   }
 
   _handleLoginClick = () => {
@@ -42,7 +47,7 @@ class AuthForm extends Component{
     })
   }
   render(){
-    const { username, password, verifyPassword, isLogin } = this.state
+    const { username, password, verifyPassword, isLogin, isAuthenticating } = this.state
 
     let loginHeader = null
     loginHeader=
@@ -66,16 +71,21 @@ class AuthForm extends Component{
           <TextInput style={styles.InputBox}
             placeholder="Username"
             onChangeText={(text) => this.setState({username: text})}
+            placeholderTextColor='black'
             value={username} />
           <TextInput style={styles.InputBox}
             placeholder="Password"
             onChangeText={(text) => this.setState({password: text})}
             value={password}
+            placeholderTextColor='black'
             secureTextEntry={true} />
         </View>
+
         <TouchableHighlight style={styles.LoginTouch} onPress={this._handleLoginClick}>
           <View style={styles.LoginSignupButton}>
-            <Text style={styles.LoginText}>Login</Text>
+          {isAuthenticating?
+            <ActivityIndicator style={styles.loadingIcon} size="small" color="#0000ff" />:
+          <Text style={styles.LoginText}>Login</Text>}
           </View>
         </TouchableHighlight>
       </View>
@@ -87,21 +97,26 @@ class AuthForm extends Component{
             placeholder="Username"
             spellCheck={false}
             onChangeText={(text) => this.setState({username: text})}
+            placeholderTextColor='black'
             value={username} />
           <TextInput style={styles.InputBox}
             placeholder="Password"
             onChangeText={(text) => this.setState({password: text})}
             value={password}
+            placeholderTextColor='black'
             secureTextEntry={true} />
           <TextInput style={styles.InputBox}
             placeholder="Verify Password"
             onChangeText={(text) => this.setState({verifyPassword: text})}
             value={verifyPassword}
+            placeholderTextColor='black'
             secureTextEntry={true} />
         </View>
         <TouchableHighlight style={styles.LoginTouch} onPress={this._handleSignUpClick}>
           <View style={styles.LoginSignupButton}>
-            <Text style={styles.LoginText}>Sign Up</Text>
+            {isAuthenticating?
+              <ActivityIndicator style={styles.loadingIcon} size="small" color="#0000ff" />:
+            <Text style={styles.LoginText}>Sign Up</Text>}
           </View>
         </TouchableHighlight>
       </View>
@@ -163,26 +178,37 @@ const styles = StyleSheet.create({
   InputBox: {
     marginTop: 10,
     height: 30,
-    width: '90%',
-    backgroundColor: 'rgba(255,255,255,.3)',
-    color: 'white',
-    borderRadius: 3,
+    width: '80%',
+    backgroundColor: 'white',
+    color: 'black',
+    textAlign:'center',
+    borderRadius: 10,
     borderBottomWidth: 2,
     borderBottomColor: "white",
-    fontSize: 24,
+    fontSize: 20,
   },
   LoginTouch:{
     flex:.2,
     justifyContent:'center',
+
   },
   LoginSignupButton: {
     flex:1,
-    justifyContent:'center'
+    justifyContent:'center',
+    borderWidth:.6,
+    width: 150,
+    borderRadius:3,
+    marginBottom:2,
+    backgroundColor: '#11A1CF',
+
   },
   LoginText: {
     fontSize: 16,
     textAlign: 'center',
   },
+  loadingIcon: {
+    alignSelf:'center'
+  }
 })
 
 export default AuthForm ;
