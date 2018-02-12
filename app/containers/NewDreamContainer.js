@@ -19,14 +19,14 @@ class NewDreamContainer extends Component{
       this.props.Dream.createDream(title, entry, tags)
     }
   }
+  // <View style={styles.newDreamHeader}>
+  //   <Text style={styles.newDreamHeaderText}> New Dream </Text>
+  // </View>
 
   render(){
 
     return(
       <View style={styles.newDreamContainer}>
-        <View style={styles.newDreamHeader}>
-          <Text style={styles.newDreamHeaderText}> New Dream </Text>
-        </View>
           <NewDreamForm onDream={this._handleDream}/>
       </View>
     )
@@ -38,20 +38,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
     borderWidth: 1,
   },
-  newDreamHeader: {
-    position: 'absolute',
-    top: '-5%',
-    left: '1%',
-    backgroundColor: '#3ED67F',
-    padding: '3%',
-    borderRadius: 4,
-    justifyContent: 'center',
-  },
-  newDreamHeaderText: {
-    textAlign: 'center',
-    fontSize: 20,
-    fontWeight: '600',
-  },
+  // newDreamHeader: {
+  //   position: 'absolute',
+  //   top: '-5%',
+  //   left: '1%',
+  //   backgroundColor: '#3ED67F',
+  //   padding: '3%',
+  //   borderRadius: 4,
+  //   justifyContent: 'center',
+  // },
+  // newDreamHeaderText: {
+  //   textAlign: 'center',
+  //   fontSize: 20,
+  //   fontWeight: '600',
+  // },
   newDreamContainer: {
     flex: .9,
     marginTop: 20,

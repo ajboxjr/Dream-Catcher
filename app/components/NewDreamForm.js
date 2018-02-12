@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import { StyleSheet, Text, View, TouchableWithoutFeedback, TextInput, Animated, Image, Keyboard } from 'react-native';
 import DreamRecorder from 'components/DreamRecorder'
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import DreamEntryTagForm from 'components/DreamEntryTagForm'
 
 
 
@@ -15,13 +16,26 @@ class NewDreamForm extends Component{
     this.isRepeat = this.isRepeat.bind(this)
     this.deleteTag = this.deleteTag.bind(this)
     this._handleFinishEntry = this._handleFinishEntry.bind(this)
+    this._handleTagAdd = this._handleTagAdd.bind(this)
+    this._handleTagDelete = this._handleTagDelete.bind(this)
+    this._handleFormOpen = this._handleFormOpen.bind(this)
+    this._handleFormClose = this._handleFormClose.bind(this)
+
     this.state ={
       pendingTag: '',
       title: '',
       entry: '',
       tags: [],
+      toggleTagForm: false,
     }
   }
+  _handleFormOpen = () => {
+    this.setState({toggleTagForm: true})
+  }
+  _handleFormClose = (updatedTags) =>{
+    this.setState({toggleTagForm: false})
+  }
+
   _handleFinishEntry = () => {
     Keyboard.dismiss()
   }
@@ -44,7 +58,6 @@ class NewDreamForm extends Component{
   handleKeyDown = (e) => {
     console.log(e.nativeEvent.key);
     if(e.nativeEvent.key == "Enter"){
-
      }
   }
   handleNewTag = (text) => {
@@ -52,7 +65,14 @@ class NewDreamForm extends Component{
     //Global Util Varliable for length of string
         this.setState({pendingTag: text})
   }
-
+  _handleTagAdd(newTag){
+    const { tags } = this.state
+    this.setState({tags: [...tags, newTag]})
+  }
+  _handleTagDelete(index){
+    const { tags } = this.state
+    this.setState({tags: tags.filter((tag,i) => i != index)})
+  }
   _handleFormSubmit = () => {
     const { title, entry, tags } = this.state;
     this.props.onDream(title, entry, tags)
@@ -63,9 +83,16 @@ class NewDreamForm extends Component{
   }
 
   render(){
-    const { title, entry, tags } = this.state;
+    const { title, entry, tags, toggleTagForm } = this.state;
     return(
     <View style={styles.container}>
+
+      <DreamEntryTagForm
+        tags={tags}
+        onAddTag={this._handleTagAdd}
+        isOpen={toggleTagForm}
+        onDelete={this._handleTagDelete}
+        onClose={this._handleFormClose} />
 
         <View style={styles.newDreamTitleContainer}>
           <TextInput placeholder="Title" onChangeText={(text) => this.setState({title: text})}
@@ -74,7 +101,12 @@ class NewDreamForm extends Component{
 
         <View style={styles.newDreamEntry}>
           <Image style={styles.EntryImage} source={require('assets/entry_rectangle.png')}/>
+          <TouchableWithoutFeedback style={styles.TagTouch} onPress={this._handleFormOpen}>
+            <Image source={require('assets/tag_button.png')} style={styles.TagButton}></Image>
+          </TouchableWithoutFeedback>
+
             <DreamRecorder />
+
             <TextInput
               style={styles.newDreamEntryTextField}
               multiline={true}
@@ -83,34 +115,7 @@ class NewDreamForm extends Component{
               <TouchableWithoutFeedback onPress={this._handleFinishEntry}>
                 <View style={{position:'absolute', right:'2%', bottom:'10%',}}><Text>Finished</Text></View>
               </TouchableWithoutFeedback>
-        </View>
 
-        <View style={styles.TagsContainer}>
-          <TextInput
-            style={styles.TagsTextBox}
-            onChangeText={this.handleNewTag}
-            keyboardType="default"
-            clearButtonMode="while-editing"
-            returnKeyType="next"
-            ref={ element => this.tagInput = element}
-            onKeyPress={this.handleKeyDown}
-            value={this.state.pendingTag}
-            blurOnSubmit={false}
-            onSubmitEditing={this.submitTag}
-            placeholder="Tags (max 10.)"/>
-            <View>
-            {this.state.tags.map((tag,i) => (
-              <View key={i} style={{flexDirection: 'row',alignItems:'center'}}>
-                <TouchableWithoutFeedback onPress={() => this.deleteTag(i)}>
-                  <View>
-                    <Icon name="cancel" size={15} />
-                  </View>
-                </TouchableWithoutFeedback>
-                <Text>{tag}</Text>
-              </View>
-            ))}
-
-            </View>
         </View>
 
         <TouchableWithoutFeedback style={styles.sumbitDreamButton} onPress={this._handleFormSubmit}>
@@ -145,10 +150,6 @@ const styles = StyleSheet.create({
     width: '90%',
     borderWidth: 1
   },
-  TagsTextBox:{
-    borderWidth:1,
-    height: 20,
-  },
   EntryImage: {
     position: 'absolute',
     zIndex: -1,
@@ -159,11 +160,6 @@ const styles = StyleSheet.create({
   newDreamEntryTextField: {
     marginHorizontal: '1%',
   },
-  TagsContainer:{
-    flex: .1,
-    alignSelf: 'flex-end',
-    marginRight: '4%'
-  },
   sumbitDreamButton: {
     flex: .2,
     borderWidth: 1,
@@ -173,6 +169,21 @@ const styles = StyleSheet.create({
     padding: '4%',
     borderRadius: 3,
   },
+  TagTouch: {
+    //
+  },
+  TagButton: {
+    position:'absolute',
+    top: 5,
+    right: 5,
+
+    alignSelf:'flex-end',
+    width: 25,
+    height: 25,
+    zIndex:1,
+
+
+  }
 
 
 
