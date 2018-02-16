@@ -1,7 +1,6 @@
 import React,{Component} from 'react'
 import {Text, View, TouchableHighlight, StyleSheet, Image,Alert} from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
@@ -13,6 +12,33 @@ class ProfileContainer extends Component{
   constructor(props){
     super(props)
     this._onLogout = this._onLogout.bind(this)
+    this.totalDreams = this.totalDreams.bind(this)
+    this.totalTags = this.totalTags.bind(this)
+  }
+  totalDreams = () => {
+    const { dreams } = this.props
+    if (dreams){
+      return dreams.length
+    }
+    else{
+      return 0
+    }
+  }
+  totalTags = () =>{
+    const { dreams } = this.props
+    if (dreams){
+        let tagArr = []
+        dreams.forEach((dream) => {
+          dream.tags.forEach((tag) => {
+            tagArr.push(tag)
+          })
+          // acc += dream.tags
+      })
+      return tagArr.length
+    }
+    else{
+      return 0
+    }
   }
   _onLogout(){
     Alert.alert(
@@ -44,10 +70,10 @@ class ProfileContainer extends Component{
         <View style={styles.profileInfoContainer}>
           <View style={styles.profileInnerContainer}>
             <View style={styles.profileItem}>
-              <Text>Dreams</Text><Text>199</Text>
+              <Text>Dreams</Text><Text>{this.totalDreams()}</Text>
             </View>
             <View style={styles.profileItem}>
-            <Text>Tags</Text><Text>32</Text>
+            <Text>Tags</Text><Text>{this.totalTags()}</Text>
             </View>
           </View>
           <TouchableHighlight style={styles.logoutButton} onPress={this._onLogout}>
@@ -60,6 +86,7 @@ class ProfileContainer extends Component{
     )
   }
 }
+
 const styles = StyleSheet.create({
   profileContainer:{
     flex: .9,
@@ -136,7 +163,10 @@ function mapDispatchToProps(dispatch){
   return { Auth: bindActionCreators(AuthActions, dispatch) }
 }
 function mapStateToProps(state){
-  return {user: state.user}
+  return {
+          user: state.user,
+          dreams: state.dreams.items
+          }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer);
