@@ -27,7 +27,7 @@ class AuthForm extends Component{
     this.props.onLogin(username, password)
   }
   _handleSignUpClick = () => {
-    const {username,password,verifyPassword} = this.state
+    const { username, password, verifyPassword } = this.state
     this.props.onSignUp(username,password,verifyPassword)
   }
   _handleAuthSwitch = (isLoginBool) => {
@@ -135,8 +135,8 @@ const styles = StyleSheet.create({
   AuthFormContainer:{
     position:'relative',
     //top
-    flex:1,
-    width:'100%',
+    flex:.35,
+    width: '70%',
     borderWidth:1,
     borderRadius:4,
     alignItems:'center',
@@ -195,10 +195,9 @@ const styles = StyleSheet.create({
   LoginSignupButton: {
     flex:1,
     justifyContent:'center',
-    borderWidth:.6,
     width: 150,
     borderRadius:3,
-    marginBottom:2,
+    marginBottom:4,
     backgroundColor: '#11A1CF',
 
   },

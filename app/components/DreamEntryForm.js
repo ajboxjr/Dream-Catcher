@@ -1,8 +1,9 @@
 import React,{Component} from 'react'
-import { Text, InputField, TextInput, View, ScrollView, Image, StyleSheet, TouchableWithoutFeedback, Alert} from 'react-native'
+import { Text, InputField, TextInput, View, ScrollView, Image, StyleSheet, TouchableWithoutFeedback, Alert, Animated} from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Actions as RouteActions } from 'react-native-router-flux';
 import DreamEntryTags from 'components/DreamEntryTags'
+import DreamEntryTagForm from 'components/DreamEntryTagForm'
 import {Month} from 'utils/utils.js'
 
 class DreamEntryForm extends Component{
@@ -31,7 +32,8 @@ class DreamEntryForm extends Component{
       tags: tags,
     })
   }
-  formatDate(){
+
+  formatDate = () =>{
     //Move to Utils
     const {lastEdited} = this.props.dream
     date = new Date(lastEdited)
@@ -66,6 +68,7 @@ class DreamEntryForm extends Component{
     }
     this.setState({isEditable: !this.state.isEditable})
   }
+  // isEditable={isEditable}
 
   render(){
     const { isEditable, title, tags, entry } = this.state
@@ -101,12 +104,13 @@ class DreamEntryForm extends Component{
           </View>
           <View style={styles.DreamEntryDateEditedContainer}>
             <Text style={styles.DreamEntryDateEditedText} >
-              Last Edited: {lastEdited }
+              Last Edited: {this.formatDate()}
             </Text>
           </View>
         </View>
 
         <View style={[styles.DreamContentContainer, {borderWidth: isEditable ? 1 : 0}]}>
+
           <TextInput style={styles.DreamContentText}
             value={entry}
             onChangeText={(text)=> this.setState({entry: text})}
@@ -130,7 +134,13 @@ const styles = StyleSheet.create({
     marginTop: '5%',
     flex: .15,
     marginHorizontal: '5%',
-
+  },
+  TagFormContainer:{
+    position:'absolute',
+    zIndex: 1,
+    height: 200,
+    width:'100%',
+    backgroundColor: "#1B4782",
   },
   DreamEntryToolBarIconContainer: {
     flex: .3,
@@ -168,13 +178,26 @@ const styles = StyleSheet.create({
   DreamContentContainer: {
     flex: .55,
     // marginTop: '5%',
+    flexDirection:'column',
     marginHorizontal: '4%',
 
   },
   DreamContentText:{
     flex:1,
     fontSize: 24,
-  }
+  },
 })
+
+DreamEntryForm.defaultProps ={
+  dream: {
+    _id: 'aslkdfjas',
+    author: 'bob',
+    title:"i like tomoatoes",
+    entry: 'Salad Bob tomatoes fermeted soup cream of wheat diarea and fire monkies are always watching the way we snort our flour.',
+    tags:['green', 'underwear', 'thisle','waterhole','one','two', 'three', 'four'],
+    createdDate:'10/31/18',
+    lastEdited:'Some time ago'
+  }
+}
 
 export default DreamEntryForm;
