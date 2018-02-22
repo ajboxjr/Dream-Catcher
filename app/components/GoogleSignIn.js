@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {Text, View, TouchableOpacity, Image, TouchableHighlight, StyleSheet} from 'react-native'
 import { Actions as RouteActions } from 'react-native-router-flux'
+import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
+
 class GoogleSignIn extends Component{
   constructor(props){
     super(props)
@@ -18,6 +20,7 @@ class GoogleSignIn extends Component{
           <View style={{width: 200,height:1,position:'absolute', backgroundColor:'white'}}/>
           <Text style={styles.Or}>or</Text>
         </View>
+
         <TouchableHighlight style={styles.SignUpGoogle} onPress={this._onPressButton}>
           <Image style={styles.GoogleImage} source={require('assets/Google_Signin.png')} />
         </TouchableHighlight>
@@ -25,6 +28,11 @@ class GoogleSignIn extends Component{
     )
   }
 }
+// <GoogleSigninButton
+//   style={{width: 48, height: 48}}
+//   size={GoogleSigninButton.Size.Icon}
+//   color={GoogleSigninButton.Color.Dark}
+//   onPress={this._signIn.bind(this)}/>
 
 const styles = StyleSheet.create({
   SignUpContainer:{

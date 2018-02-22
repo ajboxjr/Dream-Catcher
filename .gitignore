@@ -1,5 +1,57 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
+# Xcode
+!**/*.xcodeproj
+!**/*.pbxproj
+!**/*.xcworkspacedata
+!**/*.xcsettings
+!**/*.xcscheme
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.xcuserstate
+project.xcworkspace
+
+# Watchman
+.watchmanconfig
+
+#MAC OSX
+.DS_Store
+
+# Android
+/android/
+.idea
+.gradle
+local.properties
+*.iml
+local.properties
+.idea/workspace.xml
+.idea/libraries
+build
+captures
+.gradle/
+build/
+
+# Gradle
+/build/
+/RNTester/android/app/build/
+/RNTester/android/app/gradle/
+/RNTester/android/app/gradlew
+/RNTester/android/app/gradlew.bat
+/ReactAndroid/build/
+
+
 # expo
 .expo/
 
