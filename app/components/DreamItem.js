@@ -1,20 +1,26 @@
 import React,{ Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableWithoutFeedback } from 'react-native';
+import { Colors } from 'utils/utils'
 
 class DreamItem extends Component{
   constructor(props){
     super(props)
     this._singlePage = this._singlePage.bind(this)
-
+    this.mapColorsToTags = this.mapColorsToTags.bind(this)
   }
-
-  _singlePage(){
+  _singlePage = () => {
     this.props.onTap()
+  }
+  mapColorsToTags = () =>{
+    const {tags} = this.props.dream
+    const colors = Colors()
+    console.log(colors);
+    return tags.map((tag,i) =>{ return [tag, colors[i]]})
   }
 
 
   render(){
-    const ItemColors = ["#CF7474", "#2D9CDB", "#EBB617", "#3ED67F", "#1FD2DE"]
+    const ItemColors = ["#CF7474", "#2D9CDB", "#3ED67F", "#1FD2DE", "#12FF2A", "#EB5757", "#08FFE1", "#FF7E08"]
     const { _id, author, title, entry, tags, createdDate, lastEdited } = this.props.dream
     return (
 
@@ -41,13 +47,14 @@ class DreamItem extends Component{
               horizontal={true}
               contentContainerStyle={{paddingVertical: '1%'}}
               onScroll={this.onscroll}>
-              {tags.map((tag, i)=> {
-                return (
-                  <View  key={i} style={ [styles.DreamItemTagItem, {backgroundColor: ItemColors[i]}] }>
-                    <Text style={styles.DreamItemTagItemText}>
-                      {tag}
-                    </Text>
-                  </View>)
+              {
+                this.mapColorsToTags().map((item, i)=> {
+                  return (
+                    <View key={i} style={ [styles.DreamItemTagItem, {backgroundColor: item[1]}] }>
+                      <Text style={styles.DreamItemTagItemText}>
+                        {item[0]}
+                      </Text>
+                    </View>)
                 })}
             </ScrollView>
           </View>
@@ -57,7 +64,6 @@ class DreamItem extends Component{
     )
   }
 }
-
 const styles = StyleSheet.create({
   DreamItem: {
     flex: 1,
