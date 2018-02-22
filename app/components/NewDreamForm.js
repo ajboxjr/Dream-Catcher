@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableWithoutFeedback, TextInput, Animated, 
 import DreamRecorder from 'components/DreamRecorder'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DreamEntryTagForm from 'components/DreamEntryTagForm'
+import { getCatchPhrase } from 'utils/utils'
 
 
 
@@ -20,6 +21,7 @@ class NewDreamForm extends Component{
     this._handleTagDelete = this._handleTagDelete.bind(this)
     this._handleFormOpen = this._handleFormOpen.bind(this)
     this._handleFormClose = this._handleFormClose.bind(this)
+    this._handleEntryFocus = this._handleEntryFocus.bind(this)
 
     this.state ={
       pendingTag: '',
@@ -27,17 +29,22 @@ class NewDreamForm extends Component{
       entry: '',
       tags: [],
       toggleTagForm: false,
+      isDreaming: false
     }
+  }
+  componentWillMount(){
+    this.setState({catchPhrase: getCatchPhrase()})
   }
   _handleFormOpen = () => {
     this.setState({toggleTagForm: true})
   }
-  _handleFormClose = (updatedTags) =>{
+  _handleFormClose = () =>{
     this.setState({toggleTagForm: false})
   }
 
   _handleFinishEntry = () => {
     Keyboard.dismiss()
+    this.setState({isDreaming: false})
   }
   isRepeat(newTag){
     tagRepeated = false
@@ -77,13 +84,29 @@ class NewDreamForm extends Component{
     const { title, entry, tags } = this.state;
     this.props.onDream(title, entry, tags)
   }
+  _handleEntryFocus = () => {
+    console.log('ok');
+    this._handleFormClose()
+    this.setState({isDreaming:true})
+  }
   deleteTag = (index) =>{
     console.log(index);
     this.setState({tags: this.state.tags.filter((tag, i) => i !== index )})
   }
 
   render(){
-    const { title, entry, tags, toggleTagForm } = this.state;
+    const { title, entry, tags, toggleTagForm, isDreaming, catchPhrase } = this.state;
+    let entryButton = null;
+    if (isDreaming){
+      entryButton=<TouchableWithoutFeedback onPress={this._handleFinishEntry}>
+        <Image source={require('assets/check_button.png')} style={[styles.TagButton,{opacity: .4}]}></Image>
+      </TouchableWithoutFeedback>
+    }
+    else {
+      entryButton=<TouchableWithoutFeedback style={styles.TagTouch} onPress={this._handleFormOpen}>
+        <Image source={require('assets/tag_button.png')} style={[styles.TagButton]}></Image>
+      </TouchableWithoutFeedback>
+    }
     return(
     <View style={styles.container}>
 
@@ -98,24 +121,20 @@ class NewDreamForm extends Component{
           <TextInput placeholder="Title" onChangeText={(text) => this.setState({title: text})}
           value={title} style={styles.newDreamTitleText} />
         </View>
+        <View style={styles.newDreamEntryContainer}>
+          <View style={styles.newDreamEntry}>
+            <Image style={styles.EntryImage} source={require('assets/entry_rectangle.png')}/>
+              {entryButton}
+              <DreamRecorder />
 
-        <View style={styles.newDreamEntry}>
-          <Image style={styles.EntryImage} source={require('assets/entry_rectangle.png')}/>
-          <TouchableWithoutFeedback style={styles.TagTouch} onPress={this._handleFormOpen}>
-            <Image source={require('assets/tag_button.png')} style={styles.TagButton}></Image>
-          </TouchableWithoutFeedback>
-
-            <DreamRecorder />
-
-            <TextInput
-              style={styles.newDreamEntryTextField}
-              multiline={true}
-              onChangeText={(text) => this.setState({entry: text})}
-              value={entry} placeholder="So What happened" />
-              <TouchableWithoutFeedback onPress={this._handleFinishEntry}>
-                <View style={{position:'absolute', right:'2%', bottom:'10%',}}><Text>Finished</Text></View>
-              </TouchableWithoutFeedback>
-
+              <TextInput
+                style={styles.newDreamEntryTextField}
+                multiline={true}
+                onChangeText={(text) => this.setState({entry: text})}
+                value={entry} placeholder={catchPhrase}
+                onFocus={this._handleEntryFocus}
+                onEndEditing={this._handleEntryFinish}/>
+          </View>
         </View>
 
         <TouchableWithoutFeedback style={styles.sumbitDreamButton} onPress={this._handleFormSubmit}>
@@ -127,45 +146,56 @@ class NewDreamForm extends Component{
     )
   }
 }
+// onFocus={this.setState({isDreaming:true})}
+// onEndEditing={this.setState({isDreaming: false})}
 
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    justifyContent: 'space-around',
     alignItems: 'center',
   },
   newDreamTitleContainer: {
-    flex: .1,
+    flex: .2,
+    ///////////
+    justifyContent:'center',
     width: '85%',
-    backgroundColor: '#E0E0E0',
     marginTop: '2%',
-    shadowOffset: {width: 0, height: 3},
-    shadowOpacity: .1
+    justifyContent:'center'
   },
   newDreamTitleText: {
-    textAlign: 'center',
+    textAlign: 'left',
+    fontSize:24,
+  },
+  newDreamEntryContainer:{
+    flex:.7,
+    width:'100%',
+    alignItems:'center',
+    justifyContent:'flex-start'
   },
   newDreamEntry: {
-    flex: .5,
+    flex: .8,
+    ///////////////
     width: '90%',
-    borderWidth: 1
   },
   EntryImage: {
     position: 'absolute',
     zIndex: -1,
-    resizeMode: 'cover',
+    resizeMode: 'stretch',
     width: '100%',
     height: '100%',
   },
   newDreamEntryTextField: {
+    marginTop:'2%',
     marginHorizontal: '1%',
+    fontSize:18,
   },
   sumbitDreamButton: {
     flex: .2,
+    /////////////
     borderWidth: 1,
   },
   submitDreamView: {
-    backgroundColor: '#CF7474',
+    backgroundColor: '#63C924',
     padding: '4%',
     borderRadius: 3,
   },
