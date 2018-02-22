@@ -1,5 +1,6 @@
+const API_URL="https://dream-catcher-1518753581722.appspot.com/"
 export function Signup(username, password){
-  return fetch('http://127.0.0.1:3000/api/sign-up', {
+  return fetch(API_URL+'api/sign-up', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -18,7 +19,7 @@ export function Signup(username, password){
 }
 
 export function Login(username, password){
-  return fetch('http://127.0.0.1:3000/api/login', {
+  return fetch(API_URL+'api/login', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -34,7 +35,7 @@ export function Login(username, password){
 }
 
 export function AddDream(title, entry, tags, token){
-  return fetch('http://127.0.0.1:3000/api/dream/new',{
+  return fetch(API_URL+'api/dream/new',{
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -52,7 +53,7 @@ export function AddDream(title, entry, tags, token){
 
   export function PopulateDreams(token){
     console.log(token);
-    return fetch('http://127.0.0.1:3000/api/dream',{
+    return fetch(API_URL+'api/dream',{
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -64,7 +65,7 @@ export function AddDream(title, entry, tags, token){
   }
 
 export function Logout(){
-  return fetch('http://127.0.0.1:3000/api/logout', {
+  return fetch(API_URL+'api/logout', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -79,7 +80,7 @@ export function Logout(){
     .catch(error =>  error)
 }
 export function DeleteDream(id, token){
-  return fetch('http://127.0.0.1:3000/api/dream/'+id+'/delete', {
+  return fetch(API_URL+'api/dream/'+id+'/delete', {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -91,7 +92,7 @@ export function DeleteDream(id, token){
 }
 
 export function EditDream(id, title, entry, tags, token){
-  return fetch('http://127.0.0.1:3000/api/dream/'+id+'/edit',{
+  return fetch(API_URL+'api/dream/'+id+'/edit',{
     method: 'POST',
     headers: {
       Accept: 'application/json',
