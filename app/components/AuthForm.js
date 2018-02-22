@@ -1,6 +1,6 @@
   import React,{Component} from 'react'
 //import PropTypes from 'prop-types'
-import {View, ActivityIndicator, TextInput, Text, TouchableHighlight, StyleSheet, Animated} from 'react-native'
+import {View, ActivityIndicator, TextInput, Text, TouchableHighlight, StyleSheet, Animated, KeyboardAvoidingView} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
 class AuthForm extends Component{
@@ -122,24 +122,31 @@ class AuthForm extends Component{
       </View>
     }
     return(
-      <Animated.View style={[styles.AuthFormContainer,{opacity:this.state.opacity}]}>
-      <View style={styles.LoginContainer}>
-        {loginHeader}
-            {loginSignUp}
+      <View style={styles.Container}>
+        <Animated.View style={[styles.AuthFormContainer,{opacity:this.state.opacity}]}>
+            <View style={styles.LoginContainer}>
+              {loginHeader}
+                  {loginSignUp}
+            </View>
+        </Animated.View>
       </View>
-      </Animated.View>
     )
   }
 }
 const styles = StyleSheet.create({
-  AuthFormContainer:{
+  Container: {
     position:'relative',
     //top
-    flex:.35,
-    width: '70%',
-    borderWidth:1,
-    borderRadius:4,
+    flex:.5,
+    width:'100%',
     alignItems:'center',
+    justifyContent:'flex-start'
+  },
+  AuthFormContainer:{
+    flex:.8,
+    width: '70%',
+    // borderWidth:1,
+    // borderRadius:4,
     backgroundColor: '#3B4EE3',
   },
   LoginContainer: {
@@ -152,7 +159,7 @@ const styles = StyleSheet.create({
   },
   HeaderTouch:{
     flex:.5,
-    justifyContent:'flex-end',
+    justifyContent:'center',
   },
   LoginHeaderContainer:{
     borderBottomWidth:3,
@@ -186,19 +193,23 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: "white",
     fontSize: 20,
+    shadowOpacity: .5,
+    shadowOffset: {width: 2, height: 3}
   },
   LoginTouch:{
     flex:.2,
     justifyContent:'center',
+    width:"40%"
 
   },
   LoginSignupButton: {
     flex:1,
     justifyContent:'center',
-    width: 150,
     borderRadius:3,
     marginBottom:4,
     backgroundColor: '#11A1CF',
+    shadowOpacity: .5,
+    shadowOffset: {width: 2, height: 3}
 
   },
   LoginText: {

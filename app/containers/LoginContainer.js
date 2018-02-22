@@ -1,7 +1,8 @@
 import React,{ Component } from 'react'
-import { ActivityIndicator, View, StyleSheet,Text } from 'react-native'
+import { View, StyleSheet,Text,Image } from 'react-native'
 import { Actions as RouteActions } from 'react-native-router-flux';
 import {Login} from 'api/Api'
+import GoogleSignIn from 'components/GoogleSignIn'
 import AuthForm from 'components/AuthForm'
 
 import { bindActionCreators } from 'redux'
@@ -19,6 +20,7 @@ class LoginContainer extends Component{
   //Should be a api function to check if user is logged in, for now check if token
 
   _handleLogin = (username, password) => {
+    console.log(username);
     if (username !== '' && password !== ''){
       //JWT authentication
       // Returns The HTTP Reponse as Json, then returns the token as json
@@ -36,33 +38,54 @@ class LoginContainer extends Component{
     }
   }
 
+
   render(){
     const { isAuthenticating } = this.props.user
     return(
-      <View style={styles.Container}>
-      {this.props.user.isAuthenticating ?
-         <ActivityIndicator style={styles.loadingIcon} size="large" color="#0000ff" /> :
-         null}
-        <AuthForm
-        onLogin={this._handleLogin}
-        onSignUp={this._handleSignUp}/>
-      </View>
+        <View style={styles.LoginContainer}>
+          <View style={styles.ImageContainer}>
+            <View style={styles.LogoContainer}>
+            <Image style={styles.Logo} source={require('assets/Dream_Catcher.png')} />
+            </View>
+          </View>
+          <AuthForm
+          isAuthenticating={this.props.user.isAuthenticating}
+          onLogin={this._handleLogin}
+          onSignUp={this._handleSignUp}/>
+          <GoogleSignIn />
+        </View>
     )
   }
 }
   const styles = StyleSheet.create({
-    Container: {
-      flex: .35,
-      alignItems: 'center',
-      width: '70%',
+    LoginContainer:{
+      flex:1,
+      borderWidth: 1,
+      width:'100%',
+      alignItems:'center',
     },
-    loadingIcon: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-    }
+    ImageContainer:{
+      flex:.40,
+      justifyContent:'center',
+      alignItems:'center'
+    },
+    LogoContainer:{
+      flex:.75,
+      justifyContent:'flex-end'
+
+    },
+    Logo : {
+      flex:1,
+      justifyContent: 'center',
+      resizeMode: 'contain'
+    },
+    Slogan:{
+      flex:1,
+      textAlign: 'center',
+      paddingTop: '5%',
+      fontSize: 24
+    },
+
   })
 
   function mapStateToProps(state){
