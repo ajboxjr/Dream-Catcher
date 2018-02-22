@@ -102,7 +102,7 @@ class DreamEntryTags extends Component{
       newTagItemContent=
       <View style={{flex:1, justifyContent: 'center'}}>
         <TouchableWithoutFeedback onPress={this._cancelAddTag}>
-          <View style={styles.DeleteTagIcon}>
+          <View style={[styles.DeleteTagIcon,styles.circle]}>
             <Icon name="close" size={13} />
           </View>
          </TouchableWithoutFeedback>
@@ -160,7 +160,7 @@ class DreamEntryTags extends Component{
       newTagItem = null
       // Hide/Remove Delete & New Tag Button
     }
-
+//centerContent
     return(
       <View style={styles.DreamTagsContainer}>
           <Animated.View style={[styles.TagsView,{top: this.state.scrollX.interpolate({
@@ -173,8 +173,9 @@ class DreamEntryTags extends Component{
                 {scrollable}
               </View>
               <ScrollView
+                centerContent={false}
+                contentContainerStyle={styles.TagListScroll}
                 keyboardShouldPersistTaps='handled'
-                style={styles.TagListScroll}
                 ref={ref => this.scrollView = ref} >
                 <View style={styles.TagList}>
                   {tags.map((tag, i) => {
@@ -244,11 +245,14 @@ const styles= StyleSheet.create({
   TagsTitleText:{
     fontSize: 20,
   },
+  TagListScroll  :{
+    justifyContent:'center',
+    alignSelf:'center'
+  },
   TagList: {
-    flex:1,
+    width: 303,
     flexDirection: 'row',
     flexWrap:'wrap',
-    marginHorizontal:'2%',
     marginTop: '4%',
   },
   DeleteTagIcon: {
@@ -260,7 +264,7 @@ const styles= StyleSheet.create({
   TagItem: {
     width: 90,
     height: 40,
-    marginHorizontal: 8,
+    marginHorizontal: 5,
     marginBottom: 15,
     borderRadius: 3,
     shadowOffset: {width: 0, height: 4 },
@@ -290,7 +294,7 @@ const styles= StyleSheet.create({
     width: 15,
     height: 15,
     borderRadius: 7.5,
-    borderWidth: .2
+    borderWidth: .9
 
   }
 })
