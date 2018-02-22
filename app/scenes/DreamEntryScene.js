@@ -20,18 +20,18 @@ class DreamEntryScene extends Component{
     )
   }
 }
-
-DreamEntryScene.defaultProps ={
-  dream: {
-    _id: 'aslkdfjas',
-    author: 'bob',
-    title:"i like tomoatoes",
-    entry: 'Salad Bob tomatoes fermeted soup cream of wheat diarea and fire monkies are always watching the way we snort our flour.',
-    tags:['green', 'underwear', 'thisle','waterhole','one','two', 'three', 'four'],
-    createdDate:'10/31/18',
-    lastEdited:'Some time ago'
-  }
-}
+//
+// DreamEntryScene.defaultProps ={
+//   dream: {
+//     _id: 'aslkdfjas',
+//     author: 'bob',
+//     title:"i like tomoatoes",
+//     entry: 'Green salads are better than moldy ones.',
+//     tags:['green', 'underwear', 'thisle','waterhole','one','two', 'three', 'four'],
+//     createdDate:'10/31/18',
+//     lastEdited:'Some time ago'
+//   }
+// }
 
 const styles = StyleSheet.create({
   container: {

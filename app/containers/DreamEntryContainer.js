@@ -35,11 +35,9 @@ class DreamEntryContainer extends Component{
   _handleEditSubmit(title, entry, tags){
     const {_id} = this.props.dream
     if(this.props.dream.title !== title ||  this.props.dream.tags !== tags || this.props.dream.entry !== entry){
-      console.log('stuff changed')
       this.props.Dream.editDream(_id, title, entry, tags)
-    }
-    else{
-      console.log('not changed');
+      // TODO: Have async routing...
+      // RouteActions.tab2_scene2({dreamId:_id})
     }
   }
 
@@ -53,17 +51,17 @@ class DreamEntryContainer extends Component{
     )
   }
 }
-// DreamEntryContainer.defaultProps ={
-//   dream: {
-//     _id: 'aslkdfjas',
-//     author: 'bob',
-//     title:"i like tomoatoes",
-//     entry: 'Salad Bob tomatoes fermeted soup cream of wheat diarea and fire monkies are always watching the way we snort our flour.',
-//     tags:['green', 'underwear', 'thisle','hammer','waterhole'],
-//     createdDate:'Whatever i fucking say',
-//     lastEdited:'Some time ago'
-//   }
-// }
+DreamEntryContainer.defaultProps ={
+  dream: {
+    _id: 'asdfb0a0639231asdf92136',
+    author: 'ads243qsawer',
+    title:"i like tomoatoes",
+    entry: 'This is where we will put and entry.',
+    tags:['green', 'underwear', 'thisle','hammer','waterhole'],
+    createdDate:'2018-02-01T11:41:48.865Z',
+    lastEdited:'2018-02-02T02:08:50.511Z'
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -85,3 +83,4 @@ function mapDispatchToProps(dispatch){
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DreamEntryContainer);
+// export default DreamEntryContainer;
