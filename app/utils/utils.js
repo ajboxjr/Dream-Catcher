@@ -18,3 +18,7 @@ export const Colors = () => {
     console.log(randomColorArr);
     return randomColorArr
   }
+  export const getCatchPhrase = () => {
+    let catchPhrase = ["Say Something Dreamy","Tell Me Everything","So What Happened","Morning","One Sheep Two Sheep..."]
+    return catchPhrase[getRandomInt(catchPhrase.length)]
+  }
