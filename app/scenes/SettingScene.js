@@ -9,20 +9,20 @@ class SettingScene extends Component{
 
   render(){
     return (
-      <View style={styles.Container}>
+      <View style={styles.container}>
         <SettingContainer />
       </View>
     )
   }
 }
 const styles = StyleSheet.create({
-  Container:{
+  container:{
     flex:1,
     backgroundColor: "#3B4EE3",
     justifyContent: 'center',
     alignItems: 'center'
-
   }
 })
+
 
 export default SettingScene;

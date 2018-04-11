@@ -1,8 +1,11 @@
 import React,{Component} from 'react'
 import {Text, View, TouchableHighlight, StyleSheet, Image,Alert} from 'react-native'
+import { StackNavigator } from 'react-navigation';
+
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { Actions as RouteActions } from 'react-native-router-flux';
 
 import * as AuthActions from 'actions/AuthActions';
 
@@ -55,13 +58,18 @@ class ProfileContainer extends Component{
       { cancelable: false }
     )
   }
+  _handleSceneChange = () =>{
+    this.props.onClick()
+  }
 
   render(){
     const {_id} = this.props.user
     return(
       <View style={styles.profileContainer}>
         <View style={styles.profileHeader}>
+        <TouchableHighlight style={styles.settingsTouch} onPress={this._handleSceneChange}>
           <Icon style={styles.settingIcon} name='settings' size={40}/>
+        </TouchableHighlight>
           <Image style={styles.profileImage} source={{uri: 'https://placeimg.com/150/150/any'}}/>
           <View>
             <Text style={styles.username}>{_id}</Text>
@@ -99,10 +107,12 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center'
   },
-  settingIcon: {
-    position: 'absolute',
+  settingsTouch: {
+    position:'absolute',
     top: '3%',
-    right: '3%',
+    right: '3%'
+  },
+  settingIcon: {
   },
   profileImage:{
     marginTop: '5%',

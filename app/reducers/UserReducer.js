@@ -1,10 +1,10 @@
 import {
-  LOGIN_USER_SUCESS,
+  LOGIN_USER_SUCCESS,
   LOGIN_USER_FAILURE,
   REQUEST_USER_LOGIN,
   LOGOUT_USER,
   SIGNUP_USER_REQUEST,
-  SIGNUP_USER_SUCESS,
+  SIGNUP_USER_SUCCESS,
   SIGNUP_USER_FAILURE
 } from 'actions/AuthActions'
 
@@ -24,7 +24,7 @@ export default UserReducer = (state=initialState, action) => {
       return { ...state,
         isAuthenticating: true }
 
-    case SIGNUP_USER_SUCESS:
+    case SIGNUP_USER_SUCCESS:
       return { ...state,
         token:action.payload.token,
         _id: action.payload._id}
@@ -38,7 +38,7 @@ export default UserReducer = (state=initialState, action) => {
       return { ...state,
         isAuthenticating: true }
 
-    case LOGIN_USER_SUCESS:
+    case LOGIN_USER_SUCCESS:
       return { ...state,
         _id: action.payload._id,
         token: action.payload.token,
@@ -55,6 +55,6 @@ export default UserReducer = (state=initialState, action) => {
 
     default:
       return {...state}
-      
+
   }
 }

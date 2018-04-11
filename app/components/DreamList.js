@@ -9,13 +9,34 @@ class DreamList extends Component{
   constructor(props){
     super(props)
     this._handleSceneChange = this._handleSceneChange.bind(this)
+    this._handleScroll = this._handleScroll.bind(this)
+    this.loadDreams = this.loadDreams.bind(this)
   }
   _handleSceneChange(id){
     RouteActions.tab2_scene2({dreamId: id})
   }
+  loadDreams = () => {
+    this.props.populateDreams()
+    while(this.props.isPopulating){
+      this.scrollView.scrollTo({x: 0, y: -10, animated: true})
+    }
+    this.scrollView.scrollTo({x: 0, y: 0, animated: true})
+  }
+
+  _handleScroll =(e) => {
+    console.log(';asdf');
+    var {contentOffset} = e.nativeEvent;
+    console.log("offset y",contentOffset.y);
+    if (contentOffset.y < 0){
+      console.log(this.props.isPopulating);
+      this.loadDreams()
+    }
+  }
   render(){
     return(
-      <ScrollView>
+      <ScrollView
+        onScroll={this._handleScroll}
+        ref={ref => this.scrollView = ref}>
         <View style={styles.DreamListContainer}>
           {this.props.dreams.map((item, i) => {
           return  <DreamItem key={item._id} dream={item} onTap={() => this._handleSceneChange(item._id)} />

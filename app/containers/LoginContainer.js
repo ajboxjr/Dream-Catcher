@@ -17,6 +17,12 @@ class LoginContainer extends Component{
     this._handleLogin = this._handleLogin.bind(this)
     this._handleSignUp = this._handleSignUp.bind(this)
   }
+  
+  // state.rootNav.navigator.dispatch(NavigationActions.navigate({
+  //   routeName:'Main',
+  //   params:{}
+  // }))
+
   //Should be a api function to check if user is logged in, for now check if token
 
   _handleLogin = (username, password) => {
@@ -31,10 +37,9 @@ class LoginContainer extends Component{
     if (username !== '' && password !== ''){
       //JWT authentication
       // Returns The HTTP Reponse as Json, then returns the token as json
-      if (password ===  verifyPassword){
+      if (password ===  verifyPassword && password.length > 7){
         this.props.Auth.SignupUser(username, password)
       }
-      //RouteActions.tabbbar()
     }
   }
 
@@ -42,10 +47,10 @@ class LoginContainer extends Component{
   render(){
     const { isAuthenticating } = this.props.user
     return(
-        <View style={styles.LoginContainer}>
-          <View style={styles.ImageContainer}>
-            <View style={styles.LogoContainer}>
-            <Image style={styles.Logo} source={require('assets/Dream_Catcher.png')} />
+        <View style={styles.loginContainer}>
+          <View style={styles.imageContainer}>
+            <View style={styles.logoContainer}>
+              <Image style={styles.logo} source={require('assets/Dream_Catcher.png')} />
             </View>
           </View>
           <AuthForm
@@ -58,34 +63,26 @@ class LoginContainer extends Component{
   }
 }
   const styles = StyleSheet.create({
-    LoginContainer:{
+    loginContainer:{
       flex:1,
       borderWidth: 1,
       width:'100%',
       alignItems:'center',
     },
-    ImageContainer:{
+    imageContainer:{
       flex:.40,
       justifyContent:'center',
       alignItems:'center'
     },
-    LogoContainer:{
+    logoContainer:{
       flex:.75,
       justifyContent:'flex-end'
-
     },
-    Logo : {
+    logo : {
       flex:1,
       justifyContent: 'center',
       resizeMode: 'contain'
-    },
-    Slogan:{
-      flex:1,
-      textAlign: 'center',
-      paddingTop: '5%',
-      fontSize: 24
-    },
-
+    }
   })
 
   function mapStateToProps(state){

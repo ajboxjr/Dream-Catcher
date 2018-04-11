@@ -1,34 +1,50 @@
-import { ADD_DREAM,
-DELETE_DREAM,
-EDIT_DREAM,
-ADD_TAGS,
-REMOVE_TAGS,
+import {
+CREATE_DREAM_SUCCESS,
+DELETE_DREAM_SUCCESS,
+EDIT_DREAM_SUCCESS,
 POPULATE_DREAM_REQUEST,
-POPULATE_DREAM_SUCESS,
+POPULATE_DREAM_SUCCESS,
 POPULATE_DREAM_FAILURE } from 'actions/DreamActions'
 
-const InitialState = ["items": {
-  _id: ".............",
-  title: "title",
-  author: "5a63e2c7bc4ccf947b77d33e",
-  createDate: "2018-01-21T09:19:57.081Z",
-  entry: "Slaked;alskdfj 	",
-  lastEdited: "2018-01-21T09:19:57.081Z",
-  tags: ["one", "two", "three"]
-}]
+const InitialState = {
+  "items": [],
+  "isPopulating": false
+}
+
 
 export default DreamReducer = (state=InitialState, action) => {
   switch (action.type) {
-    case POPULATE_DREAM_SUCESS:
+    case POPULATE_DREAM_REQUEST:
       return {
         ...state,
-        items: action.payload.dreams
+        isPopulating: true
       }
-    case ADD_DREAM:
+    case POPULATE_DREAM_SUCCESS:
+      return {
+        ...state,
+        items: action.payload.dreams,
+        isPopulating: false
+      }
+    case POPULATE_DREAM_FAILURE:
+      return {
+        ...state,
+        isPopulating: false
+      }
+    case CREATE_DREAM_SUCCESS:
+      return {
+        ...state,
+        items: items.unshift(action.payload.dream)
+      }
       break
-    case DELETE_DREAM:
+    case DELETE_DREAM_SUCCESS:
+      return {
+        ...state,
+        items: items.filter(dream => {
+          return dream._id !== action.payload.dreamID
+        })
+      }
       break
-    case EDIT_DREAM:
+    case EDIT_DREAM_SUCCESS:
       return {
         ...state,
         items: state.items.map((dream) =>  {
@@ -38,10 +54,6 @@ export default DreamReducer = (state=InitialState, action) => {
         })
       }
       break
-    case ADD_TAGS:
-      break;
-    case REMOVE_TAGS:
-      break;
     default:
       return state
   }

@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { View, Animated, Text, TouchableWithoutFeedback, Vibration, StyleSheet} from 'react-native'
-import Voice from 'react-native-voice';
+// import Voice from 'react-native-voice';
 
 const DURATION = 10000
 const PATTERN = [1000, 2000, 3000]

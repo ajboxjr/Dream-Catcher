@@ -4,13 +4,18 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import ProfileContainer from 'containers/ProfileContainer'
 
 class ProfileScene extends Component{
+
   constructor(props){
     super(props)
+    this._handleSceneChange = this._handleSceneChange.bind(this);
+  }
+  _handleSceneChange(){
+    this.props.navigation.navigate('Settings');
   }
   render(){
     return(
       <View style={styles.container}>
-        <ProfileContainer />
+        <ProfileContainer onClick={this._handleSceneChange}/>
       </View>
     )
   }

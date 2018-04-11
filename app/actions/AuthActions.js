@@ -3,14 +3,14 @@ import jwtDecode from 'jwt-decode'
 import {AsyncStorage} from 'react-native'
 
 export const REQUEST_USER_LOGIN = 'REQUEST_USER_LOGIN';
-export const LOGIN_USER_SUCESS = 'LOGIN_USER_SUCESS';
+export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
 export const LOGIN_USER_FAILURE = 'LOGIN_USER_FAILURE';
 
 /* Login User */
 
-export function loginUserSucess(token){
+export function loginUserSuccess(token){
   return {
-    type: LOGIN_USER_SUCESS,
+    type: LOGIN_USER_SUCCESS,
     payload : { _id: jwtDecode(token).username, token: token }
   }
 }
@@ -32,10 +32,10 @@ export function LoginUser(username, password){
   return (dispatch) => {
     dispatch(requestUserLogin())
       DreamAPI.Login(username, password).then((response) => {
-       if(response.sucess){
+       if(response.success){
          const token = response.token
          AsyncStorage.setItem('@token', token).then(() =>{
-           dispatch(loginUserSucess(token))
+           dispatch(loginUserSuccess(token))
          })
         }
         else{
@@ -46,7 +46,7 @@ export function LoginUser(username, password){
   }
 
  export const SIGNUP_USER_REQUEST = 'SIGNUP_USER_REQUEST';
- export const SIGNUP_USER_SUCESS = 'SIGNUP_USER_SUCESS';
+ export const SIGNUP_USER_SUCCESS = 'SIGNUP_USER_SUCCESS';
  export const SIGNUP_USER_FAILURE = 'SIGNUP_USER_FAILURE';
 
  /* Signup User */
@@ -56,9 +56,9 @@ export function LoginUser(username, password){
    }
  }
 
- export function signUpUserSucess(token){
+ export function signUpUserSuccess(token){
    return {
-     type: SIGNUP_USER_SUCESS,
+     type: SIGNUP_USER_SUCCESS,
      payload: { _id: jwtDecode(token).username, token: token }
    }
  }
@@ -74,10 +74,10 @@ export function LoginUser(username, password){
    return (dispatch) => {
      dispatch(requestUserSignUp())
      DreamAPI.Signup(username, password).then((response) => {
-       if(response.sucess){
+       if(response.success){
          const token = response.token
          AsyncStorage.setItem('@token', token).then(()=>{
-           dispatch(signUpUserSucess(token))
+           dispatch(signUpUserSuccess(token))
          })
         }
         else {
@@ -88,6 +88,32 @@ export function LoginUser(username, password){
  }
  /* Logout User */
  export const LOGOUT_USER = 'LOGOUT_USER';
+
+ export const CHANGE_PASSWORD_REQUEST = 'CHANGE_PASSWORD_REQUEST'
+ export const CHANGE_PASSWORD_FAILURE = 'CHANGE_PASSWORD_FAILURE'
+ export const CHANGE_PASSWORD_SUCCESS = 'CHANGE_PASSWORD_SUCCESS'
+
+ // export function ChangeUserPasswordRequest()
+ // export function ChangeUserPasswordFailure()
+ // export function ChangeUserPasswordSuccess()
+
+ export function ChangeUserPassword(oldPass, newPass){
+   return (dispatch) =>{
+     dispatch(ChangeUserPasswordRequest())
+     AsyncStorage.getItem('@token').then((token) =>{
+       DreamAPI.ChangePassword(oldPass, newPass, token).then((response)=>{
+         if(response.message){
+           dispatch(changePasswordSuccess())
+           console.log(response.success);
+           console.log('Password Changed Successfully');
+         }
+         else{
+           dispatch(changePasswordFailure())
+         }
+       })
+     })
+   }
+ }
 
  export function logoutUser(){
    return{

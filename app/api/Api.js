@@ -1,6 +1,7 @@
-const API_URL="https://dream-catcher-1518753581722.appspot.com/"
+// const API_URL="https://dream-catcher-1518753581722.appspot.com"
+const API_URL="http://127.0.0.1:3000"
 export function Signup(username, password){
-  return fetch(API_URL+'api/sign-up', {
+  return fetch(API_URL+'/api/sign-up', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -19,7 +20,8 @@ export function Signup(username, password){
 }
 
 export function Login(username, password){
-  return fetch(API_URL+'api/login', {
+  console.log('hello');
+  return fetch(API_URL+'/api/login', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -35,7 +37,7 @@ export function Login(username, password){
 }
 
 export function AddDream(title, entry, tags, token){
-  return fetch(API_URL+'api/dream/new',{
+  return fetch(API_URL+'/api/dream/new',{
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -53,7 +55,7 @@ export function AddDream(title, entry, tags, token){
 
   export function PopulateDreams(token){
     console.log(token);
-    return fetch(API_URL+'api/dream',{
+    return fetch(API_URL+'/api/dream',{
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -65,7 +67,7 @@ export function AddDream(title, entry, tags, token){
   }
 
 export function Logout(){
-  return fetch(API_URL+'api/logout', {
+  return fetch(API_URL+'/api/logout', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -80,7 +82,7 @@ export function Logout(){
     .catch(error =>  error)
 }
 export function DeleteDream(id, token){
-  return fetch(API_URL+'api/dream/'+id+'/delete', {
+  return fetch(API_URL+'/api/dream/'+id+'/delete', {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -92,7 +94,7 @@ export function DeleteDream(id, token){
 }
 
 export function EditDream(id, title, entry, tags, token){
-  return fetch(API_URL+'api/dream/'+id+'/edit',{
+  return fetch(API_URL+'/api/dream/'+id+'/edit',{
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -106,4 +108,19 @@ export function EditDream(id, title, entry, tags, token){
       }),
   }).then(res => res.json())
     .catch(error =>  error)
-  }
+}
+export function ChangePassword(oldPassword, newPassword, token){
+  return fetch(API_URL+'change-password',{
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'x-access-token': token,
+    },
+    body: JSON.stringify({
+      oldpassword: oldPassword,
+      newPassword: newPassword,
+      }),
+  }).then(res => res.json())
+    .catch(error =>  error)
+}

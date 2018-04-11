@@ -9,7 +9,7 @@ class NewDreamIcon extends React.Component {
   render(){
     return (
       <View style={styles.IconContainer}>
-       <Image style={styles.IconImage} source={require('assets/new_dream.png')} />
+       <Image style={styles.IconImage} source={require("assets/new_dream.png")} />
       </View>
     )
   }

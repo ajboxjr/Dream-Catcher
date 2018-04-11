@@ -1,3 +1,16 @@
+import {
+  createReactNavigationReduxMiddleware,
+  createReduxBoundAddListener,
+} from 'react-navigation-redux-helpers';
+
+export const middleware = createReactNavigationReduxMiddleware(
+  "root",
+  state => state.mainNav,
+  state => state.rootNav
+);
+
+export const addListener = createReduxBoundAddListener("root");
+
 export const Month = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];

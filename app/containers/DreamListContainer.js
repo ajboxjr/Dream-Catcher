@@ -14,23 +14,25 @@ class DreamListContainer extends Component{
     super(props)
   }
 
-  componentWillMount(){
-    this.props.Dream.populateDreams()
-  }
-  componentDidMount(){
-    console.log(this.props.dreams)
-  }
-
+  // componentWillMount(){
+  //   this.props.Dream.populateDreams()
+  // }
+  // componentDidMount(){
+  //   console.log(this.props.dreams)
+  // }
 
   render(){
     return(
       <View style={styles.container}>
-        <View style={styles.ListContainer}>
-          <View style={styles.Header}>
-            <Text style={styles.HeaderText}> Dreams </Text>
+        <View style={styles.listContainer}>
+          <View style={styles.header}>
+            <Text style={styles.headerText}> Dreams </Text>
           </View>
           {this.props.dreams ?
-            <DreamList dreams={this.props.dreams.items} /> :
+            <DreamList
+            dreams={this.props.dreams.items}
+            isPopulating={this.props.dreams.isPopulating}
+            populateDreams={this.props.Dream.populateDreams} /> :
           null}
 
         </View>
@@ -46,16 +48,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  ListContainer:{
+  listContainer:{
     flex:.9,
     width: '90%',
-    backgroundColor: 'white',
+    backgroundColor: 'white'
   },
-  Header:{
+  header:{
     flex: .15,
     justifyContent: 'center',
   },
-  HeaderText: {
+  headerText: {
     fontSize: 30,
     fontWeight: '800'
   },
