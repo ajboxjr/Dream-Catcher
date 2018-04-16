@@ -5,7 +5,10 @@ import {
   LOGOUT_USER,
   SIGNUP_USER_REQUEST,
   SIGNUP_USER_SUCCESS,
-  SIGNUP_USER_FAILURE
+  SIGNUP_USER_FAILURE,
+  CHANGE_PASSWORD_SUCCESS,
+  DELETE_ACCOUNT_SUCCESS,
+  DELETE_ACCOUNT_FAILURE
 } from 'actions/AuthActions'
 
 //InitialState
@@ -15,7 +18,8 @@ initialState = {
   _id: null,
   isAuthenticating: false,
   token: null,
-  error: null
+  error: null,
+  passwordChanged: false,
 }
 
 export default UserReducer = (state=initialState, action) => {
@@ -49,8 +53,18 @@ export default UserReducer = (state=initialState, action) => {
       return { ...state,
             error: action.payload.error,
             isAuthenticating: false }
+    case CHANGE_PASSWORD_SUCCESS:
+      return { ...state,
+              passwordChanged: true
+            }
+
+    case DELETE_ACCOUNT_FAILURE:
+      return { ...state,
+              error: action.payload.error
+        }
 
     case LOGOUT_USER:
+    case DELETE_ACCOUNT_SUCCESS:
       return initialState
 
     default:
