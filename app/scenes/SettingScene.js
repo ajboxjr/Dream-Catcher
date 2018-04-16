@@ -10,7 +10,7 @@ class SettingScene extends Component{
   render(){
     return (
       <View style={styles.container}>
-        <SettingContainer />
+        <SettingContainer navigation={this.props.navigation}/>
       </View>
     )
   }

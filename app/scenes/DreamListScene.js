@@ -10,7 +10,7 @@ class DreamListScene extends Component{
   render(){
     return(
       <View style={styles.container}>
-        <DreamListContainer />
+        <DreamListContainer navigation={this.props.navigation}/>
       </View>
     )
   }

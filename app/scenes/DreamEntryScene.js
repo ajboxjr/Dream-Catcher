@@ -9,29 +9,29 @@ class DreamEntryScene extends Component{
     super(props)
   }
   componentWillMount(){
-    console.log(this.props.dreamId)
+    console.log(this.props.navigation.state.params.dreamId)
   }
   render(){
 
     return (
       <View style={styles.container}>
-        <DreamEntryContainer dreamId={this.props.dreamId} />
+        <DreamEntryContainer dreamId={this.props.navigation.state.params.dreamId} navigation={this.props.navigation}/>
       </View>
     )
   }
 }
-//
-// DreamEntryScene.defaultProps ={
-//   dream: {
-//     _id: 'aslkdfjas',
-//     author: 'bob',
-//     title:"i like tomoatoes",
-//     entry: 'Green salads are better than moldy ones.',
-//     tags:['green', 'underwear', 'thisle','waterhole','one','two', 'three', 'four'],
-//     createdDate:'10/31/18',
-//     lastEdited:'Some time ago'
-//   }
-// }
+
+DreamEntryScene.defaultProps ={
+  // dream: {
+  //   _id: 'aslkdfjas',
+  //   author: 'bob',
+  //   title:"i like tomoatoes",
+  //   entry: 'Green salads are better than moldy ones.',
+  //   tags:['green', 'underwear', 'thisle','waterhole','one','two', 'three', 'four'],
+  //   createdDate:'10/31/18',
+  //   lastEdited:'Some time ago'
+  // }
+}
 
 const styles = StyleSheet.create({
   container: {

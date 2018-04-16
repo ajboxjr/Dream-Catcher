@@ -8,7 +8,6 @@ class NewDreamScene extends Component{
     super(props)
   }
   render(){
-
     return(
       <View style={styles.container}>
         <NewDreamContainer navigation={this.props.navigation}/>
