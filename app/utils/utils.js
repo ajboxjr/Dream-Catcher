@@ -2,10 +2,19 @@ import {
   createReactNavigationReduxMiddleware,
   createReduxBoundAddListener,
 } from 'react-navigation-redux-helpers';
+import React from 'react';
+export const mapNavigationStateParamsToProps = (SomeComponent) => {
+  return class extends React.Component {
+    static navigationOptions = SomeComponent.navigationOptions; // better use hoist-non-react-statics
+    render () {
+      const {navigation: {state: {params}}} = this.props;
+      return <SomeComponent {...params} {...this.props} />;
+    }
+  };
+};
 
 export const middleware = createReactNavigationReduxMiddleware(
   "root",
-  state => state.mainNav,
   state => state.rootNav
 );
 
@@ -23,12 +32,12 @@ export const Colors = () => {
     let ItemColors = ["#CF7474", "#2D9CDB", "#3ED67F", "#1FD2DE", "#12FF2A", "#EB5757", "#08FFE1", "#FF7E08"]
     let randomColorArr = []
     while (ItemColors.length){
-      console.log(ItemColors.length);
+      // console.log(ItemColors.length);
       let index = getRandomInt(ItemColors.length)
       randomColorArr.push(ItemColors[index])
       ItemColors.splice(index,1)
     }
-    console.log(randomColorArr);
+    // console.log(randomColorArr);
     return randomColorArr
   }
   export const getCatchPhrase = () => {

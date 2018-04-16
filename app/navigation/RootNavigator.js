@@ -8,7 +8,7 @@ import { addListener } from 'utils/utils'
 import MainStack from '../navigation/MainStack'
 
 
-export const RootStack = TabNavigator({
+export const RootStack = StackNavigator({
   Login: {
     screen: LoginScene
   },
@@ -21,6 +21,7 @@ export const RootStack = TabNavigator({
   headerMode: 'none',
     navigationOptions: {
         headerVisible: false,
+        gesturesEnabled: true
   }
 })
 
