@@ -78,7 +78,7 @@ class DreamEntryForm extends Component{
         <View style={styles.DreamEntryHeader}>
           <View style={styles.DreamEntryToolBarIconContainer}>
             <View style={styles.DreamEntryToolBarNavLeft}>
-              <TouchableWithoutFeedback onPress={RouteActions.tab1_scene2}>
+              <TouchableWithoutFeedback onPress={this.props.onReturn}>
                 <Icon style={styles.BackIcon} name="keyboard-arrow-left" size={27} />
               </TouchableWithoutFeedback>
             </View>
@@ -189,15 +189,15 @@ const styles = StyleSheet.create({
 })
 
 DreamEntryForm.defaultProps ={
-  dream: {
-    _id: 'aslkdfjas',
-    author: 'bob',
-    title:"i like tomoatoes",
-    entry: 'Salad Bob tomatoes fermeted soup cream of wheat diarea and fire monkies are always watching the way we snort our flour.',
-    tags:['green', 'underwear', 'thisle','waterhole','one','two', 'three', 'four'],
-    createdDate:'10/31/18',
-    lastEdited:'Some time ago'
-  }
+  // dream: {
+  //   _id: 'aslkdfjas',
+  //   author: 'bob',
+  //   title:"i like tomoatoes",
+  //   entry: 'Salad Bob tomatoes fermeted soup cream of wheat diarea and fire monkies are always watching the way we snort our flour.',
+  //   tags:['green', 'underwear', 'thisle','waterhole','one','two', 'three', 'four'],
+  //   createdDate:'10/31/18',
+  //   lastEdited:'Some time ago'
+  // }
 }
 
 export default DreamEntryForm;

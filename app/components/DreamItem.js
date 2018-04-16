@@ -5,16 +5,12 @@ import { Colors } from 'utils/utils'
 class DreamItem extends Component{
   constructor(props){
     super(props)
-    this._singlePage = this._singlePage.bind(this)
     this.mapColorsToTags = this.mapColorsToTags.bind(this)
-  }
-  _singlePage = () => {
-    this.props.onTap()
   }
   mapColorsToTags = () =>{
     const {tags} = this.props.dream
     const colors = Colors()
-    console.log(colors);
+    // console.log(colors);
     return tags.map((tag,i) =>{ return [tag, colors[i]]})
   }
 
@@ -25,7 +21,7 @@ class DreamItem extends Component{
     return (
 
         <View style={styles.DreamItem}>
-          <TouchableWithoutFeedback style={{flex:1}} onPress={this._singlePage}>
+          <TouchableWithoutFeedback style={{flex:1}} onPress={this.props.onTap}>
             <View style={styles.DreamItemContentContainer}>
               <View style={styles.DreamItemTitleContainer}>
                 <Text numberOfLines={1} ellipsizeMode='tail' style={styles.DreamItemTitleText}>

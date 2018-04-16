@@ -1,4 +1,5 @@
 import React,{ Component } from 'react'
+import PropTypes from 'prop-types'
 import { Text, InputField, TextInput, View, ScrollView, Image, StyleSheet, TouchableWithoutFeedback, Alert} from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Actions as RouteActions } from 'react-native-router-flux';
@@ -36,8 +37,6 @@ class DreamEntryContainer extends Component{
     const {_id} = this.props.dream
     if(this.props.dream.title !== title ||  this.props.dream.tags !== tags || this.props.dream.entry !== entry){
       this.props.Dream.editDream(_id, title, entry, tags)
-      // TODO: Have async routing...
-      // RouteActions.tab2_scene2({dreamId:_id})
     }
   }
 
@@ -45,6 +44,7 @@ class DreamEntryContainer extends Component{
     return(
       <View style={styles.container}>
         <DreamEntryForm dream={this.props.dream}
+        onReturn={() => this.props.navigation.replace('DreamList')}
         onEdit={this._handleEditSubmit}
         onDeleteEntry={this._handleEntryDelete} />
       </View>
@@ -53,12 +53,12 @@ class DreamEntryContainer extends Component{
 }
 DreamEntryContainer.defaultProps ={
   dream: {
-    _id: 'asdfb0a0639231asdf92136',
-    author: 'ads243qsawer',
-    title:"i like tomoatoes",
-    entry: 'This is where we will put and entry.',
-    tags:['green', 'underwear', 'thisle','hammer','waterhole'],
-    createdDate:'2018-02-01T11:41:48.865Z',
+    _id: '978778123',
+    author: 'untitled',
+    title:"Title",
+    entry: 'No Entry',
+    tags:['no', 'tags', 'present'],
+    createdDate:'2018-01-01T11:41:48.865Z',
     lastEdited:'2018-02-02T02:08:50.511Z'
   }
 }
