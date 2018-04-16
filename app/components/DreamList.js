@@ -1,6 +1,6 @@
 import React,{Component } from 'react'
 import PropTypes from 'prop-types'
-import {View, Text, StyleSheet, ScrollView} from 'react-native'
+import {View, Text, StyleSheet, ScrollView, RefreshControl} from 'react-native'
 import { Actions as RouteActions } from 'react-native-router-flux';
 
 import DreamItem from 'components/DreamItem'
@@ -8,38 +8,32 @@ import DreamItem from 'components/DreamItem'
 class DreamList extends Component{
   constructor(props){
     super(props)
-    this._handleSceneChange = this._handleSceneChange.bind(this)
-    this._handleScroll = this._handleScroll.bind(this)
+    // this._handleScroll = this._handleScroll.bind(this)
     this.loadDreams = this.loadDreams.bind(this)
   }
-  _handleSceneChange(id){
-    RouteActions.tab2_scene2({dreamId: id})
+  componentDidMount(){
+    // this.props.populateDreams() Populate Dreams on refresh
   }
   loadDreams = () => {
-    this.props.populateDreams()
-    while(this.props.isPopulating){
-      this.scrollView.scrollTo({x: 0, y: -10, animated: true})
-    }
-    this.scrollView.scrollTo({x: 0, y: 0, animated: true})
-  }
 
-  _handleScroll =(e) => {
-    console.log(';asdf');
-    var {contentOffset} = e.nativeEvent;
-    console.log("offset y",contentOffset.y);
-    if (contentOffset.y < 0){
-      console.log(this.props.isPopulating);
-      this.loadDreams()
-    }
+    console.log('should load');
+    this.props.populateDreams()
+    this.setState({refreshing: true});
+    // this.setState({refreshing: false})
   }
   render(){
     return(
       <ScrollView
-        onScroll={this._handleScroll}
-        ref={ref => this.scrollView = ref}>
+      refreshControl={
+        <RefreshControl
+            onRefresh={() => this.loadDreams()}
+            refreshing={this.props.isPopulating}
+        />
+        }>
         <View style={styles.DreamListContainer}>
           {this.props.dreams.map((item, i) => {
-          return  <DreamItem key={item._id} dream={item} onTap={() => this._handleSceneChange(item._id)} />
+            console.log(item);
+          return  <DreamItem key={item._id} dream={item} onTap={() => this.props.onDreamSelect(item._id)} />
           })}
         </View>
       </ScrollView>
@@ -83,7 +77,6 @@ DreamList.defaultProps = {
     entry: "This is entry 5",
     lastEdited: "2018-01-21T09:19:57.081Z",
     tags: ["one", "two", "three","funk","earl","science"]
-  },
-]
+  }]
 }
 export default DreamList;
