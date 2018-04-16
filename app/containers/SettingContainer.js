@@ -1,92 +1,139 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text, Image, TextInput, TouchableWithoutFeedback } from 'react-native'
+import PropTypes from 'prop-types'
+import { Modal, View, StyleSheet, Text, Image, TextInput, TouchableWithoutFeedback, TouchableHighlight, Alert } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Actions as RouteActions } from 'react-native-router-flux'
 
+import DeleteAccountModal from '../components/DeleteAccountModal'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import * as AuthActions from 'actions/AuthActions';
+import * as AuthActions from '../../app/actions/AuthActions';
 
 class SettingContainer extends Component{
   constructor(props){
     super(props)
     this._handleSceneChange = this._handleSceneChange.bind(this)
+    this._confirmDelete = this._confirmDelete.bind(this)
+    this.toggleModal = this.toggleModal.bind(this)
     this.state ={
-      old: '',
-      password: '',
-      isNewPassword: 'false'
+      oldPass: '',
+      passInput: '',
+      isNewPassword: false,
+      passPlaceholder: '',
+      displayModal: false,
     }
   }
-  _handleSceneChange = () =>{
-    RouteActions.pop()
+  componentDidUpdate(){
+    if (this.props.user.passwordChanged){
+      Alert.alert(
+        'Password Changed',
+        'Password Sucessfully Changed!',
+        [
+          {text: 'OK', onPress: () => console.log('OK Pressed')}
+        ],
+        { cancelable: false })
+    }
   }
-  // changePassword = () => {
-  //   if (this.password.length == 0){
-  //     //Change the box red and placeholder to enter password
-  //   }
-  //   else {
-  //     //Check password
-  //     if (this.state.isNewPassword){
-  //       Auth.changePassword(old, newPassword)
-  //     }
-  //     else {
-  //       if Auth.checkPassword(this.password){
-  //         this.setState({setNewPassword: true})
-  //         //clear password and placeholder to new password
-  //       }
-  //       else {
-  //         // placeholder to wrong password
-  //       }
-  //     }
-  //   }
-  // }
+  _confirmDelete = () => {
+
+  }
+  toggleModal = () => {
+    console.log('this');
+    this.setState({ displayModal: !this.state.displayModal })
+  }
+  _handleSceneChange = () =>{
+    this.props.navigation.pop()
+  }
+  _handleDeleteAccount = (password) => {
+    console.log(password);
+    this.props.Auth.DeleteUserAccount(password)
+  }
+  changePassword = () => {
+    const { old,passInput } = this.state
+    if (passInput.length == 0){
+      //Change the box red and placeholder to enter password
+    }
+    else {
+      //Check password
+      if (this.state.isNewPassword){
+        console.log(old, passInput);
+        this.props.Auth.ChangeUserPassword(old, passInput)
+        this.setState({passInput: '', isNewPassword: true});
+      }
+      else {
+          this.setState({isNewPassword: true, old: passInput, passInput: ''});
+      }
+      //clear password and placeholder to new password
+      }
+  }
   render(){
     const {_id} = this.props.user;
 
     return (
       <View style={styles.container}>
+        <DeleteAccountModal
+          onDelete={this._handleDeleteAccount}
+          visible={this.state.displayModal}
+          error={this.props.user.error}
+          onClose={this.toggleModal}/>
         <View style={styles.settingHeaderContainer}>
           <TouchableWithoutFeedback onPress={this._handleSceneChange}>
-            <Icon style={styles.backTouch} name="keyboard-arrow-left" size={30}/>
+            <View style={styles.backTouch}>
+            <Icon name="keyboard-arrow-left" size={30}/>
+            </View>
           </TouchableWithoutFeedback>
           <Text style={styles.settingsHeader}>Settings</Text>
         </View>
         <View style={styles.settingsSection}>
-          <Text>User Settings</Text>
-          <View style={styles.settingItems}>
-            <View style={styles.authInfo}>
-              <TextInput style={[styles.loginInput, styles.username]} placeholder={_id}/>
-              <TextInput ref={ref => this.password = ref} style={[styles.loginInput, styles.password]} placeholder="Old Password"/>
-            </View>
-            <View style={styles.changePasswordContainer}>
-              <View style={styles.changePasswordButton}>
-                <TouchableWithoutFeedback onPress={this.changePassword}>
-                  <Text style={styles.changePasswordText}> Change Password </Text>
-                </TouchableWithoutFeedback>
+          <View style={styles.UserContainer}>
+            <Text style={styles.userHeader}>User Settings</Text>
+            <View style={styles.settingItems}>
+              <View style={styles.authInfo}>
+                <TextInput style={[styles.loginInput, styles.username]} editable={false} placeholder={_id}/>
+                <TextInput onChangeText={(text) => this.setState({passInput: text})} value={this.state.passInput} style={[styles.loginInput, styles.password]} placeholder={this.state.passPlaceholder}/>
+              </View>
+              <View style={styles.changePasswordContainer}>
+                <View style={styles.changePasswordButton}>
+                  <TouchableWithoutFeedback onPress={this.changePassword}>
+                    <View>
+                      <Text style={styles.changePasswordText}> Change Password </Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                </View>
               </View>
             </View>
           </View>
-          <View style={styles.settingItems}>
-            <View style={styles.versionContainer}>
-              <View style={styles.versionItem}>
-              <Text>Version</Text>
-              </View>
-              <View style={styles.versionItem}>
-              <Text>1.0</Text>
+          <View style={styles.footerContainer}>
+            <View style={styles.deleteAccount}>
+              <TouchableWithoutFeedback onPress={this.toggleModal}>
+                <View style={styles.deleteTextWrapper}>
+                  <Text style={styles.deleteText}>Delete Account </Text>
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+            <View style={styles.versionWrapper}>
+              <View style={styles.versionContainer}>
+                <View style={styles.versionItem}>
+                <Text>Version</Text>
+                </View>
+                <View style={styles.versionItem}>
+                <Text>1.0</Text>
+                </View>
               </View>
             </View>
-          </View>
-          <View style={styles.deleteAccount}>
-            <TouchableWithoutFeedback>
-              <View>
-                <Text>Delete Account </Text>
-              </View>
-            </TouchableWithoutFeedback>
+            <View style={styles.ropycight}>
+              <Text style={styles.ropycightText}> Created By Anthony Box 2018</Text>
+            </View>
           </View>
         </View>
       </View>
     )
+  }
+}
+SettingContainer.defaultProps = {
+  user: {
+    _id: 'username'
   }
 }
 
@@ -113,8 +160,13 @@ const styles = StyleSheet.create({
   settingsSection: {
     flex:.9,
     width: '100%',
-    borderWidth: 1,
-    borderColor: 'black'
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  userHeader: {
+    marginTop: 30,
+    fontSize: 20,
+    textDecorationLine: 'underline'
   },
   backTouch:{
     position: 'absolute',
@@ -123,6 +175,7 @@ const styles = StyleSheet.create({
   },
   settingItems:{
     flexDirection: 'row',
+    margin: 2,
     borderWidth: 1,
     borderColor: 'black',
     width: '100%',
@@ -134,8 +187,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     width: '70%',
     height: '100%',
-    borderWidth: 1,
-    borderColor: 'black',
   },
   username: {
     backgroundColor: '#E0E0E0',
@@ -149,23 +200,29 @@ const styles = StyleSheet.create({
   },
   changePasswordContainer: {
     width:'28%',
-    borderWidth: 1,
-    borderColor: 'black',
     justifyContent:'flex-end'
   },
   changePasswordButton: {
-    margin: 2,
-    height: 40,
+    marginHorizontal: 4,
+    marginBottom: 4,
+    height: 35,
     borderRadius: 5,
     justifyContent:'flex-end',
     backgroundColor: '#A6D9F7',
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
   changePasswordText:{
     alignSelf:'center',
     textAlign:'center',
   },
+  versionWrapper: {
+    height: 40,
+    backgroundColor: '#E0E0E0',
+  },
   versionContainer: {
     flexDirection: 'row',
+    height: '100%',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
@@ -173,6 +230,36 @@ const styles = StyleSheet.create({
     width: '50%', height: '100%',borderWidth: 1,
     justifyContent:'center', alignItems:'center',
     borderColor: 'black'
+  },
+  footerContainer:{
+    height: 130,
+    justifyContent: 'space-around'
+  },
+  deleteAccount: {
+    alignSelf:'center',
+    height: 50,
+    width: 250,
+    backgroundColor: "#FF0000",
+    borderRadius: 10,
+  },
+  deleteTextWrapper:{
+    flexDirection: 'column',
+    justifyContent: 'center',
+    height:'100%',
+  },
+  deleteText: {
+    textAlign: 'center',
+    fontSize: 25,
+    color: 'white',
+    fontWeight: "600",
+  },
+  ropycight: {
+
+  },
+  ropycightText:{
+    textAlign:'center',
+    textDecorationLine: 'underline',
+    fontSize: 14,
   }
 })
 function mapStateToProps(state){
