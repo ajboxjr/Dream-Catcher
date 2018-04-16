@@ -54,7 +54,6 @@ export function AddDream(title, entry, tags, token){
   }
 
   export function PopulateDreams(token){
-    console.log(token);
     return fetch(API_URL+'/api/dream',{
       method: 'GET',
       headers: {
@@ -83,7 +82,7 @@ export function Logout(){
 }
 export function DeleteDream(id, token){
   return fetch(API_URL+'/api/dream/'+id+'/delete', {
-    method: 'GET',
+    method: 'DELETE',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -110,7 +109,7 @@ export function EditDream(id, title, entry, tags, token){
     .catch(error =>  error)
 }
 export function ChangePassword(oldPassword, newPassword, token){
-  return fetch(API_URL+'change-password',{
+  return fetch(API_URL+'/api/user/change-password',{
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -119,7 +118,22 @@ export function ChangePassword(oldPassword, newPassword, token){
     },
     body: JSON.stringify({
       oldpassword: oldPassword,
-      newPassword: newPassword,
+      newpassword: newPassword,
+      }),
+  }).then(res => res.json())
+    .catch(error =>  error)
+}
+
+export function DeleteAccount(oldPassword, token){
+  return fetch(API_URL+'/api/user/delete',{
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'x-access-token': token,
+    },
+    body: JSON.stringify({
+      oldpassword: oldPassword,
       }),
   }).then(res => res.json())
     .catch(error =>  error)
