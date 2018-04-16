@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
     height: '20%',
     width:'100%',
+    borderRadius: 2,
     backgroundColor: "#1B4782",
   },
   TagInputContainer: {

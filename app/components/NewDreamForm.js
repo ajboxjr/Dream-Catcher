@@ -22,6 +22,8 @@ class NewDreamForm extends Component{
     this._handleFormOpen = this._handleFormOpen.bind(this)
     this._handleFormClose = this._handleFormClose.bind(this)
     this._handleEntryFocus = this._handleEntryFocus.bind(this)
+    this.animateUnderline = this.animateUnderline.bind(this)
+    this.unanimateUnderline = this.unanimateUnderline.bind(this)
 
     this.state ={
       pendingTag: '',
@@ -29,7 +31,8 @@ class NewDreamForm extends Component{
       entry: '',
       tags: [],
       toggleTagForm: false,
-      isDreaming: false
+      isDreaming: false,
+      titleUnderlineX: new Animated.Value(0)
     }
   }
   componentWillMount(){
@@ -40,6 +43,34 @@ class NewDreamForm extends Component{
   }
   _handleFormClose = () =>{
     this.setState({toggleTagForm: false})
+  }
+  animateUnderline = ()=>{
+    // console.log('animate this');
+    Animated.timing(this.state.titleUnderlineX, {
+      duration: 300,
+      toValue: 10,
+    }).start(() => {
+      // this.setState({toggleTagForm: false})
+    })
+  }
+  unanimateUnderline = () => {
+    if(this.state.title){
+      Animated.timing(this.state.titleUnderlineX, {
+        duration: 300,
+        toValue: 4,
+      }).start(() => {
+        // this.setState({toggleTagForm: false})
+      })
+    }
+    else {
+      Animated.timing(this.state.titleUnderlineX, {
+        duration: 300,
+        toValue: 0,
+      }).start(() => {
+        // this.setState({toggleTagForm: false})
+      })
+    }
+    console.log('unanimated');
   }
 
   _handleFinishEntry = () => {
@@ -89,6 +120,9 @@ class NewDreamForm extends Component{
     this._handleFormClose()
     this.setState({isDreaming:true})
   }
+  _handleEntryFinish = () => {
+    this.setState({isDreaming: false})
+  }
   deleteTag = (index) =>{
     console.log(index);
     this.setState({tags: this.state.tags.filter((tag, i) => i !== index )})
@@ -118,8 +152,13 @@ class NewDreamForm extends Component{
         onClose={this._handleFormClose} />
 
         <View style={styles.newDreamTitleContainer}>
-          <TextInput placeholder="Title" onChangeText={(text) => this.setState({title: text})}
+          <TextInput onFocus={this.animateUnderline} onEndEditing={this.unanimateUnderline} placeholder="Title" onChangeText={(text) => this.setState({title: text})}
           value={title} style={styles.newDreamTitleText} />
+          <Animated.View style={[styles.newDreamTitleUnderline,{width:this.state.titleUnderlineX.interpolate({
+            inputRange: [0, 10],
+            outputRange: ['0%','90%']
+          }),}]}>
+          </Animated.View>
         </View>
         <View style={styles.newDreamEntryContainer}>
           <View style={styles.newDreamEntry}>
@@ -166,6 +205,10 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontSize:24,
   },
+  newDreamTitleUnderline: {
+      height:2,
+      backgroundColor: 'black',
+  },
   newDreamEntryContainer:{
     flex:.7,
     width:'100%',
@@ -186,7 +229,7 @@ const styles = StyleSheet.create({
   },
   newDreamEntryTextField: {
     marginTop:'2%',
-    marginHorizontal: '1%',
+    marginHorizontal: '2%',
     fontSize:18,
   },
   sumbitDreamButton: {

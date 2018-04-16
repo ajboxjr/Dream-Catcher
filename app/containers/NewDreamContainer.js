@@ -17,12 +17,7 @@ class NewDreamContainer extends Component{
   }
   _handleDream = (title , entry, tags) => {
     if (title !== "" && entry !== ""){
-      console.log('asdf');
-      this.props.navigation.dispatch(NavigationActions.navigate({
-         routeName:'Login',
-         params:{}
-       }))
-      // this.props.Dream.createDream(title, entry, tags)
+      this.props.Dream.createDream(title, entry, tags)
     }
   }
 
@@ -39,9 +34,8 @@ class NewDreamContainer extends Component{
 const styles = StyleSheet.create({
   newDreamContainer: {
     flex: .9,
-    marginTop: 20,
     marginHorizontal: 20,
-    backgroundColor: '#FFFAFA',
+    backgroundColor: 'white',
     width: null,
     shadowOffset: {width: 0, height: 3},
     shadowOpacity: .3,
