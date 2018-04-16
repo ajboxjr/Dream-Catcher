@@ -17,7 +17,7 @@ class LoginContainer extends Component{
     this._handleLogin = this._handleLogin.bind(this)
     this._handleSignUp = this._handleSignUp.bind(this)
   }
-  
+
   // state.rootNav.navigator.dispatch(NavigationActions.navigate({
   //   routeName:'Main',
   //   params:{}
@@ -57,7 +57,6 @@ class LoginContainer extends Component{
           isAuthenticating={this.props.user.isAuthenticating}
           onLogin={this._handleLogin}
           onSignUp={this._handleSignUp}/>
-          <GoogleSignIn />
         </View>
     )
   }
