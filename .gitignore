@@ -1,11 +1,10 @@
-# See https://help.github.com/ignore-files/ for more about ignoring files.
+# OSX
+#
+.DS_Store
 
 # Xcode
-!**/*.xcodeproj
-!**/*.pbxproj
-!**/*.xcworkspacedata
-!**/*.xcsettings
-!**/*.xcscheme
+#
+build/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -23,47 +22,32 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 
-# Watchman
-.watchmanconfig
-
-#MAC OSX
-.DS_Store
-
-# Android
-/android/
+# Android/IntelliJ
+#
+build/
 .idea
 .gradle
 local.properties
 *.iml
-local.properties
-.idea/workspace.xml
-.idea/libraries
-build
-captures
-.gradle/
-build/
 
-# Gradle
-/build/
-/RNTester/android/app/build/
-/RNTester/android/app/gradle/
-/RNTester/android/app/gradlew
-/RNTester/android/app/gradlew.bat
-/ReactAndroid/build/
+# node.js
+#
+node_modules/
+npm-debug.log
+yarn-error.log
 
+# BUCK
+buck-out/
+\.buckd/
+*.keystore
 
-# expo
-.expo/
+# fastlane
+#
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/
 
-# dependencies
-/node_modules
-
-# misc
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+*/fastlane/report.xml
+*/fastlane/Preview.html
+*/fastlane/screenshots
