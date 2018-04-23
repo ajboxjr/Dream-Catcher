@@ -1,9 +1,11 @@
 import React,{Component} from 'react'
 import { StyleSheet, Text, View, TouchableWithoutFeedback, TextInput, Animated, Image, Keyboard } from 'react-native';
-import DreamRecorder from 'components/DreamRecorder'
+import DreamRecorder from '../components/DreamRecorder'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import DreamEntryTagForm from 'components/DreamEntryTagForm'
-import { getCatchPhrase } from 'utils/utils'
+import DreamEntryTagForm from '../components/DreamEntryTagForm'
+// import RCTKeyboardToolbarTextInput from 'react-native-textinput-utils'
+
+import { getCatchPhrase } from '../utils/utils'
 
 
 
@@ -24,35 +26,78 @@ class NewDreamForm extends Component{
     this._handleEntryFocus = this._handleEntryFocus.bind(this)
     this.animateUnderline = this.animateUnderline.bind(this)
     this.unanimateUnderline = this.unanimateUnderline.bind(this)
-
-    this.state ={
+    this.borderErrorAnimation = this.borderErrorAnimation.bind(this)
+    this.titleErrorAnimation = this.titleErrorAnimation.bind(this)
+    this.state = {
       pendingTag: '',
       title: '',
       entry: '',
       tags: [],
       toggleTagForm: false,
+      setRecording: false,
+      recordingText: '',
       isDreaming: false,
-      titleUnderlineX: new Animated.Value(0)
+      titleUnderlineX: new Animated.Value(0),
+      titleUnderlineColor: new Animated.Value(0),
+      entryBorderOpacity: new Animated.Value(0)
     }
   }
+
   componentWillMount(){
     this.setState({catchPhrase: getCatchPhrase()})
   }
+
   _handleFormOpen = () => {
     this.setState({toggleTagForm: true})
   }
+
   _handleFormClose = () =>{
     this.setState({toggleTagForm: false})
   }
-  animateUnderline = ()=>{
-    // console.log('animate this');
+
+  titleErrorAnimation = () => {
+      Animated.sequence([
+        Animated.timing(this.state.titleUnderlineColor, {
+          duration: 0,
+          toValue: 1
+        }),
+        // Animated.timing(this.state.titleUnderlineColor, {
+        //   duration: 300,
+        //   toValue: 0
+        // })
+      ]).start(()=> {
+        this.animateUnderline(this.unanimateUnderline)
+      })
+
+  }
+
+  borderErrorAnimation = () => {
+    Animated.sequence([
+      Animated.timing(this.state.entryBorderOpacity, {
+        duration: 700,
+        toValue: 1,
+      }),
+      Animated.timing(this.state.entryBorderOpacity, {
+        duration: 300,
+        toValue:0
+      })
+    ]).start(()=>{
+      console.log('start broder animation');
+    })
+  }
+
+  animateUnderline = (callback=null)=>{
     Animated.timing(this.state.titleUnderlineX, {
-      duration: 300,
+      duration: 500,
       toValue: 10,
     }).start(() => {
       // this.setState({toggleTagForm: false})
+      if(typeof callback == 'function'){
+        callback()
+      }
     })
   }
+
   unanimateUnderline = () => {
     if(this.state.title){
       Animated.timing(this.state.titleUnderlineX, {
@@ -64,19 +109,20 @@ class NewDreamForm extends Component{
     }
     else {
       Animated.timing(this.state.titleUnderlineX, {
-        duration: 300,
+        duration: 400,
         toValue: 0,
-      }).start(() => {
-        // this.setState({toggleTagForm: false})
       })
+      // .start(() => {
+      //   // this.setState({toggleTagForm: false})
+      // })
     }
-    console.log('unanimated');
   }
 
   _handleFinishEntry = () => {
     Keyboard.dismiss()
     this.setState({isDreaming: false})
   }
+
   isRepeat(newTag){
     tagRepeated = false
     this.state.tags.map((tag) => {
@@ -86,6 +132,19 @@ class NewDreamForm extends Component{
     })
     return tagRepeated
   }
+
+  _handleTextRecording = (text) => {
+    const { isRecording, recordingText } = this.state
+    if(isRecording) {
+      this.setState({ recordingText: text });
+    }
+  }
+
+  _handleTextInput = (text) => {
+    const { isRecording, recordingText } = this.state
+    this.setState({entry: text});
+  }
+
   submitTag = () => {
     const {pendingTag,tags} = this.state
     if (pendingTag !== "" && !this.isRepeat(pendingTag)){
@@ -93,52 +152,69 @@ class NewDreamForm extends Component{
     }
     this.tagInput.setNativeProps({ text: '' })
   }
+
   handleKeyDown = (e) => {
     console.log(e.nativeEvent.key);
     if(e.nativeEvent.key == "Enter"){
      }
   }
+
   handleNewTag = (text) => {
     const {pendingTag} = this.state
     //Global Util Varliable for length of string
         this.setState({pendingTag: text})
   }
+
   _handleTagAdd(newTag){
     const { tags } = this.state
     this.setState({tags: [...tags, newTag]})
   }
+
   _handleTagDelete(index){
     const { tags } = this.state
     this.setState({tags: tags.filter((tag,i) => i != index)})
   }
+
   _handleFormSubmit = () => {
     const { title, entry, tags } = this.state;
-    this.props.onDream(title, entry, tags)
+    if(!entry){
+      //ERROR No Title
+      this.borderErrorAnimation()
+    }
+    if(!title){
+      this.titleErrorAnimation()
+    }
+    if (title !== "" && entry !== ""){
+      this.props.onDream(title, entry, tags)
+    }
   }
+
   _handleEntryFocus = () => {
     console.log('ok');
     this._handleFormClose()
     this.setState({isDreaming:true})
   }
+
   _handleEntryFinish = () => {
     this.setState({isDreaming: false})
   }
+
   deleteTag = (index) =>{
     console.log(index);
     this.setState({tags: this.state.tags.filter((tag, i) => i !== index )})
   }
 
   render(){
-    const { title, entry, tags, toggleTagForm, isDreaming, catchPhrase } = this.state;
+    const { title, entry, tags, toggleTagForm, isDreaming, catchPhrase, isRecording, recordingText } = this.state;
     let entryButton = null;
     if (isDreaming){
       entryButton=<TouchableWithoutFeedback onPress={this._handleFinishEntry}>
-        <Image source={require('assets/check_button.png')} style={[styles.TagButton,{opacity: .4}]}></Image>
+        <Image source={require('../assets/check_button.png')} style={[styles.TagButton,{opacity: .4}]}></Image>
       </TouchableWithoutFeedback>
     }
     else {
       entryButton=<TouchableWithoutFeedback style={styles.TagTouch} onPress={this._handleFormOpen}>
-        <Image source={require('assets/tag_button.png')} style={[styles.TagButton]}></Image>
+        <Image source={require('../assets/tag_button.png')} style={[styles.TagButton]}></Image>
       </TouchableWithoutFeedback>
     }
     return(
@@ -154,26 +230,40 @@ class NewDreamForm extends Component{
         <View style={styles.newDreamTitleContainer}>
           <TextInput onFocus={this.animateUnderline} onEndEditing={this.unanimateUnderline} placeholder="Title" onChangeText={(text) => this.setState({title: text})}
           value={title} style={styles.newDreamTitleText} />
-          <Animated.View style={[styles.newDreamTitleUnderline,{width:this.state.titleUnderlineX.interpolate({
-            inputRange: [0, 10],
-            outputRange: ['0%','90%']
-          }),}]}>
+          <Animated.View style={[styles.newDreamTitleUnderline,{
+            backgroundColor: this.state.titleUnderlineColor.interpolate({
+              inputRange: [0,1],
+              outputRange: ['rgb(0,0,0)','rgb(277,29,26)']
+            }),
+            width: this.state.titleUnderlineX.interpolate({
+              inputRange: [0, 10],
+              outputRange: ['0%','90%']
+            })
+          }]}>
           </Animated.View>
         </View>
         <View style={styles.newDreamEntryContainer}>
-          <View style={styles.newDreamEntry}>
-            <Image style={styles.EntryImage} source={require('assets/entry_rectangle.png')}/>
+          <Animated.View style={[styles.newDreamEntry, {
+            borderColor: this.state.entryBorderOpacity.interpolate({
+              inputRange: [0 ,1],
+              outputRange: ['rgba(255,29,26,0)','rgba(277,29,26,.9)']
+            }),
+        }]}>
+            <Image style={styles.EntryImage} source={require('../assets/entry_rectangle.png')}/>
               {entryButton}
-              <DreamRecorder />
-
+              <DreamRecorder
+                updateDreamText={this._handleTextRecording}
+                clearRecording={() => this.setState({entry: entry+recordingText, recordingText: ''})}
+                setRecording={(recording) => this.setState({isRecording: recording})}
+                isRecording={isRecording}/>
               <TextInput
-                style={styles.newDreamEntryTextField}
-                multiline={true}
-                onChangeText={(text) => this.setState({entry: text})}
-                value={entry} placeholder={catchPhrase}
-                onFocus={this._handleEntryFocus}
-                onEndEditing={this._handleEntryFinish}/>
-          </View>
+              style={styles.newDreamEntryTextField}
+              multiline={true}
+              onChangeText={this._handleTextInput}
+              value={entry+recordingText} placeholder={catchPhrase}
+              onFocus={this._handleEntryFocus}
+              onEndEditing={this._handleEntryFinish}/>
+          </Animated.View>
         </View>
 
         <TouchableWithoutFeedback style={styles.sumbitDreamButton} onPress={this._handleFormSubmit}>
@@ -218,6 +308,8 @@ const styles = StyleSheet.create({
   newDreamEntry: {
     flex: .8,
     ///////////////
+    borderWidth: 3,
+    borderRadius: 8,
     width: '90%',
   },
   EntryImage: {
