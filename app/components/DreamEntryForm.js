@@ -1,7 +1,6 @@
 import React,{Component} from 'react'
 import { Text, InputField, TextInput, View, ScrollView, Image, StyleSheet, TouchableWithoutFeedback, Alert, Animated} from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Actions as RouteActions } from 'react-native-router-flux';
 import DreamEntryTags from 'components/DreamEntryTags'
 import DreamEntryTagForm from 'components/DreamEntryTagForm'
 import {Month} from 'utils/utils.js'

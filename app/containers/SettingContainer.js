@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Modal, View, StyleSheet, Text, Image, TextInput, TouchableWithoutFeedback, TouchableHighlight, Alert } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Actions as RouteActions } from 'react-native-router-flux'
 
 import DeleteAccountModal from '../components/DeleteAccountModal'
 import { bindActionCreators } from 'redux'

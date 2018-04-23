@@ -2,7 +2,6 @@ import React,{ Component } from 'react'
 import PropTypes from 'prop-types'
 import { Text, InputField, TextInput, View, ScrollView, Image, StyleSheet, TouchableWithoutFeedback, Alert} from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Actions as RouteActions } from 'react-native-router-flux';
 import DreamEntryForm from 'components/DreamEntryForm'
 
 import { bindActionCreators } from 'redux'

@@ -1,6 +1,5 @@
 import React,{Component} from 'react';
 import { StyleSheet, Text, View, TouchableWithoutFeedback, TextInput, ScrollView} from 'react-native';
-import { Actions as RouteActions } from 'react-native-router-flux';
 import {NavigationActions} from 'react-navigation'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -16,9 +15,7 @@ class NewDreamContainer extends Component{
   componentWillMount(){
   }
   _handleDream = (title , entry, tags) => {
-    if (title !== "" && entry !== ""){
-      this.props.Dream.createDream(title, entry, tags)
-    }
+    this.props.Dream.createDream(title, entry, tags)
   }
 
   render(){

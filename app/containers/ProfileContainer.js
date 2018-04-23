@@ -5,7 +5,6 @@ import { StackNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Actions as RouteActions } from 'react-native-router-flux';
 
 import * as AuthActions from 'actions/AuthActions';
 

@@ -1,7 +1,6 @@
 import React,{Component } from 'react'
 import PropTypes from 'prop-types'
 import {View, Text, StyleSheet, ScrollView, RefreshControl} from 'react-native'
-import { Actions as RouteActions } from 'react-native-router-flux';
 
 import DreamItem from 'components/DreamItem'
 

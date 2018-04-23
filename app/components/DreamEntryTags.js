@@ -1,7 +1,6 @@
 import React,{Component} from 'react'
 import { Text, InputField, TextInput, View, ScrollView, Image, StyleSheet, TouchableWithoutFeedback, Alert, Animated, Keyboard} from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Actions as RouteActions } from 'react-native-router-flux';
 
 
 class DreamEntryTags extends Component{
