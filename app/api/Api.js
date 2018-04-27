@@ -1,6 +1,6 @@
 // const API_URL="https://dream-catcher-1518753581722.appspot.com"
 const API_URL="http://127.0.0.1:3000"
-export function Signup(username, password){
+export function Signup(username, password, verifyPassword){
   return fetch(API_URL+'/api/sign-up', {
     method: 'POST',
     headers: {
@@ -10,6 +10,7 @@ export function Signup(username, password){
     body: JSON.stringify({
       username: username,
       password: password,
+      verifyPassword: verifyPassword,
       }),
       //Response
     }).then(res => res.json())

@@ -61,19 +61,25 @@ class DreamEntryTagForm extends Component {
         outputRange: ['-50%','0%']
       }),}]}>
         <View style={{flex:1, flexDirection:'column', borderWidth:1}}>
-        <View style={styles.TagInputContainer}>
-        <TouchableWithoutFeedback onPress={this.props.onClose}>
-          <Icon style={styles.CloseIcon} name="cancel" size={20} />
-        </TouchableWithoutFeedback>
-          <TextInput
-            style={styles.TagInput}
-            value={tagInput}
-            onChangeText={(text) => this.setState({tagInput: text})}
-            placeholder="Add Tags"/>
-          <TouchableWithoutFeedback onPress={this.addTag}>
-            <Icon style={styles.SubmitIcon} name="check-circle" size={30} />
-          </TouchableWithoutFeedback>
-        </View>
+          <View style={styles.TagInputContainer}>
+            <View style={styles.TagInputLeft}>
+            </View>
+            <View style={styles.TagInputCenter}>
+              <TextInput
+                style={styles.TagInput}
+                value={tagInput}
+                onSubmitEditing={this.addTag}
+                blurOnSubmit={false}
+                placeholderTextColor={'rgba(255,255,255,.4)'}
+                onChangeText={(text) => this.setState({tagInput: text})}
+                placeholder="Add Tags"/>
+            </View>
+            <View style={styles.TagInputRight}>
+            <TouchableWithoutFeedback onPress={this.props.onClose}>
+              <Icon style={styles.CloseIcon} name="cancel" size={20} />
+            </TouchableWithoutFeedback>
+            </View>
+          </View>
           <ScrollView
             style={styles.TagScroll}>
             <View style={styles.TagListContainer}>
@@ -105,7 +111,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#1B4782",
   },
   TagInputContainer: {
-    flex:.3,
+    flex:.6,
     flexDirection: 'row'
   },
   CloseIcon:{
@@ -114,19 +120,38 @@ const styles = StyleSheet.create({
   SubmitIcon:{
     alignSelf:'center'
   },
+  TagInputLeft : {
+    flex: .1,
+    marginTop: 10,
+    justifyContent:'flex-start',
+
+  },
+  TagInputCenter: {
+    flex:.8,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
   TagInput: {
+    width:'80%',
     textAlign:'right',
     fontSize: 24,
-    flex:1,
+    color: 'white',
     borderBottomColor:'white',
     borderBottomWidth: 1,
     marginHorizontal: 5,
   },
+  TagInputRight: {
+    flex: .1,
+    marginTop: 5,
+    justifyContent:'flex-start',
+    justifyContent:'center',
+  },
   TagScroll: {
     width:'100%',
-    flex:.7,
+    flex:.5,
   },
   TagListContainer: {
+    marginHorizontal: '2%',
     flex:1,
     flexWrap: 'wrap',
     flexDirection:'row',

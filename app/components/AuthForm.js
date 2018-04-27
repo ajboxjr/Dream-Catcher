@@ -48,6 +48,15 @@ class AuthForm extends Component{
   }
   render(){
     const { username, password, verifyPassword, isLogin, isAuthenticating } = this.state
+    const { error } = this.props
+    
+    let errorHandler =
+      <View style={styles.errorContainer}>
+      {error?
+        <Text style={styles.errorText}>Error: {error}</Text>:
+        null
+      }
+      </View>
 
     let loginHeader=
     <View style={styles.authHeaderContainer}>
@@ -79,6 +88,7 @@ class AuthForm extends Component{
             value={password}
             placeholderTextColor='black'
             secureTextEntry={true} />
+            {errorHandler}
         </View>
 
         <TouchableHighlight style={styles.loginTouch} onPress={this._handleLoginClick}>
@@ -111,6 +121,7 @@ class AuthForm extends Component{
             value={verifyPassword}
             placeholderTextColor='black'
             secureTextEntry={true} />
+            {errorHandler}
         </View>
         <TouchableHighlight style={styles.loginTouch} onPress={this._handleSignUpClick}>
           <View style={styles.loginSignupButton}>
@@ -195,6 +206,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     shadowOpacity: .5,
     shadowOffset: {width: 2, height: 3}
+  },
+  errorContainer: {
+    flex:1,
+    justifyContent:'center'
+  },
+  errorText: {
+    fontSize: 10,
+    opacity: .9,
   },
   loginTouch:{
     flex:.2,

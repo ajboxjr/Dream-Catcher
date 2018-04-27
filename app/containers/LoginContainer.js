@@ -1,15 +1,13 @@
 import React,{ Component } from 'react'
 import { View, StyleSheet,Text,Image } from 'react-native'
-import { Actions as RouteActions } from 'react-native-router-flux';
-import {Login} from 'api/Api'
-import GoogleSignIn from 'components/GoogleSignIn'
-import AuthForm from 'components/AuthForm'
+import {Login} from '../api/Api'
+import AuthForm from '../components/AuthForm'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import * as DreamActions from 'actions/DreamActions';
-import * as AuthActions from 'actions/AuthActions';
+import * as DreamActions from '../actions/DreamActions';
+import * as AuthActions from '../actions/AuthActions';
 
 class LoginContainer extends Component{
   constructor(props){
@@ -37,9 +35,7 @@ class LoginContainer extends Component{
     if (username !== '' && password !== ''){
       //JWT authentication
       // Returns The HTTP Reponse as Json, then returns the token as json
-      if (password ===  verifyPassword && password.length > 7){
-        this.props.Auth.SignupUser(username, password)
-      }
+        this.props.Auth.SignupUser(username, password, verifyPassword)
     }
   }
 
@@ -50,10 +46,11 @@ class LoginContainer extends Component{
         <View style={styles.loginContainer}>
           <View style={styles.imageContainer}>
             <View style={styles.logoContainer}>
-              <Image style={styles.logo} source={require('assets/Dream_Catcher.png')} />
+              <Image style={styles.logo} source={require('../assets/Dream_Catcher.png')} />
             </View>
           </View>
           <AuthForm
+          error={this.props.user.error}
           isAuthenticating={this.props.user.isAuthenticating}
           onLogin={this._handleLogin}
           onSignUp={this._handleSignUp}/>

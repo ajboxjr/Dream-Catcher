@@ -1,4 +1,4 @@
-import *  as DreamAPI from 'api/Api';
+import *  as DreamAPI from '../api/Api';
 import jwtDecode from 'jwt-decode'
 import {AsyncStorage} from 'react-native'
 
@@ -66,7 +66,8 @@ export function LoginUser(username, password){
    }
  }
 
- export function SignupUser(username, password){
+ export function SignupUser(username, password, verifyPassword){
+   console.log(username,'.....');
    return (dispatch) => {
      console.log('signing up');
      dispatch(requestUserSignUp())
