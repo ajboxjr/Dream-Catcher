@@ -90,7 +90,9 @@ class SettingContainer extends Component{
             <View style={styles.settingItems}>
               <View style={styles.authInfo}>
                 <TextInput style={[styles.loginInput, styles.username]} editable={false} placeholder={_id}/>
-                <TextInput onChangeText={(text) => this.setState({passInput: text})} value={this.state.passInput} style={[styles.loginInput, styles.password]} placeholder={this.state.passPlaceholder}/>
+                <TextInput onChangeText={(text) => this.setState({passInput: text})}
+                  value={this.state.passInput} style={[styles.loginInput, styles.password]}
+                  placeholder={this.state.passPlaceholder}/>
               </View>
               <View style={styles.changePasswordContainer}>
                 <View style={styles.changePasswordButton}>
@@ -114,7 +116,7 @@ class SettingContainer extends Component{
             <View style={styles.versionWrapper}>
               <View style={styles.versionContainer}>
                 <View style={styles.versionItem}>
-                <Text>Version</Text>
+                <Text style={styles.underline}>Version</Text>
                 </View>
                 <View style={styles.versionItem}>
                 <Text>1.0</Text>
@@ -164,6 +166,7 @@ const styles = StyleSheet.create({
   },
   userHeader: {
     marginTop: 30,
+    margin: 10,
     fontSize: 20,
     textDecorationLine: 'underline'
   },
@@ -174,12 +177,10 @@ const styles = StyleSheet.create({
   },
   settingItems:{
     flexDirection: 'row',
-    margin: 2,
-    borderWidth: 1,
     borderColor: 'black',
     width: '100%',
     height: 90,
-    backgroundColor: '#8CABBE'
+    backgroundColor: '#E0E0E0'
   },
   authInfo:{
     marginLeft: '2%',
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   username: {
-    backgroundColor: '#E0E0E0',
+    backgroundColor: '#9A9A9A',
   },
   password: {
     backgroundColor: '#FFFFFF',
@@ -226,7 +227,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   versionItem: {
-    width: '50%', height: '100%',borderWidth: 1,
+    width: '50%', height: '100%',
     justifyContent:'center', alignItems:'center',
     borderColor: 'black'
   },
@@ -259,6 +260,9 @@ const styles = StyleSheet.create({
     textAlign:'center',
     textDecorationLine: 'underline',
     fontSize: 14,
+  },
+  underline : {
+    textDecorationLine: 'underline',
   }
 })
 function mapStateToProps(state){
