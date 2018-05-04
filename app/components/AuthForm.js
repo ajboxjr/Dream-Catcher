@@ -3,10 +3,15 @@
 import {View, ActivityIndicator, TextInput, Text, TouchableHighlight, StyleSheet, Animated, KeyboardAvoidingView} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
+
+
 class AuthForm extends Component{
   constructor(props){
     super(props)
-    this.state= {
+    this._handleLoginClick = this._handleLoginClick.bind(this)
+    this._handleSignUpClick = this._handleSignUpClick.bind(this)
+    this._handleAuthSwitch = this._handleAuthSwitch.bind(this)
+    this.state = {
       username: '',
       password: '',
       verifyPassword: '',
@@ -14,10 +19,8 @@ class AuthForm extends Component{
       isLogin: true,
       opacity: new Animated.Value(1)
     }
-    this._handleLoginClick = this._handleLoginClick.bind(this)
-    this._handleSignUpClick = this._handleSignUpClick.bind(this)
-    this._handleAuthSwitch = this._handleAuthSwitch.bind(this)
   }
+
   componentWillMount(){
     this.setState({isAuthenticating: this.props.isLoading})
   }
@@ -26,10 +29,12 @@ class AuthForm extends Component{
     const { username, password } = this.state
     this.props.onLogin(username, password)
   }
+
   _handleSignUpClick = () => {
     const { username, password, verifyPassword } = this.state
     this.props.onSignUp(username, password, verifyPassword)
   }
+
   _handleAuthSwitch = (isLoginBool) => {
     setTimeout(()=> {
       this.setState({isLogin: isLoginBool})
@@ -46,91 +51,95 @@ class AuthForm extends Component{
     ]).start(()=>{
     })
   }
+
   render(){
     const { username, password, verifyPassword, isLogin, isAuthenticating } = this.state
     const { error } = this.props
-    
+
     let errorHandler =
       <View style={styles.errorContainer}>
       {error?
-        <Text style={styles.errorText}>Error: {error}</Text>:
+        <Text style={styles.errorText}>Error: {error.map((item) => '\n'+item)}</Text>:
         null
       }
       </View>
 
     let loginHeader=
-    <View style={styles.authHeaderContainer}>
-      <TouchableHighlight style={[styles.headerTouch, {opacity: isLogin? 1 :.2 }]} onPress={()=> this._handleAuthSwitch(true)}>
-        <View style={styles.loginHeaderContainer}>
-          <Text style={styles.authHeader}>Login</Text>
-        </View>
-      </TouchableHighlight>
-      <TouchableHighlight style={[styles.headerTouch, {opacity: isLogin? .2 :1 }]} onPress={()=> this._handleAuthSwitch(false)}>
-        <View style={styles.signUpHeaderContainer}>
-          <Text style={styles.authHeader}>Sign Up</Text>
-        </View>
-      </TouchableHighlight>
-    </View>
+      <View style={styles.authHeaderContainer}>
+        <TouchableHighlight style={[styles.headerTouch, {opacity: isLogin? 1 :.2 }]} onPress={()=> this._handleAuthSwitch(true)}>
+          <View style={styles.loginHeaderContainer}>
+            <Text style={styles.authHeader}>Login</Text>
+          </View>
+        </TouchableHighlight>
+        <TouchableHighlight style={[styles.headerTouch, {opacity: isLogin? .2 :1 }]} onPress={()=> this._handleAuthSwitch(false)}>
+          <View style={styles.signUpHeaderContainer}>
+            <Text style={styles.authHeader}>Sign Up</Text>
+          </View>
+        </TouchableHighlight>
+      </View>
 
     let loginSignUp = null;
     if (isLogin){
       loginSignUp =
-      <View style={styles.loginFormContainer}>
-        <View style={styles.inputContainer}>
-          <TextInput style={styles.inputBox}
-            placeholder="Username"
-            onChangeText={(text) => this.setState({username: text})}
-            placeholderTextColor='black'
-            value={username} />
-          <TextInput style={styles.inputBox}
-            placeholder="Password"
-            onChangeText={(text) => this.setState({password: text})}
-            value={password}
-            placeholderTextColor='black'
-            secureTextEntry={true} />
-            {errorHandler}
-        </View>
+        <View style={styles.loginFormContainer}>
+          <View style={styles.inputContainer}>
+            <TextInput style={styles.inputBox}
+              placeholder="Username"
+              onChangeText={(text) => this.setState({username: text.replace(/\s+/, "")})}
+              placeholderTextColor='black'
+              autoCapitalize='none'
+              autoCorrect={false}
+              value={username} />
+            <TextInput style={styles.inputBox}
+              placeholder="Password"
+              onChangeText={(text) => this.setState({password: text})}
+              value={password}
+              placeholderTextColor='black'
+              secureTextEntry={true} />
 
-        <TouchableHighlight style={styles.loginTouch} onPress={this._handleLoginClick}>
-          <View style={styles.loginSignupButton}>
-          {isAuthenticating?
-            <ActivityIndicator style={styles.loadingIcon} size="small" color="#0000ff" />:
-          <Text style={styles.loginText}>Login</Text>}
           </View>
-        </TouchableHighlight>
-      </View>
-    }
-    else{
-      loginSignUp = <View style={styles.loginFormContainer}>
-        <View style={styles.inputContainer}>
-          <TextInput style={styles.inputBox}
-            placeholder="Username"
-            spellCheck={false}
-            onChangeText={(text) => this.setState({username: text})}
-            placeholderTextColor='black'
-            value={username} />
-          <TextInput style={styles.inputBox}
-            placeholder="Password"
-            onChangeText={(text) => this.setState({password: text})}
-            value={password}
-            placeholderTextColor='black'
-            secureTextEntry={true} />
-          <TextInput style={styles.inputBox}
-            placeholder="Verify Password"
-            onChangeText={(text) => this.setState({verifyPassword: text})}
-            value={verifyPassword}
-            placeholderTextColor='black'
-            secureTextEntry={true} />
-            {errorHandler}
-        </View>
-        <TouchableHighlight style={styles.loginTouch} onPress={this._handleSignUpClick}>
-          <View style={styles.loginSignupButton}>
+
+          <TouchableHighlight style={styles.loginTouch} onPress={this._handleLoginClick}>
+            <View style={styles.loginSignupButton}>
             {isAuthenticating?
               <ActivityIndicator style={styles.loadingIcon} size="small" color="#0000ff" />:
-            <Text style={styles.LoginText}>Sign Up</Text>}
+            <Text style={styles.loginText}>Login</Text>}
+            </View>
+          </TouchableHighlight>
+
+        </View>
+    }
+    else{
+      loginSignUp =
+        <View style={styles.loginFormContainer}>
+          <View style={styles.inputContainer}>
+            <TextInput style={styles.inputBox}
+              placeholder="Username"
+              spellCheck={false}
+              onChangeText={(text) => this.setState({username: text.replace(/\s+/, "")})}
+              placeholderTextColor='black'
+              value={username} />
+            <TextInput style={styles.inputBox}
+              placeholder="Password"
+              onChangeText={(text) => this.setState({password: text.replace(/\u0020/, '\u00a0')})}
+              value={password}
+              placeholderTextColor='black'
+              secureTextEntry={true} />
+            <TextInput style={styles.inputBox}
+              placeholder="Verify Password"
+              onChangeText={(text) => this.setState({verifyPassword: text.replace(/\u0020/, '\u00a0')})}
+              value={verifyPassword}
+              placeholderTextColor='black'
+              secureTextEntry={true} />
           </View>
-        </TouchableHighlight>
-      </View>
+          <TouchableHighlight style={styles.loginTouch} onPress={this._handleSignUpClick}>
+            <View style={styles.loginSignupButton}>
+              {isAuthenticating?
+                <ActivityIndicator style={styles.loadingIcon} size="small" color="#0000ff" />:
+              <Text style={styles.loginText}>Sign Up</Text>}
+            </View>
+          </TouchableHighlight>
+        </View>
     }
     return(
       <View style={styles.container}>
@@ -140,6 +149,7 @@ class AuthForm extends Component{
                   {loginSignUp}
             </View>
         </Animated.View>
+        {errorHandler}
       </View>
     )
   }
@@ -147,7 +157,6 @@ class AuthForm extends Component{
 const styles = StyleSheet.create({
   container: {
     position:'relative',
-    //top
     flex:.5,
     width:'100%',
     alignItems:'center',
@@ -156,8 +165,6 @@ const styles = StyleSheet.create({
   authFormContainer:{
     flex:.8,
     width: '70%',
-    // borderWidth:1,
-    // borderRadius:4,
     backgroundColor: '#3B4EE3',
   },
   loginContainer: {
@@ -208,12 +215,25 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 2, height: 3}
   },
   errorContainer: {
+    position: 'absolute',
+    bottom: 0,
     flex:1,
-    justifyContent:'center'
+    justifyContent:'flex-end',
+    marginBottom: '2%',
   },
   errorText: {
-    fontSize: 10,
+    textAlign: 'center',
+    fontSize: 12,
+    color: 'white',
     opacity: .9,
+  },
+  passwordSpecsContainer:{
+    position:'absolute',
+    top: '100%',
+    width: 170,
+  },
+  passwordSpecs: {
+    // textAlign:'center',
   },
   loginTouch:{
     flex:.2,
