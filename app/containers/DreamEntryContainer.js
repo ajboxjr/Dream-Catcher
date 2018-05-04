@@ -1,14 +1,16 @@
 import React,{ Component } from 'react'
-import PropTypes from 'prop-types'
 import { Text, InputField, TextInput, View, ScrollView, Image, StyleSheet, TouchableWithoutFeedback, Alert} from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import DreamEntryForm from 'components/DreamEntryForm'
-
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
-import * as DreamActions from 'actions/DreamActions';
-import * as AuthActions from 'actions/AuthActions';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+import * as DreamActions from '../actions/DreamActions';
+import * as AuthActions from '../actions/AuthActions';
+
+import DreamEntryForm from '../components/DreamEntryForm'
+
 
 class DreamEntryContainer extends Component{
   constructor(props){
@@ -43,9 +45,9 @@ class DreamEntryContainer extends Component{
     return(
       <View style={styles.container}>
         <DreamEntryForm dream={this.props.dream}
-        onReturn={() => this.props.navigation.replace('DreamList')}
-        onEdit={this._handleEditSubmit}
-        onDeleteEntry={this._handleEntryDelete} />
+          onReturn={() => this.props.navigation.replace('DreamList')}
+          onEdit={this._handleEditSubmit} 
+          onDeleteEntry={this._handleEntryDelete} />
       </View>
     )
   }
@@ -82,4 +84,3 @@ function mapDispatchToProps(dispatch){
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DreamEntryContainer);
-// export default DreamEntryContainer;

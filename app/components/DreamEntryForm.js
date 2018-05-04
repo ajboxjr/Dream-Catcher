@@ -1,9 +1,10 @@
 import React,{Component} from 'react'
-import { Text, InputField, TextInput, View, ScrollView, Image, StyleSheet, TouchableWithoutFeedback, Alert, Animated} from 'react-native'
+import { Text, InputField, TextInput, View, ScrollView, Image, StyleSheet, TouchableWithoutFeedback, Alert, Animated, Keyboard} from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import DreamEntryTags from 'components/DreamEntryTags'
-import DreamEntryTagForm from 'components/DreamEntryTagForm'
-import {Month} from 'utils/utils.js'
+
+import DreamEntryTags from '../components/DreamEntryTags'
+import DreamEntryTagForm from '../components/DreamEntryTagForm'
+import {Month} from '../utils/utils.js'
 
 class DreamEntryForm extends Component{
   constructor(props){
@@ -13,49 +14,65 @@ class DreamEntryForm extends Component{
     this._handleTagEdit = this._handleTagEdit.bind(this)
     this._handleTagDelete = this._handleTagDelete.bind(this)
     this.formatDate = this.formatDate.bind(this)
+    this._finishEntryEditing = this._finishEntryEditing.bind(this)
+    this._animateFinishButton = this._animateFinishButton.bind(this)
     this.state = {
       isEditable : false,
       title: null,
       tags: [],
       entry: null,
+      editingEntry: false,
     }
   }
 
   componentWillMount(){
-    console.log(this.props.dream)
     const { title, entry, tags} = this.props.dream
     console.log(tags)
     this.setState({
       title: title,
       entry: entry,
       tags: tags,
+      editingEntry: false
     })
   }
 
   formatDate = () =>{
     //Move to Utils
-    const {lastEdited} = this.props.dream
-    date = new Date(lastEdited)
+    const {updatedAt} = this.props.dream
+    date = new Date(updatedAt)
     formatedDate = Month[date.getMonth()-1]+" "+date.toLocaleString('en-US', { day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })
     return formatedDate
   }
 
-  _handleTagDelete(deleteTag){
+  _handleTagDelete = (deleteTag) => {
     const updatedTags = this.state.tags.filter((tag) => {
       return tag !== deleteTag
     })
     this.setState({tags: updatedTags })
   }
-  _handleTagAdd(newTag){
+
+  _animateFinishButton = () => {
+    this.setState({editingEntry: true})
+  }
+
+  _finishEntryEditing = () => {
+    console.log('hello');
+    this.setState({editingEntry: false})
+    Keyboard.dismiss()
+  }
+
+  _handleTagAdd = (newTag) => {
     const { tags } = this.state
     this.setState({tags: [...tags, newTag]})
   }
-  _handleTagEdit(index,tag){
+
+  _handleTagEdit = (index,tag) => {
     const { tags } = this.state
     tags[index] = tag
     this.setState({tags: tags})
   }
-  _handleEditToggle(){
+
+  _handleEditToggle = () => {
     const { title, tags, entry, isEditable } = this.state
     if(this.state.isEditable === false){
       console.log('editing')
@@ -67,13 +84,22 @@ class DreamEntryForm extends Component{
     }
     this.setState({isEditable: !this.state.isEditable})
   }
-  // isEditable={isEditable}
 
   render(){
-    const { isEditable, title, tags, entry } = this.state
+    const { isEditable, editingEntry, title, tags, entry } = this.state
     const { lastEdited } = this.props.dream
+    let toggleEditButton
+    if (editingEntry){
+      toggleEditButton =
+          <TouchableWithoutFeedback onPress={this._finishEntryEditing}>
+              <Image style={styles.editButton} source={require('../assets/check_button.png')} />
+          </TouchableWithoutFeedback>
+    }
+    else {
+      toggleEditButton = null
+    }
     return(
-      <View style={{flex:1, borderWidth:1,    justifyContent: 'space-between'}}>
+      <View style={styles.DreamEntryContainer}>
         <View style={styles.DreamEntryHeader}>
           <View style={styles.DreamEntryToolBarIconContainer}>
             <View style={styles.DreamEntryToolBarNavLeft}>
@@ -90,7 +116,7 @@ class DreamEntryForm extends Component{
                 }
               </TouchableWithoutFeedback>
               <TouchableWithoutFeedback onPress={this.props.onDeleteEntry}>
-                <Image style={styles.TrashCanIcon} source={require('assets/trash.png')} />
+                <Image style={styles.TrashCanIcon} source={require('../assets/trash.png')} />
               </TouchableWithoutFeedback>
             </View>
           </View>
@@ -109,12 +135,13 @@ class DreamEntryForm extends Component{
         </View>
 
         <View style={[styles.DreamContentContainer, {borderWidth: isEditable ? 1 : 0}]}>
-
+          {toggleEditButton}
           <TextInput style={styles.DreamContentText}
             value={entry}
             onChangeText={(text)=> this.setState({entry: text})}
             editable={isEditable}
-            multiline={true} />
+            multiline={true}
+            onFocus={() => this._animateFinishButton()}/>
         </View>
 
         <DreamEntryTags
@@ -122,12 +149,16 @@ class DreamEntryForm extends Component{
           onAddTag={this._handleTagAdd}
           onEditTag={this._handleTagEdit}
           onDeleteTag={this._handleTagDelete}
-          isEditable={this.state.isEditable}/>
+          isEditable={this.state.isEditable} />
       </View>
     )
   }
 }
 const styles = StyleSheet.create({
+  DreamEntryContainer:{
+    flex:1,
+    justifyContent: 'space-between'
+  },
   DreamEntryHeader:{
     //0
     marginTop: '5%',
@@ -176,27 +207,22 @@ const styles = StyleSheet.create({
   },
   DreamContentContainer: {
     flex: .55,
-    // marginTop: '5%',
     flexDirection:'column',
     marginHorizontal: '4%',
-
+  },
+  editButton: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    height:25,
+    width:25,
+    zIndex:1
   },
   DreamContentText:{
+    marginLeft: 3,
     flex:1,
     fontSize: 24,
   },
 })
-
-DreamEntryForm.defaultProps ={
-  // dream: {
-  //   _id: 'aslkdfjas',
-  //   author: 'bob',
-  //   title:"i like tomoatoes",
-  //   entry: 'Salad Bob tomatoes fermeted soup cream of wheat diarea and fire monkies are always watching the way we snort our flour.',
-  //   tags:['green', 'underwear', 'thisle','waterhole','one','two', 'three', 'four'],
-  //   createdDate:'10/31/18',
-  //   lastEdited:'Some time ago'
-  // }
-}
 
 export default DreamEntryForm;

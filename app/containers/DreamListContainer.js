@@ -1,14 +1,16 @@
 import React,{ Component } from 'react';
-import PropTypes from 'prop-types'
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight } from 'react-native';
 import {NavigationActions} from 'react-navigation'
-import DreamList from 'components/DreamList'
+import PropTypes from 'prop-types'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import * as DreamActions from 'actions/DreamActions';
-import * as AuthActions from 'actions/AuthActions';
+import * as DreamActions from '../actions/DreamActions';
+import * as AuthActions from '../actions/AuthActions';
+
+import DreamList from '../components/DreamList'
+
 
 class DreamListContainer extends Component{
   constructor(props){
@@ -56,6 +58,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     shadowOffset: {width: 0, height: 3},
+    shadowOpacity: .3,
 
   },
   listContainer:{
@@ -68,6 +71,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   headerText: {
+    marginLeft: 5,
     fontSize: 30,
     fontWeight: '800'
   },

@@ -3,9 +3,11 @@ import { StyleSheet, Text, View, TouchableWithoutFeedback, TextInput, ScrollView
 import {NavigationActions} from 'react-navigation'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as DreamActions from 'actions/DreamActions';
 
-import NewDreamForm from 'components/NewDreamForm';
+import * as DreamActions from '../actions/DreamActions';
+
+import NewDreamForm from '../components/NewDreamForm';
+
 
 class NewDreamContainer extends Component{
   constructor(props){
@@ -31,7 +33,7 @@ class NewDreamContainer extends Component{
 const styles = StyleSheet.create({
   newDreamContainer: {
     flex: .9,
-    marginHorizontal: 20,
+    marginHorizontal: 16,
     backgroundColor: 'white',
     width: null,
     shadowOffset: {width: 0, height: 3},
@@ -47,4 +49,3 @@ function mapStateToProps(state){
   return { user: state.user }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(NewDreamContainer);
-//export default NewDreamContainer;

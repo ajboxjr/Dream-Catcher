@@ -4,16 +4,14 @@ DELETE_DREAM_SUCCESS,
 EDIT_DREAM_SUCCESS,
 POPULATE_DREAM_REQUEST,
 POPULATE_DREAM_SUCCESS,
-POPULATE_DREAM_FAILURE } from 'actions/DreamActions'
+POPULATE_DREAM_FAILURE } from '../actions/DreamActions'
 
-import {
-  LOGIN_USER_SUCCESS
-} from 'actions/AuthActions'
+import { LOGIN_USER_SUCCESS } from '../actions/AuthActions'
 
 const InitialState = {
   "items": [],
   "isPopulating": false,
-  "shouldPopulate": false //Inital Signin populate
+  "shouldPopulate": true //Inital Signin populate
 }
 
 

@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import DreamListContainer from 'containers/DreamListContainer';
+import DreamListContainer from '../containers/DreamListContainer';
 
 class DreamListScene extends Component{
   constructor(props){

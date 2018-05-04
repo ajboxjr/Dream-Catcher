@@ -1,7 +1,7 @@
 import React,{ Component } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, TouchableHighlight } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import LoginContainer from 'containers/LoginContainer'
+import LoginContainer from '../containers/LoginContainer'
 
 class LoginScene extends React.Component {
   constructor(props){

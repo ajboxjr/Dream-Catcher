@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Text } from 'react-native'
-import SettingContainer from 'containers/SettingContainer'
+
+import SettingContainer from '../containers/SettingContainer'
 
 class SettingScene extends Component{
   constructor(props){

@@ -9,11 +9,8 @@ import {
   CHANGE_PASSWORD_SUCCESS,
   DELETE_ACCOUNT_SUCCESS,
   DELETE_ACCOUNT_FAILURE
-} from 'actions/AuthActions'
+} from '../actions/AuthActions'
 
-//InitialState
-//User Id
-//
 initialState = {
   _id: null,
   isAuthenticating: false,
@@ -46,7 +43,8 @@ export default UserReducer = (state=initialState, action) => {
       return { ...state,
         _id: action.payload._id,
         token: action.payload.token,
-        isAuthenticating: false
+        isAuthenticating: false,
+        error: null
       }
 
     case LOGIN_USER_FAILURE:

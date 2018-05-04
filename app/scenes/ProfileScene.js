@@ -1,7 +1,8 @@
 import React,{ Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import ProfileContainer from 'containers/ProfileContainer'
+
+import ProfileContainer from '../containers/ProfileContainer'
 
 class ProfileScene extends Component{
 

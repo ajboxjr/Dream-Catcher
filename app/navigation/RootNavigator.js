@@ -1,12 +1,11 @@
 import React from 'react'
 import { StackNavigator, TabNavigator, addNavigationHelpers } from 'react-navigation'
 import { connect } from 'react-redux'
-//Login Scene
-import LoginScene from 'scenes/LoginScene'
-import { addListener } from 'utils/utils'
+
+import { addListener } from '../utils/utils'
 
 import MainStack from '../navigation/MainStack'
-
+import LoginScene from '../scenes/LoginScene'
 
 export const RootStack = StackNavigator({
   Login: {

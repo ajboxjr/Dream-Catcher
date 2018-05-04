@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
 import { StyleSheet, Text, View, TouchableWithoutFeedback, TextInput } from 'react-native';
 
-import NewDreamContainer from 'containers/NewDreamContainer'
+import NewDreamContainer from '../containers/NewDreamContainer'
 
 class NewDreamScene extends Component{
   constructor(props){
@@ -18,6 +18,7 @@ class NewDreamScene extends Component{
 const styles = StyleSheet.create({
   container: {
     flex:1,
+    width:'100%',
     backgroundColor: "#3B4EE3",
     justifyContent: 'center',
   },
