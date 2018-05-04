@@ -1,12 +1,15 @@
-import *  as DreamAPI from '../api/Api';
 import jwtDecode from 'jwt-decode'
 import {AsyncStorage} from 'react-native'
 
+import *  as DreamAPI from '../api/Api';
+
+/* Token Login */
+export const TOKEN_LOGIN = 'TOKEN_LOGIN'
+
+/* Login User */
 export const REQUEST_USER_LOGIN = 'REQUEST_USER_LOGIN';
 export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
 export const LOGIN_USER_FAILURE = 'LOGIN_USER_FAILURE';
-
-/* Login User */
 
 export function loginUserSuccess(token){
   return {
@@ -43,11 +46,22 @@ export function LoginUser(username, password){
     }
   }
 
+  export function TokenLoginUser(){
+    console.log('asdfo;asdjf;asdjfasdjf');
+    return (dispatch) => {
+      AsyncStorage.getItem('@token').then((token) =>{
+        if(token){
+          dispatch(loginUserSuccess(token))
+        }
+    })
+  }
+}
+ /* Signup User */
+
  export const SIGNUP_USER_REQUEST = 'SIGNUP_USER_REQUEST';
  export const SIGNUP_USER_SUCCESS = 'SIGNUP_USER_SUCCESS';
  export const SIGNUP_USER_FAILURE = 'SIGNUP_USER_FAILURE';
 
- /* Signup User */
  export function requestUserSignUp(){
    return {
      type: SIGNUP_USER_REQUEST
@@ -71,7 +85,7 @@ export function LoginUser(username, password){
    return (dispatch) => {
      console.log('signing up');
      dispatch(requestUserSignUp())
-     DreamAPI.Signup(username, password).then((response) => {
+     DreamAPI.Signup(username, password, verifyPassword).then((response) => {
        if(response.success){
          const token = response.token
          AsyncStorage.setItem('@token', token).then(()=>{
@@ -87,6 +101,15 @@ export function LoginUser(username, password){
  /* Logout User */
  export const LOGOUT_USER = 'LOGOUT_USER';
 
+ export function LogoutUser(){
+   return (dispatch) => {
+     AsyncStorage.removeItem('@token').then(() => {
+       dispatch({type: LOGOUT_USER})
+     })
+   }
+ }
+
+/* Change Password */
  export const CHANGE_PASSWORD_REQUEST = 'CHANGE_PASSWORD_REQUEST'
  export const CHANGE_PASSWORD_FAILURE = 'CHANGE_PASSWORD_FAILURE'
  export const CHANGE_PASSWORD_SUCCESS = 'CHANGE_PASSWORD_SUCCESS'
@@ -123,6 +146,8 @@ export function LoginUser(username, password){
      })
    }
  }
+
+ /* DELETE ACCOUNT !!! */
 export const DELETE_ACCOUNT_REQUEST = "DELETE_ACCOUNT_REQUEST"
 export const DELETE_ACCOUNT_SUCCESS = "DELETE_ACCOUNT_SUCCESS"
 export const DELETE_ACCOUNT_FAILURE = "DELETE_ACCOUNT_FAILURE"
@@ -159,8 +184,3 @@ export function DeleteUserAccount(oldPass){
     })
   }
 }
- export function logoutUser(){
-   return{
-     type: LOGOUT_USER
-   }
- }

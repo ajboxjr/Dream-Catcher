@@ -2,11 +2,12 @@ import React,{Component} from 'react'
 import {Text, View, TouchableHighlight, StyleSheet, Image,Alert} from 'react-native'
 import { StackNavigator } from 'react-navigation';
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import * as AuthActions from 'actions/AuthActions';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+import * as AuthActions from '../actions/AuthActions';
 
 
 
@@ -50,7 +51,7 @@ class ProfileContainer extends Component{
         {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
         {text: 'Logout', onPress: () => {
           console.log('OK Pressed')
-          this.props.Auth.logoutUser()
+          this.props.Auth.LogoutUser()
         },
         }
       ],
@@ -100,6 +101,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: '5%',
     backgroundColor: 'white',
+    shadowOffset: {width: 0, height: 3},
+    shadowOpacity: .3,
   },
   profileHeader:{
     flex:2,

@@ -1,7 +1,6 @@
 import React,{ Component } from 'react'
 import { View, StyleSheet,Text,Image } from 'react-native'
-import {Login} from '../api/Api'
-import AuthForm from '../components/AuthForm'
+import {NavigationActions} from 'react-navigation'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -9,20 +8,20 @@ import { connect } from 'react-redux'
 import * as DreamActions from '../actions/DreamActions';
 import * as AuthActions from '../actions/AuthActions';
 
+import AuthForm from '../components/AuthForm'
+
 class LoginContainer extends Component{
   constructor(props){
     super(props)
     this._handleLogin = this._handleLogin.bind(this)
     this._handleSignUp = this._handleSignUp.bind(this)
   }
-
-  // state.rootNav.navigator.dispatch(NavigationActions.navigate({
-  //   routeName:'Main',
-  //   params:{}
-  // }))
+  //On compoment will mount check for token
+  componentWillMount(){
+    this.props.Auth.TokenLoginUser()
+  }
 
   //Should be a api function to check if user is logged in, for now check if token
-
   _handleLogin = (username, password) => {
     console.log(username);
     if (username !== '' && password !== ''){
@@ -61,7 +60,6 @@ class LoginContainer extends Component{
   const styles = StyleSheet.create({
     loginContainer:{
       flex:1,
-      borderWidth: 1,
       width:'100%',
       alignItems:'center',
     },
