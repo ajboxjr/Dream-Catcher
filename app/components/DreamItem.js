@@ -1,6 +1,6 @@
 import React,{ Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableWithoutFeedback } from 'react-native';
-import { Colors } from 'utils/utils'
+import { Colors } from '../utils/utils'
 
 class DreamItem extends Component{
   constructor(props){
@@ -37,7 +37,7 @@ class DreamItem extends Component{
             </View>
           </TouchableWithoutFeedback>
           <View style={styles.DreamItemTagContainer}>
-            <Image style={styles.DreamItemGutterImage} source={require('assets/tag_gutter.png')} />
+            <Image style={styles.DreamItemGutterImage} source={require('../assets/tag_gutter.png')} />
             <ScrollView
               style={{flex:1}}
               horizontal={true}

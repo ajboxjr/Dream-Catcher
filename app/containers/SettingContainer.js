@@ -1,19 +1,21 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { Modal, View, StyleSheet, Text, Image, TextInput, TouchableWithoutFeedback, TouchableHighlight, Alert } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import PropTypes from 'prop-types'
 
-import DeleteAccountModal from '../components/DeleteAccountModal'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 import * as AuthActions from '../../app/actions/AuthActions';
+
+import DeleteAccountModal from '../components/DeleteAccountModal'
+
 
 class SettingContainer extends Component{
   constructor(props){
     super(props)
     this._handleSceneChange = this._handleSceneChange.bind(this)
-    this._confirmDelete = this._confirmDelete.bind(this)
     this.toggleModal = this.toggleModal.bind(this)
     this.state ={
       oldPass: '',
@@ -34,20 +36,21 @@ class SettingContainer extends Component{
         { cancelable: false })
     }
   }
-  _confirmDelete = () => {
 
-  }
   toggleModal = () => {
     console.log('this');
     this.setState({ displayModal: !this.state.displayModal })
   }
+
   _handleSceneChange = () =>{
     this.props.navigation.pop()
   }
+
   _handleDeleteAccount = (password) => {
     console.log(password);
     this.props.Auth.DeleteUserAccount(password)
   }
+
   changePassword = () => {
     const { old,passInput } = this.state
     if (passInput.length == 0){
@@ -56,7 +59,7 @@ class SettingContainer extends Component{
     else {
       //Check password
       if (this.state.isNewPassword){
-        console.log(old, passInput);
+        // console.log(old, passInput);
         this.props.Auth.ChangeUserPassword(old, passInput)
         this.setState({passInput: '', isNewPassword: true});
       }
@@ -64,7 +67,7 @@ class SettingContainer extends Component{
           this.setState({isNewPassword: true, old: passInput, passInput: ''});
       }
       //clear password and placeholder to new password
-      }
+    }
   }
   render(){
     const {_id} = this.props.user;
@@ -104,6 +107,7 @@ class SettingContainer extends Component{
                 </View>
               </View>
             </View>
+            <Text style={{textAlign:'left'}}>{this.props.user.error}</Text>
           </View>
           <View style={styles.footerContainer}>
             <View style={styles.deleteAccount}>
@@ -183,7 +187,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E0E0E0'
   },
   authInfo:{
-    marginLeft: '2%',
+    marginLeft: '3%',
     justifyContent: 'space-around',
     width: '70%',
     height: '100%',
@@ -195,6 +199,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   loginInput:{
+    paddingLeft: 5,
     borderRadius: 3,
     height: 35,
   },
@@ -266,7 +271,9 @@ const styles = StyleSheet.create({
   }
 })
 function mapStateToProps(state){
-  return{user: state.user}
+  return{
+    user: state.user
+  }
 }
 
 function mapDispatchToProps(dispatch){
@@ -276,6 +283,3 @@ function mapDispatchToProps(dispatch){
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingContainer);
-
-
-// export default SettingContainer;
