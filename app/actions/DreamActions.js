@@ -1,29 +1,32 @@
-import *  as DreamAPI from 'api/Api';
 import jwtDecode from 'jwt-decode'
 import {AsyncStorage} from 'react-native'
 
- export const POPULATE_DREAM_REQUEST = 'POPULATE_DREAM_REQUEST';
- export const POPULATE_DREAM_SUCCESS = 'POPULATE_DREAM_SUCCESS';
- export const POPULATE_DREAM_FAILURE = 'POPULATE_DREAM_FAILURE';
+import *  as DreamAPI from '../api/Api';
 
- export function populateDreamRequest(){
-   return{
-     type: POPULATE_DREAM_REQUEST
-   }
- }
 
- export function populateDreamSuccess(dreams){
-   return{
-     type: POPULATE_DREAM_SUCCESS,
-     payload: {dreams}
-   }
- }
+/* Populate Dream */
+export const POPULATE_DREAM_REQUEST = 'POPULATE_DREAM_REQUEST';
+export const POPULATE_DREAM_SUCCESS = 'POPULATE_DREAM_SUCCESS';
+export const POPULATE_DREAM_FAILURE = 'POPULATE_DREAM_FAILURE';
 
- export function populateDreamFailure(){
-   return{
-     type: POPULATE_DREAM_FAILURE
-   }
+export function populateDreamRequest(){
+ return{
+   type: POPULATE_DREAM_REQUEST
  }
+}
+
+export function populateDreamSuccess(dreams){
+ return{
+   type: POPULATE_DREAM_SUCCESS,
+   payload: {dreams}
+ }
+}
+
+export function populateDreamFailure(){
+ return{
+   type: POPULATE_DREAM_FAILURE
+ }
+}
 
 
 //Only way of inputting dreams
@@ -38,9 +41,9 @@ import {AsyncStorage} from 'react-native'
                      title: dream.title,
                      entry: dream.entry,
                      author: dream.author,
-                     createDate: dream.createdAt,
+                     createdAt: dream.createdAt,
                      tags: dream.tags,
-                     lastEdited: dream.updatedAt
+                     updatedAt: dream.updatedAt
                    }
            })
            dispatch(populateDreamSuccess(dreams))
@@ -54,7 +57,7 @@ import {AsyncStorage} from 'react-native'
    }
  }
 
-
+/* Create Dream */
 export const REQUEST_USER_CREATE_DREAM = "REQUEST_USER_CREATE_DREAM"
 export const CREATE_DREAM_SUCCESS = "CREATE_DREAM_SUCCESS"
 export const CREATE_DREAM_FAILURE = 'CREATE_DREAM_FAILURE'
@@ -94,6 +97,7 @@ export const CREATE_DREAM_FAILURE = 'CREATE_DREAM_FAILURE'
    }
 }
 
+/* Delete Dream */
 export const REQUEST_DELETE_DREAM = 'REQUEST_DELETE_DREAM'
 export const DELETE_DREAM_SUCCESS = 'DELETE_DREAM_SUCCESS'
 export const DELETE_DREAM_FAILURE = 'DELETE_DREAM_FAILURE'
@@ -132,6 +136,7 @@ export function deleteDream(dreamID){
   }
 }
 
+/* Edit Dream */
 export const REQUEST_DREAM_EDIT = "REQUEST_DREAM_EDIT"
 export const EDIT_DREAM_SUCCESS = "EDIT_DREAM_SUCCESS"
 export const EDIT_DREAM_FAILURE = "EDIT_DREAM_FAILURE"
@@ -169,9 +174,3 @@ export function editDream(id, title, entry, tags){
     })
   }
 }
-  // export function editUserDream(dreamID, title, entry, tags){
-  //   return {
-  //     type: EDIT_DREAM,
-  //     payload: { dreamID, title, entry, tags }
-  //   }
-  // }
