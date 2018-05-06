@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Text, View, TouchableHighlight, StyleSheet, Image,Alert} from 'react-native'
+import {Text, View, TouchableHighlight, StyleSheet, Image,Alert, Animated} from 'react-native'
 import { StackNavigator } from 'react-navigation';
 
 import { bindActionCreators } from 'redux'
@@ -17,6 +17,14 @@ class ProfileContainer extends Component{
     this._onLogout = this._onLogout.bind(this)
     this.totalDreams = this.totalDreams.bind(this)
     this.totalTags = this.totalTags.bind(this)
+    this.fuzzyBorder = this.fuzzyBorder.bind(this)
+    this.state = {
+      circleOpacity: new Animated.Value(0)
+    }
+  }
+  componentWillMount(){
+    console.log('mounted');
+    this.fuzzyBorder()
   }
   totalDreams = () => {
     const { dreams } = this.props
@@ -26,6 +34,20 @@ class ProfileContainer extends Component{
     else{
       return 0
     }
+  }
+  fuzzyBorder =  () => {
+    Animated.sequence([
+      Animated.timing(this.state.circleOpacity,{
+        duration: 200,
+        toValue: 1
+      }),
+      Animated.timing(this.state.circleOpacity, {
+        duration: 200,
+        toValue: 0,
+      })
+    ]).start(()=>{
+      this.fuzzyBorder()
+    })
   }
   totalTags = () =>{
     const { dreams } = this.props
@@ -68,14 +90,19 @@ class ProfileContainer extends Component{
       <View style={styles.profileContainer}>
         <View style={styles.profileHeader}>
         <TouchableHighlight style={styles.settingsTouch} onPress={this._handleSceneChange}>
-          <Icon style={styles.settingIcon} name='settings' size={40}/>
+          <Icon style={styles.settingIcon} name='settings' color='#333F4F' size={40}/>
         </TouchableHighlight>
-          <Image style={styles.profileImage} source={{uri: 'https://placeimg.com/150/150/any'}}/>
-          <View>
-            <Text style={styles.username}>{_id}</Text>
-          </View>
+        <Animated.View style={[{shadowOpacity: this.state.circleOpacity.interpolate({
+          inputRange: [0,1],
+          outputRange: [.1, 1]
+        })}], styles.profileCircle}>
+          <Image style={styles.profileImage} source={require('../assets/cloud.png')} />
+        </Animated.View>
         </View>
         <View style={styles.profileInfoContainer}>
+        <View style={styles.profileUsernameContainer}>
+          <Text style={styles.username}>{_id}</Text>
+        </View>
           <View style={styles.profileInnerContainer}>
             <View style={styles.profileItem}>
               <Text>Dreams</Text><Text>{this.totalDreams()}</Text>
@@ -105,9 +132,12 @@ const styles = StyleSheet.create({
     shadowOpacity: .3,
   },
   profileHeader:{
-    flex:2,
+    backgroundColor: '#040F75',
+    flex:.3,
     width: '100%',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden'
   },
   settingsTouch: {
     position:'absolute',
@@ -116,33 +146,47 @@ const styles = StyleSheet.create({
   },
   settingIcon: {
   },
+  profileCircle: {
+    width:200,
+    height: 200,
+    borderRadius: 100,
+    backgroundColor: '#020B5D',
+    justifyContent: 'center',
+    alignItems:'center',
+    shadowOffset: {width: 0, height: 0},
+  },
   profileImage:{
-    marginTop: '5%',
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-    borderColor: "#EB5C87",
-    borderWidth: 2
+    marginBottom: '10%'
   },
   usernameContainer:{
     flex: 1,
     justifyContent: 'center',
   },
-  username:{
-    marginTop: '5%',
-    textAlign: 'center',
-    fontSize: 20,
-    fontWeight: 'bold'
-  },
   profileInfoContainer: {
-    flex:3,
+    flex:.7,
     justifyContent: 'space-around',
     alignItems: 'center',
     borderRadius: 1,
     width: '100%',
   },
+  profileUsernameContainer:{
+    position:'absolute',
+    backgroundColor: '#373737',
+    top: '-3%',
+    width: 200,
+    height: 50,
+    opacity: .95,
+    justifyContent: 'center'
+  },
+  username:{
+    textAlign: 'center',
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: 'white'
+  },
   profileInnerContainer:{
     width: '100%',
+    justifyContent:'center',
   },
   profileItem:{
     flexDirection: 'row',
@@ -157,7 +201,6 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: .4,
   },
-
   logoutButton:{
     justifyContent: 'center',
     alignItems: 'center',
