@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import BubbleProfile from '../components/BubbleProfile'
 import * as AuthActions from '../actions/AuthActions';
 
 
@@ -22,10 +23,12 @@ class ProfileContainer extends Component{
       circleOpacity: new Animated.Value(0)
     }
   }
+
   componentWillMount(){
     console.log('mounted');
     this.fuzzyBorder()
   }
+
   totalDreams = () => {
     const { dreams } = this.props
     if (dreams){
@@ -35,20 +38,22 @@ class ProfileContainer extends Component{
       return 0
     }
   }
+
   fuzzyBorder =  () => {
     Animated.sequence([
       Animated.timing(this.state.circleOpacity,{
-        duration: 200,
+        duration: 2000,
         toValue: 1
       }),
       Animated.timing(this.state.circleOpacity, {
-        duration: 200,
+        duration: 2000,
         toValue: 0,
       })
     ]).start(()=>{
       this.fuzzyBorder()
     })
   }
+
   totalTags = () =>{
     const { dreams } = this.props
     if (dreams){
@@ -64,6 +69,10 @@ class ProfileContainer extends Component{
     else{
       return 0
     }
+  }
+  measureView(event) {
+    console.log('event properties: ', event);
+    console.log('width: ', event.nativeEvent.layout.width)
   }
   _onLogout(){
     Alert.alert(
@@ -92,10 +101,11 @@ class ProfileContainer extends Component{
         <TouchableHighlight style={styles.settingsTouch} onPress={this._handleSceneChange}>
           <Icon style={styles.settingIcon} name='settings' color='#333F4F' size={40}/>
         </TouchableHighlight>
-        <Animated.View style={[{shadowOpacity: this.state.circleOpacity.interpolate({
+        <BubbleProfile />
+        <Animated.View style={[styles.profileCircle, {shadowOpacity: this.state.circleOpacity.interpolate({
           inputRange: [0,1],
-          outputRange: [.1, 1]
-        })}], styles.profileCircle}>
+          outputRange: [.1, .7]
+        })}]}>
           <Image style={styles.profileImage} source={require('../assets/cloud.png')} />
         </Animated.View>
         </View>
