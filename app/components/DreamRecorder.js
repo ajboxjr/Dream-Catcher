@@ -14,6 +14,14 @@ const PATTERN = [1000, 2000, 3000]
 class DreamRecorder extends Component{
   constructor(props){
     super(props)
+    animateMic = this.animateMic.bind(this)
+    resetState = this.resetState.bind(this)
+    this._stopRecording = this._stopRecording.bind(this)
+    Voice.onSpeechStart = this.onSpeechStart.bind(this);
+    Voice.onSpeechRecognized = this.onSpeechRecognized.bind(this);
+    Voice.onSpeechEnd = this.onSpeechEnd.bind(this);
+    Voice.onSpeechError = this.onSpeechError.bind(this);
+    Voice.onSpeechResults = this.onSpeechResults.bind(this);
     this.state = {
       recognized: '',
       pitch: '',
@@ -24,15 +32,6 @@ class DreamRecorder extends Component{
       opacity: new Animated.Value(0),
       scale: new Animated.Value(0)
     }
-
-    animateMic = this.animateMic.bind(this)
-    resetState = this.resetState.bind(this)
-    this._stopRecording = this._stopRecording.bind(this)
-    Voice.onSpeechStart = this.onSpeechStart.bind(this);
-    Voice.onSpeechRecognized = this.onSpeechRecognized.bind(this);
-    Voice.onSpeechEnd = this.onSpeechEnd.bind(this);
-    Voice.onSpeechError = this.onSpeechError.bind(this);
-    Voice.onSpeechResults = this.onSpeechResults.bind(this);
   }
 
   componentWillUnmount() {
@@ -95,7 +94,6 @@ class DreamRecorder extends Component{
     });
   }
 
-
   onSpeechEnd(e) {
     this.props.setRecording(false)
     this.props.clearRecording()
@@ -141,23 +139,25 @@ class DreamRecorder extends Component{
   _stopRecording(e) {
     const { recognized } = this.state
     try {
-      if (recognized){
-        Voice.stop();
-      }
-      else {
-        Voice.cancel();
-      }
-    } catch (e){
-      console.error(e);
+        if (recognized){
+          Voice.stop();
+        }
+        else {
+          console.log('canceling');
+          Voice.cancel();
+        }
     }
-    resetState()
-    Voice.destroy()
+    catch (e){
+        console.error(e);
+      }
+      resetState()
+      setTimeout(()=>  Voice.destroy(), 1000);
   }
 
   render(){
     return(
-      <View style={{width: '100%', height: '100%', position: 'absolute'}}>
-        <TouchableWithoutFeedback onPressIn={this._startRecording} onPressOut={this._stopRecording}>
+      <View style={styles.RecorderScreenWrap}>
+        <TouchableWithoutFeedback onLongPress={this._startRecording} delayPressOut={1000} onPressOut={this._stopRecording}>
           <View style={styles.RecordMicContainer}>
             <Animated.View style={[styles.circle, styles.innerCircle, { opacity: this.state.opacity, transform:[{scale: this.state.scale}] }]} />
             <Icon style={styles.RecordIcon} name='mic' size={50} color="black" />
@@ -170,8 +170,13 @@ class DreamRecorder extends Component{
   }
 }
 const styles = StyleSheet.create({
+  RecorderScreenWrap: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute'
+  },
   RecordMicContainer: {
-    width: '25%',
+    width: '27%',
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
