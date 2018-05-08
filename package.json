@@ -4,7 +4,7 @@
   "private": true,
   "devDependencies": {
     "babel": "^6.23.0",
-    "babel-plugin-module-resolver": "^3.0.0",
+    "babel-plugin-module-resolver": "^3.1.1",
     "babel-preset-react-native-stage-0": "^1.0.1",
     "jest-react-native": "^18.0.0",
     "react-test-renderer": "16.2.0"
@@ -20,21 +20,30 @@
   },
   "dependencies": {
     "@google-cloud/storage": "^1.6.0",
-    "babel-plugin-root-import": "^5.1.0",
     "jwt-decode": "^2.2.0",
-    "mongodb": "^3.0.1",
-    "prop-types": "^15.6.0",
-    "react": "16.2.0",
-    "react-native": "0.52.0",
-    "react-native-button": "^2.2.0",
-    "react-native-elements": "^0.19.0",
-    "react-native-google-signin": "^0.12.0",
-    "react-native-router-flux": "^4.0.0-beta.28",
-    "react-native-vector-icons": "^4.5.0",
-    "react-native-voice": "^0.2.5",
-    "react-redux": "^5.0.6",
+    "mongodb": "^3.0.7",
+    "npm": "^5.8.0",
+    "prop-types": "^15.6.1",
+    "react": "^16.3.2",
+    "react-native": "^0.52.3",
+    "react-native-button": "^2.3.0",
+    "react-native-cli": "^2.0.1",
+    "react-native-elements": "^0.19.1",
+    "react-native-keyboard-aware-scroll-view": "^0.4.4",
+    "react-native-vector-icons": "^4.6.0",
+    "react-native-voice": "^0.2.6",
+    "react-navigation": "^1.5.12",
+    "react-navigation-redux-helpers": "^1.0.5",
+    "react-redux": "^5.0.7",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "requirejs": "^2.3.5",
+    "yarn": "^1.6.0"
+  },
+  "rnpm": {
+    "assets": [
+      "app/fonts"
+    ]
   }
 }
