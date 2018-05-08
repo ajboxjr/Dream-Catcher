@@ -52,7 +52,15 @@ class NewDreamForm extends Component{
   }
 
   _handleFormClose = () =>{
+    // Keyboard.
     this.setState({toggleTagForm: false})
+  }
+
+  resetUnderlineColor = () => {
+    Animated.timing(this.state.titleUnderlineColor, {
+      duration: 1,
+      toValue: 0
+    })
   }
 
   titleErrorAnimation = () => {
@@ -61,14 +69,9 @@ class NewDreamForm extends Component{
           duration: 0,
           toValue: 1
         }),
-        // Animated.timing(this.state.titleUnderlineColor, {
-        //   duration: 300,
-        //   toValue: 0
-        // })
       ]).start(()=> {
         this.animateUnderline(this.unanimateUnderline)
       })
-
   }
 
   borderErrorAnimation = () => {
@@ -104,22 +107,18 @@ class NewDreamForm extends Component{
         duration: 300,
         toValue: 4,
       }).start(() => {
-        // this.setState({toggleTagForm: false})
       })
     }
     else {
       Animated.timing(this.state.titleUnderlineX, {
         duration: 400,
         toValue: 0,
-      })
-      // .start(() => {
-      //   // this.setState({toggleTagForm: false})
-      // })
+      }).start(() => this.setState({titleUnderlineColor: new Animated.Value(0)}))
     }
   }
 
   _handleFinishEntry = () => {
-    Keyboard.dismiss()
+    // Keyboard.dismiss()
     this.setState({isDreaming: false})
   }
 
@@ -186,6 +185,18 @@ class NewDreamForm extends Component{
     }
     if (title !== "" && entry !== ""){
       this.props.onDream(title, entry, tags)
+      //Reset State
+      this.setState({ pendingTag: '',
+            title: '',
+            entry: '',
+            tags: [],
+            toggleTagForm: false,
+            setRecording: false,
+            recordingText: '',
+            isDreaming: false,
+            titleUnderlineX: new Animated.Value(0),
+            titleUnderlineColor: new Animated.Value(0),
+            entryBorderOpacity: new Animated.Value(0)})
     }
   }
 
@@ -249,13 +260,16 @@ class NewDreamForm extends Component{
               outputRange: ['rgba(255,29,26,0)','rgba(277,29,26,.9)']
             }),
         }]}>
+
             <Image style={styles.EntryImage} source={require('../assets/entry_rectangle.png')}/>
               {entryButton}
+
               <DreamRecorder
                 updateDreamText={this._handleTextRecording}
                 clearRecording={() => this.setState({entry: entry+recordingText, recordingText: ''})}
                 setRecording={(recording) => this.setState({isRecording: recording})}
                 isRecording={isRecording}/>
+
               <TextInput
               style={styles.newDreamEntryTextField}
               multiline={true}
