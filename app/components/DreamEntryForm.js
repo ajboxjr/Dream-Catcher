@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import { Text, InputField, TextInput, View, ScrollView, Image, StyleSheet, TouchableWithoutFeedback, Alert, Animated, Keyboard} from 'react-native'
+import { Text, InputField, TextInput, View, ScrollView, Image, StyleSheet, TouchableWithoutFeedback, Alert, Animated, Keyboard, KeyboardAvoidingView } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import DreamEntryTags from '../components/DreamEntryTags'
@@ -56,7 +56,6 @@ class DreamEntryForm extends Component{
   }
 
   _finishEntryEditing = () => {
-    console.log('hello');
     this.setState({editingEntry: false})
     Keyboard.dismiss()
   }
@@ -89,7 +88,7 @@ class DreamEntryForm extends Component{
     const { isEditable, editingEntry, title, tags, entry } = this.state
     const { lastEdited } = this.props.dream
     let toggleEditButton
-    if (editingEntry){
+    if (isEditable){
       toggleEditButton =
           <TouchableWithoutFeedback onPress={this._finishEntryEditing}>
               <Image style={styles.editButton} source={require('../assets/check_button.png')} />
@@ -133,7 +132,6 @@ class DreamEntryForm extends Component{
             </Text>
           </View>
         </View>
-
         <View style={[styles.DreamContentContainer, {borderWidth: isEditable ? 1 : 0}]}>
           {toggleEditButton}
           <TextInput style={styles.DreamContentText}

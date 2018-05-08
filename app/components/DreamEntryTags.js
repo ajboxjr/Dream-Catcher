@@ -6,13 +6,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 class DreamEntryTags extends Component{
   constructor(props){
     super(props)
-    this.state = {
-      scrollX: new Animated.Value(0),
-      isScrolled: false,
-      isEditingTag: false,
-      newTagText: ''
-
-    }
     this._scrollUp = this._scrollUp.bind(this)
     this._handleScrollDown = this._handleScrollDown.bind(this)
     this._pendingAddTag = this._pendingAddTag.bind(this)
@@ -21,14 +14,17 @@ class DreamEntryTags extends Component{
     this._handleSubmitTag = this._handleSubmitTag.bind(this)
     this._handleDeleteTag = this._handleDeleteTag.bind(this)
     this.isRepeat = this.isRepeat.bind(this)
+    this.state = {
+      scrollX: new Animated.Value(0),
+      isScrolled: false,
+      isEditingTag: false,
+      newTagText: ''
+    }
   }
 
   componentDidUpdate(){
-    const {isScrolled} = this.state
-    if (isScrolled){
-      this.scrollView.scrollToEnd({animated: true})
-    }
   }
+
   _scrollUp() {
     const {isScrolled} = this.state
       Animated.timing(this.state.scrollX, {
@@ -37,11 +33,13 @@ class DreamEntryTags extends Component{
       }).start(() => {
         this.setState({isScrolled: true})
       })
-    }
+  }
+
   isRepeat(tag){
     const { tags } = this.props
     return tags.includes(tag)
   }
+
   _handleSubmitTag(){
     const { newTagText } = this.state
     if (newTagText){
@@ -59,9 +57,11 @@ class DreamEntryTags extends Component{
   _handleDeleteTag(delTag){
     this.props.onDeleteTag(delTag)
   }
+
   _handleTagEdit(index, editTag){
     this.props.onEditTag(index, editTag)
   }
+
   _handleScrollDown(){
     //Close keyboard and scrolldown
     Keyboard.dismiss()
@@ -73,13 +73,16 @@ class DreamEntryTags extends Component{
       this.setState({isScrolled: false})
     })
   }
+
   _pendingAddTag(){
     this._scrollUp()
     this.setState({isEditingTag: true})
   }
+
   _cancelAddTag(){
     this.setState({isEditingTag: false, newTagText: ''})
   }
+
   _handleNewTagText(text){
     if (text.length < 18){
       this.setState({newTagText: text})
@@ -90,6 +93,7 @@ class DreamEntryTags extends Component{
     const color= ['#3ED67F', '#56CCF2', '#EBB617', '#9B51E0', '#EB5757', '#2D9CDB','#FF7800', '#3DFF45', '#F2994A','#AF07B2']
     const {isScrolled, isEditingTag, newTagText } = this.state
     const { isEditable, tags } = this.props
+
 
     let scrollable = null
     let scrollIcon = null
@@ -164,15 +168,14 @@ class DreamEntryTags extends Component{
       <View style={styles.DreamTagsContainer}>
           <Animated.View style={[styles.TagsView,{top: this.state.scrollX.interpolate({
             inputRange: [0, 1],
-            outputRange: ['0%','-170%']
-            }),}]}>
+            outputRange: ['0%','-170%'] }),}]}>
             <View style={styles.TagListContainer}>
               <View style={styles.TagTitleContainer}>
                 <Text style={styles.TagsTitleText}>Tags</Text>
                 {scrollable}
               </View>
               <ScrollView
-                centerContent={false}
+                centerContent={true}
                 contentContainerStyle={styles.TagListScroll}
                 keyboardShouldPersistTaps='handled'
                 ref={ref => this.scrollView = ref} >
@@ -209,10 +212,8 @@ const styles= StyleSheet.create({
   DreamTagsContainer:{
     flex: .25,
     position: 'relative',
-    borderWidth: 1,
   },
   TagListContainer: {
-    borderWidth: 1,
   },
   TagTitleContainer:{
     flexDirection: 'row',
@@ -220,6 +221,8 @@ const styles= StyleSheet.create({
   },
   TagsView: {
     flex:1,
+    shadowOffset: {width: 0, height: 3},
+    shadowOpacity: .5,
     position: 'relative',
     backgroundColor: 'white',
   },
@@ -242,14 +245,15 @@ const styles= StyleSheet.create({
     width: '100%'
   },
   TagsTitleText:{
+    margin: 4,
     fontSize: 20,
   },
   TagListScroll  :{
     justifyContent:'center',
-    alignSelf:'center'
+    alignSelf:'center',
   },
   TagList: {
-    width: 303,
+    width: '100%',
     flexDirection: 'row',
     flexWrap:'wrap',
     marginTop: '4%',
@@ -261,9 +265,9 @@ const styles= StyleSheet.create({
     right: '-5%'
   },
   TagItem: {
-    width: 90,
+    width: '29%',
     height: 40,
-    marginHorizontal: 5,
+    marginHorizontal: 6,
     marginBottom: 15,
     borderRadius: 3,
     shadowOffset: {width: 0, height: 4 },

@@ -47,7 +47,6 @@ export function LoginUser(username, password){
   }
 
   export function TokenLoginUser(){
-    console.log('asdfo;asdjf;asdjfasdjf');
     return (dispatch) => {
       AsyncStorage.getItem('@token').then((token) =>{
         if(token){

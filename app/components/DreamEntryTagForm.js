@@ -5,14 +5,14 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 class DreamEntryTagForm extends Component {
   constructor(props){
     super(props)
-    this.state = {
-      tagInput: '',
-      scrollX: new Animated.Value(0)
-    }
     this._handleTags = this._handleTags.bind(this)
     this.addTag = this.addTag.bind(this)
     this.openForm = this.openForm.bind(this)
     this.closeForm = this.closeForm.bind(this)
+    this.state = {
+      tagInput: '',
+      scrollX: new Animated.Value(0)
+    }
   }
   componentDidUpdate(){
     const { isOpen  } = this.props
@@ -23,6 +23,7 @@ class DreamEntryTagForm extends Component {
       this.closeForm()
     }
   }
+
   openForm = () => {
     Animated.timing(this.state.scrollX, {
       duration: 300,
@@ -47,6 +48,7 @@ class DreamEntryTagForm extends Component {
         this.setState({ tagInput:''})
     }
   }
+  
   _handleTags = ()=> {
     this.props.onSubmit()
   }
