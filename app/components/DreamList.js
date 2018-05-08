@@ -2,36 +2,28 @@ import React,{Component } from 'react'
 import PropTypes from 'prop-types'
 import {View, Text, StyleSheet, ScrollView, RefreshControl} from 'react-native'
 
-import DreamItem from 'components/DreamItem'
+import DreamItem from '../components/DreamItem'
 
 class DreamList extends Component{
   constructor(props){
     super(props)
-    // this._handleScroll = this._handleScroll.bind(this)
     this.loadDreams = this.loadDreams.bind(this)
   }
-  componentDidMount(){
-    // this.props.populateDreams() Populate Dreams on refresh
-  }
-  loadDreams = () => {
 
-    console.log('should load');
+  loadDreams = () => {
     this.props.populateDreams()
-    this.setState({refreshing: true});
-    // this.setState({refreshing: false})
   }
   render(){
     return(
       <ScrollView
       refreshControl={
         <RefreshControl
-            onRefresh={() => this.loadDreams()}
-            refreshing={this.props.isPopulating}
-        />
+          onRefresh={() => this.loadDreams()}
+          refreshing={this.props.isPopulating}
+          title='populating...' />
         }>
         <View style={styles.DreamListContainer}>
           {this.props.dreams.map((item, i) => {
-            console.log(item);
           return  <DreamItem key={item._id} dream={item} onTap={() => this.props.onDreamSelect(item._id)} />
           })}
         </View>
