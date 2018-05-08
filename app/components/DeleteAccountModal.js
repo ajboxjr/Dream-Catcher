@@ -1,5 +1,5 @@
 import React, { Component} from 'react'
-import { Modal, View, TouchableWithoutFeedback, Text, TextInput, StyleSheet } from 'react-native'
+import { Modal, View, TouchableWithoutFeedback, Text, TextInput, StyleSheet, Image } from 'react-native'
 
 
 class DeleteAccountModal extends Component {
@@ -15,24 +15,11 @@ class DeleteAccountModal extends Component {
       <Modal transparent={true}
       visible={this.props.visible}
       onRequestClose={this.closeModal}>
-        <View style={{
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        borderWidth:1,
-        shadowOffset:{width: 3,height: 4},
-        shadowOpacity: .2,
-        alignItems: 'center'}}>
-          <View style={{
-          backgroundColor: 'white',
-          borderRadius: 10,
-          width: 300,
-          height: 230}}>
-          <TouchableWithoutFeedback onPress={()=> this.props.onClose()}>
-            <View style={styles.deleteButton}>
-              <Text style={styles.deleteButtonText}>X</Text>
-            </View>
-          </TouchableWithoutFeedback>
+        <View style={styles.modalInnerScreen}>
+          <View style={styles.deleteModal}>
+            <TouchableWithoutFeedback onPress={()=> this.props.onClose()}>
+              <Image source={require('../assets/close_button.png')} />
+            </TouchableWithoutFeedback>
             <View style={styles.modalHeader}>
               <Text style={styles.modalHeaderText}> Are you sure you want to remove your accout?</Text>
               <Text style={styles.modalSubText}> It's permanent... </Text>
@@ -43,7 +30,7 @@ class DeleteAccountModal extends Component {
             <View style={styles.modalContent}>
               <View style={styles.removeForm}>
                 <Text style={styles.removeFormHeader}> Input your Password to continue</Text>
-                <TextInput secureTextEntry={true} onChangeText={(text) => this.setState({password: text})} value={this.state.password} style={styles.passwordInput} placeholder="password"/>
+                <TextInput secureTextEntry={true} onChangeText={(text) => this.setState({password: text.replace(/\s+/, "") })} value={this.state.password} style={styles.passwordInput} placeholder="password"/>
                 <TouchableWithoutFeedback onPress={() => this.props.onDelete(this.state.password)}>
                   <View style={styles.submitButton}>
                     <Text style={styles.submitButtonText}> Confirm </Text>
@@ -60,20 +47,11 @@ class DeleteAccountModal extends Component {
 }
 const styles = StyleSheet.create({
   deleteButton: {
-    position:'absolute',
-    right: -10,
-    top: -10,
-    width:30,
+    position:'absolute', right: -8, top: -10, width: 30,
     height: 30,
-    borderRadius: 100,
-    borderWidth:1,
+    borderRadius: 50,
     backgroundColor: 'black',
-    justifyContent:'center'
-  },
-  deleteButtonText:{
-    textAlign:'center',
-    color: 'white',
-    fontWeight: "900",
+    justifyContent:'center',
   },
   modalHeader:{
     flex:.3,
@@ -81,6 +59,7 @@ const styles = StyleSheet.create({
   modalHeaderText:{
     textAlign:'center',
     fontSize: 24,
+    fontWeight: '600'
   },
   modalSubText: {
     textAlign: 'center',
@@ -98,15 +77,16 @@ const styles = StyleSheet.create({
     alignItems:'center',
   },
   removeForm: {
-    width: "90%",
+    width: "95%",
     height:"70%",
-    borderWidth:1,
     alignItems: 'center',
     justifyContent:'space-between'
   },
   removeFormHeader: {
     fontSize: 18,
     textAlign: 'center',
+    fontWeight: '500'
+
   },
   passwordInput:{
     backgroundColor: "#EFEFEF",
@@ -117,10 +97,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   submitButton: {
-    borderWidth:1,
     width: 100,
     height: 30,
-    borderRadius: 10,
+    borderRadius: 4,
     backgroundColor: '#272932',
     justifyContent:'center',
     alignItems:'center'
@@ -128,9 +107,20 @@ const styles = StyleSheet.create({
   submitButtonText: {
     fontSize: 16,
     color: "#E7ECEF"
+  },
+  modalInnerScreen: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    shadowOffset:{width: 3,height: 4},
+    shadowOpacity: .2,
+    alignItems: 'center'
+  },
+  deleteModal : {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    width: 300,
+    height: 230
   }
-
-
-
 })
 export default DeleteAccountModal;
