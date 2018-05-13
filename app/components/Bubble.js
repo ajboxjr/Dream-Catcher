@@ -7,38 +7,44 @@ class Bubble extends Component {
     super(props)
     this.animateBubble = this.animateBubble.bind(this)
     this.getAnimationInitials = this.getAnimationInitials.bind(this)
-    this.getSign = this.getSign.bind(this)
     this.state = {
-      bubbleX: new Animated.Value(50),
-      bubbleY: new Animated.Value(50),
+      bubbleX: new Animated.Value((Math.random()*2+4) * 10),
+      bubbleY: new Animated.Value((Math.random()*2+4) * 10),
       bubbledX: 1.6,
       bubbledY: 0,
       bubbleScale: new Animated.Value(1),
-
     }
   }
+  // componentDidUpdate(){
+  //   this.animateBubble(this.getAnimationInitials())
+  // }
 
-  componentWillMount(){
-    this.setState({bubbledX: 50, bubbledY: 50})
-  }
-
-  componentDidUpdate(){
+  componentDidMount(){
     this.animateBubble(this.getAnimationInitials())
   }
-  getSign = (number) => {
-    var plusOrMinus = [-1,1][Math.random()*2|0]
-      console.log(plusOrMinus * number);
-      return plusOrMinus * number;
-  }
+  // getSign = (number) => {
+  //   var plusOrMinus = [-1,1][Math.random()*2|0]
+  //     console.log(plusOrMinus * number);
+  //     return plusOrMinus * number;
+  // }
 
   getAnimationInitials = () => {
+    var { up, left } = this.props
     return {
-      t1: Math.random()*9+1 * 10000,
-      t2: Math.random()*9+1 * 10000,
-      v1: this.getSign(150),
-      v2: this.getSign(150),
-      x1: Math.random()*2+4 * 10,
-      x2: Math.random()*2+4 *10,
+
+      //Duration of movement in dirction
+      t1: Math.random()*5+5 * 1000,
+      t2: Math.random()*5+5 * 1000,
+
+      //Position limit (0-100%) left right up down
+      p1: up * 100-Math.random()*20,
+      p2: left *100-Math.random()*20,
+
+      // Starting bubble position.
+      x1: (Math.random()*2+4) * 10,
+      x2: (Math.random()*2+4) *10,
+
+      delay: (Math.random()*3) * 1000
     }
   }
 
@@ -48,50 +54,55 @@ class Bubble extends Component {
   //two random times
   //timing 90000-1000000
 
-  animateBubble = ({x1, x2, t1, t2, v1,v2}) => {
+
+  animateBubble = ({x1, x2, t1, t2, p1,p2, delay}) => {
+    console.log(delay);
+    let scaleSpeed = Math.min(t1, t2);
     Animated.sequence([
+      Animated.delay(delay),
       Animated.parallel([
         Animated.timing(this.state.bubbleX,{
           duration: t1,
-          toValue: v1
+          toValue: p1
         }),
         Animated.timing(this.state.bubbleY, {
           duration: t2,
-          toValue: v2
+          toValue: p2
         }),
         Animated.timing(this.state.bubbleScale,{
-          duration: 10000,
-          toValue: .3
+          duration: scaleSpeed,
+          toValue: .5
         }),
       ]),
-    Animated.parallel([
-      Animated.timing(this.state.bubbleX, {
-        duration: 0,
-        toValue: x1,
-      }),
-      Animated.timing(this.state.bubbleY, {
-        duration: 0,
-        toValue: x2
-      }),
-      Animated.timing(this.state.bubbleScale, {
-        duration: 0,
-        toValue: 1
-      })
+      Animated.parallel([
+        Animated.timing(this.state.bubbleX, {
+          duration: 0,
+          toValue: x1,
+        }),
+        Animated.timing(this.state.bubbleY, {
+          duration: 0,
+          toValue: x2
+        }),
+        Animated.timing(this.state.bubbleScale, {
+          duration: 0,
+          toValue: 1
+        })
       ])
     ]).start(()=>{
+      console.log('animating.');
       this.animateBubble(this.getAnimationInitials())
     })
   }
   render(){
 
     return (
-      <Animated.View style={[styles.bubble , { transform:[{scale: this.state.bubbleScale}], left: this.state.bubbleX.interpolate({
-        inputRange: [-150,150],
-        outputRange: ['-150%', '150%']
-      }),
-      top: this.state.bubbleY.interpolate({
-        inputRange: [-100,100],
-        outputRange: ['-105%', '105%']
+      <Animated.View style={[styles.bubble , { transform:[{scale: this.state.bubbleScale}],
+      left: this.state.bubbleX.interpolate({
+        inputRange: [0,100],
+        outputRange: ['-10%', '110%']
+      }), top: this.state.bubbleY.interpolate({
+        inputRange: [0,100],
+        outputRange: ['-10%', '110%']
       })
     }]}>
       </Animated.View>
@@ -102,10 +113,10 @@ const styles = StyleSheet.create({
   bubble: {
     // left: '90%',
     top: '50',
-    width: 10,
-    height: 10,
+    width: 15,
+    height: 15,
     zIndex: -1,
-    borderRadius: 5,
+    borderRadius: 7.5,
     position:'absolute',
     backgroundColor: 'white',
     top: '50%',

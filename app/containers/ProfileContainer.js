@@ -18,16 +18,14 @@ class ProfileContainer extends Component{
     this._onLogout = this._onLogout.bind(this)
     this.totalDreams = this.totalDreams.bind(this)
     this.totalTags = this.totalTags.bind(this)
-    this.fuzzyBorder = this.fuzzyBorder.bind(this)
+    this.getDimensions = this.getDimensions.bind(this)
+    this.getLayout = this.getLayout.bind(this)
     this.state = {
-      circleOpacity: new Animated.Value(0)
+      profH: 0,
+      profW: 0
     }
   }
 
-  componentWillMount(){
-    console.log('mounted');
-    this.fuzzyBorder()
-  }
 
   totalDreams = () => {
     const { dreams } = this.props
@@ -39,19 +37,17 @@ class ProfileContainer extends Component{
     }
   }
 
-  fuzzyBorder =  () => {
-    Animated.sequence([
-      Animated.timing(this.state.circleOpacity,{
-        duration: 2000,
-        toValue: 1
-      }),
-      Animated.timing(this.state.circleOpacity, {
-        duration: 2000,
-        toValue: 0,
-      })
-    ]).start(()=>{
-      this.fuzzyBorder()
-    })
+  getLayout = ({width, height}) =>{
+    console.log(width, height);
+    this.setState({profW:width, profH: height});
+  }
+  getDimensions = (increase) =>{
+    const { profH } = this.state;
+    return {
+      width: profH+increase,
+      height: profH+increase,
+      borderRadius: profH+increase/2
+    }
   }
 
   totalTags = () =>{
@@ -70,10 +66,7 @@ class ProfileContainer extends Component{
       return 0
     }
   }
-  measureView(event) {
-    console.log('event properties: ', event);
-    console.log('width: ', event.nativeEvent.layout.width)
-  }
+
   _onLogout(){
     Alert.alert(
       'Alert Title',
@@ -97,17 +90,14 @@ class ProfileContainer extends Component{
     const {_id} = this.props.user
     return(
       <View style={styles.profileContainer}>
-        <View style={styles.profileHeader}>
-        <TouchableHighlight style={styles.settingsTouch} onPress={this._handleSceneChange}>
-          <Icon style={styles.settingIcon} name='settings' color='#333F4F' size={40}/>
-        </TouchableHighlight>
-        <BubbleProfile />
-        <Animated.View style={[styles.profileCircle, {shadowOpacity: this.state.circleOpacity.interpolate({
-          inputRange: [0,1],
-          outputRange: [.1, .7]
-        })}]}>
-          <Image style={styles.profileImage} source={require('../assets/cloud.png')} />
-        </Animated.View>
+        <View onLayout= {(event) => this.getLayout(event.nativeEvent.layout)} style={styles.profileHeader}>
+          <View style={[this.getDimensions(5) ,styles.innerCircle]}>
+            <Image style={styles.profileImage} source={require('../assets/cloud.png')} />
+          </View>
+          <BubbleProfile getDimensions={this.getDimensions}/>
+          <TouchableHighlight style={styles.settingsTouch} onPress={this._handleSceneChange}>
+            <Icon style={styles.settingIcon} name='settings' color='#333F4F' size={40}/>
+          </TouchableHighlight>
         </View>
         <View style={styles.profileInfoContainer}>
         <View style={styles.profileUsernameContainer}>
@@ -137,7 +127,7 @@ const styles = StyleSheet.create({
     flex: .9,
     alignItems: 'center',
     marginHorizontal: '5%',
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     shadowOffset: {width: 0, height: 3},
     shadowOpacity: .3,
   },
@@ -149,24 +139,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     overflow: 'hidden'
   },
+  innerCircle: {
+    position:'absolute',
+    borderRadius: 100,
+    backgroundColor: '#020B5D',
+    zIndex: 2,
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  profileImage:{
+    marginBottom: '10%'
+  },
   settingsTouch: {
     position:'absolute',
     top: '3%',
     right: '3%'
   },
   settingIcon: {
-  },
-  profileCircle: {
-    width:200,
-    height: 200,
-    borderRadius: 100,
-    backgroundColor: '#020B5D',
-    justifyContent: 'center',
-    alignItems:'center',
-    shadowOffset: {width: 0, height: 0},
-  },
-  profileImage:{
-    marginBottom: '10%'
   },
   usernameContainer:{
     flex: 1,
@@ -182,17 +171,18 @@ const styles = StyleSheet.create({
   profileUsernameContainer:{
     position:'absolute',
     backgroundColor: '#373737',
-    top: '-3%',
+    top: '-4%',
     width: 200,
     height: 50,
     opacity: .95,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    borderRadius: 4,
   },
   username:{
     textAlign: 'center',
     fontSize: 22,
     fontWeight: 'bold',
-    color: 'white'
+    color: '#FFFFFF'
   },
   profileInnerContainer:{
     width: '100%',
