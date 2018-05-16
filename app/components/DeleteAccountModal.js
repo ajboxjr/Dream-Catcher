@@ -18,7 +18,7 @@ class DeleteAccountModal extends Component {
         <View style={styles.modalInnerScreen}>
           <View style={styles.deleteModal}>
             <TouchableWithoutFeedback onPress={()=> this.props.onClose()}>
-              <Image source={require('../assets/close_button.png')} />
+              <Image style={styles.deleteButton} source={require('../assets/close_button.png')} />
             </TouchableWithoutFeedback>
             <View style={styles.modalHeader}>
               <Text style={styles.modalHeaderText}> Are you sure you want to remove your accout?</Text>
@@ -47,11 +47,13 @@ class DeleteAccountModal extends Component {
 }
 const styles = StyleSheet.create({
   deleteButton: {
-    position:'absolute', right: -8, top: -10, width: 30,
-    height: 30,
-    borderRadius: 50,
-    backgroundColor: 'black',
-    justifyContent:'center',
+    position: 'absolute',
+    right: -10,
+    top:-15,
+    zIndex:1,
+    resizeMode:'contain',
+    width: 30,
+    height:30
   },
   modalHeader:{
     flex:.3,

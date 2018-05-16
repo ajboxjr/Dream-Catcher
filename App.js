@@ -9,7 +9,8 @@ const store = configureStore({});
 
 import NewDreamScene from './app/scenes/NewDreamScene'
 import RootNavigationWithState from './app/navigation/RootNavigator'
-
+// <RootNavigationWithState />
+import ProfileScene from './app/scenes/ProfileScene'
 
 export default class App extends React.Component {
 

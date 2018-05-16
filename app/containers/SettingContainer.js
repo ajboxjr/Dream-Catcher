@@ -100,7 +100,7 @@ class SettingContainer extends Component{
               <View style={styles.changePasswordContainer}>
                 <View style={styles.changePasswordButton}>
                   <TouchableWithoutFeedback onPress={this.changePassword}>
-                    <View>
+                    <View style={this.changePasswordView}>
                       <Text style={styles.changePasswordText}> Change Password </Text>
                     </View>
                   </TouchableWithoutFeedback>
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   settingsHeader:{
     fontSize: 30,
     textAlign:'center',
-    fontWeight: "200",
+    fontWeight: "800",
   },
   settingsSection: {
     flex:.9,
@@ -172,6 +172,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     margin: 10,
     fontSize: 20,
+    fontWeight: "700",
     textDecorationLine: 'underline'
   },
   backTouch:{
@@ -183,10 +184,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderColor: 'black',
     width: '100%',
-    height: 90,
+    height: 100,
     backgroundColor: '#E0E0E0'
   },
   authInfo:{
+    padding: 3,
+    // borderWidth:1,
     marginLeft: '3%',
     justifyContent: 'space-around',
     width: '70%',
@@ -208,14 +211,18 @@ const styles = StyleSheet.create({
     justifyContent:'flex-end'
   },
   changePasswordButton: {
-    marginHorizontal: 4,
-    marginBottom: 4,
+    marginHorizontal: '8%',
+    marginBottom: '7%',
     height: 35,
     borderRadius: 5,
     justifyContent:'flex-end',
     backgroundColor: '#A6D9F7',
     flexDirection: 'column',
     justifyContent: 'center',
+  },
+  changePasswordView:{
+    borderWidth:1,
+    marginBottom: '5%'
   },
   changePasswordText:{
     alignSelf:'center',

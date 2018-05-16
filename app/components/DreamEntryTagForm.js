@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import { Text, InputField, TextInput, View, ScrollView, Image, StyleSheet, TouchableWithoutFeedback, Alert, Animated} from 'react-native'
+import { Text, InputField, TextInput, View, ScrollView, Image, Keyboard, StyleSheet, TouchableWithoutFeedback, Alert, Animated} from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 class DreamEntryTagForm extends Component {
@@ -38,7 +38,7 @@ class DreamEntryTagForm extends Component {
       duration: 300,
       toValue: 0,
     }).start(() => {
-      // this.setState({toggleTagForm: false})
+      // Keyboard.dismiss()
     })
   }
   addTag = () =>{
@@ -48,7 +48,11 @@ class DreamEntryTagForm extends Component {
         this.setState({ tagInput:''})
     }
   }
-  
+  _handleTagInput = (tag) => {
+    if (tag < 18){
+      this.setState({tagInput: tag})
+    }
+  }
   _handleTags = ()=> {
     this.props.onSubmit()
   }
@@ -64,8 +68,6 @@ class DreamEntryTagForm extends Component {
       }),}]}>
         <View style={{flex:1, flexDirection:'column', borderWidth:1}}>
           <View style={styles.TagInputContainer}>
-            <View style={styles.TagInputLeft}>
-            </View>
             <View style={styles.TagInputCenter}>
               <TextInput
                 style={styles.TagInput}
@@ -73,13 +75,13 @@ class DreamEntryTagForm extends Component {
                 onSubmitEditing={this.addTag}
                 blurOnSubmit={false}
                 placeholderTextColor={'rgba(255,255,255,.4)'}
-                onChangeText={(text) => this.setState({tagInput: text})}
+                onChangeText={this._handleTagInput}
                 placeholder="Add Tags"/>
             </View>
             <View style={styles.TagInputRight}>
-            <TouchableWithoutFeedback onPress={this.props.onClose}>
-              <Icon style={styles.CloseIcon} name="cancel" size={20} />
-            </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback onPress={this.props.onClose}>
+                <Icon style={styles.CloseIcon} name="cancel" size={30} />
+              </TouchableWithoutFeedback>
             </View>
           </View>
           <ScrollView
@@ -107,7 +109,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     position:'absolute',
     zIndex: 1,
-    height: '20%',
+    height: '25%',
     width:'100%',
     borderRadius: 2,
     backgroundColor: "#1B4782",
@@ -122,28 +124,23 @@ const styles = StyleSheet.create({
   SubmitIcon:{
     alignSelf:'center'
   },
-  TagInputLeft : {
-    flex: .1,
-    marginTop: 10,
-    justifyContent:'flex-start',
-
-  },
   TagInputCenter: {
     flex:.8,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    marginLeft: 15,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
   },
   TagInput: {
-    width:'80%',
-    textAlign:'right',
-    fontSize: 24,
+    width:'70%',
+    textAlign:'left',
+    fontSize: 26,
     color: 'white',
-    borderBottomColor:'white',
-    borderBottomWidth: 1,
+    borderBottomColor:'rgba(255,255,255,.8)',
+    borderBottomWidth: 3,
     marginHorizontal: 5,
   },
   TagInputRight: {
-    flex: .1,
+    flex: .2,
     marginTop: 5,
     justifyContent:'flex-start',
     justifyContent:'center',

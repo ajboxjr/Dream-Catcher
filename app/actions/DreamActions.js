@@ -49,7 +49,6 @@ export function populateDreamFailure(){
            dispatch(populateDreamSuccess(dreams))
          }
          else {
-           console.log(response.message)
            dispatch(populateDreamFailure())
          }
        })
@@ -125,7 +124,6 @@ export function deleteDream(dreamID){
     AsyncStorage.getItem('@token').then((token)=>{
       DreamAPI.DeleteDream(dreamID, token).then((response)=>{
         if(response.success){
-          console.log(response.message)
           dispatch(deleteDreamSuccess(dreamID))
         }
         else{
@@ -164,7 +162,6 @@ export function editDream(id, title, entry, tags){
     AsyncStorage.getItem('@token').then((token) => {
       DreamAPI.EditDream(id, title, entry, tags, token).then((response) => {
         if (response.success){
-          console.log(response.dream);
           dispatch(editDreamSuccess(response.dream))
         }
         else{

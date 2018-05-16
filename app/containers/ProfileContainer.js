@@ -91,13 +91,13 @@ class ProfileContainer extends Component{
     return(
       <View style={styles.profileContainer}>
         <View onLayout= {(event) => this.getLayout(event.nativeEvent.layout)} style={styles.profileHeader}>
+          <TouchableHighlight style={styles.settingsTouch} onPress={this._handleSceneChange}>
+            <Icon style={styles.settingIcon} name='settings' color='#333F4F' size={40}/>
+          </TouchableHighlight>
           <View style={[this.getDimensions(5) ,styles.innerCircle]}>
             <Image style={styles.profileImage} source={require('../assets/cloud.png')} />
           </View>
           <BubbleProfile getDimensions={this.getDimensions}/>
-          <TouchableHighlight style={styles.settingsTouch} onPress={this._handleSceneChange}>
-            <Icon style={styles.settingIcon} name='settings' color='#333F4F' size={40}/>
-          </TouchableHighlight>
         </View>
         <View style={styles.profileInfoContainer}>
         <View style={styles.profileUsernameContainer}>
@@ -153,7 +153,8 @@ const styles = StyleSheet.create({
   settingsTouch: {
     position:'absolute',
     top: '3%',
-    right: '3%'
+    right: '3%',
+    zIndex: 2,
   },
   settingIcon: {
   },
@@ -205,12 +206,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '50%',
-    height: '15%',
+    height: '12%',
     backgroundColor: '#EB5C87',
     borderRadius: 3,
   },
   logoutText:{
     fontSize: 30,
+    color: 'white'
 
   }
 })

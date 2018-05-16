@@ -14,6 +14,9 @@ class NewDreamContainer extends Component{
     super(props)
     this._handleDream = this._handleDream.bind(this)
   }
+  componentWillUnmount(){
+    console.log('thisis sme unmounting the DOM');
+  }
   componentWillMount(){
   }
   _handleDream = (title , entry, tags) => {

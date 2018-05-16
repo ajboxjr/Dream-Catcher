@@ -56,7 +56,7 @@ class Bubble extends Component {
 
 
   animateBubble = ({x1, x2, t1, t2, p1,p2, delay}) => {
-    console.log(delay);
+    // console.log(delay);
     let scaleSpeed = Math.min(t1, t2);
     Animated.sequence([
       Animated.delay(delay),
@@ -89,7 +89,7 @@ class Bubble extends Component {
         })
       ])
     ]).start(()=>{
-      console.log('animating.');
+      // console.log('animating.');
       this.animateBubble(this.getAnimationInitials())
     })
   }

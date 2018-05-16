@@ -27,7 +27,6 @@ class DreamEntryForm extends Component{
 
   componentWillMount(){
     const { title, entry, tags} = this.props.dream
-    console.log(tags)
     this.setState({
       title: title,
       entry: entry,
@@ -128,7 +127,7 @@ class DreamEntryForm extends Component{
           </View>
           <View style={styles.DreamEntryDateEditedContainer}>
             <Text style={styles.DreamEntryDateEditedText} >
-              Last Edited: {this.formatDate()}
+              Last Edited: {this.formatDate(this.props.dream.updatedAt)}
             </Text>
           </View>
         </View>

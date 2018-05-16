@@ -1,4 +1,5 @@
 import {
+REQUEST_USER_CREATE_DREAM,
 CREATE_DREAM_SUCCESS,
 DELETE_DREAM_SUCCESS,
 EDIT_DREAM_SUCCESS,
@@ -44,6 +45,7 @@ export default DreamReducer = (state=InitialState, action) => {
         shouldPopulate: false
       }
       break
+
     case CREATE_DREAM_SUCCESS:
       return {
         ...state,

@@ -23,6 +23,9 @@ class DreamEntryTags extends Component{
   }
 
   componentDidUpdate(){
+    if(this.props.isEditable == false){
+      this._handleScrollDown()
+    }
   }
 
   _scrollUp() {
@@ -33,6 +36,17 @@ class DreamEntryTags extends Component{
       }).start(() => {
         this.setState({isScrolled: true})
       })
+  }
+  _handleScrollDown(){
+    //Close keyboard and scrolldown
+    Keyboard.dismiss()
+    const { isScrolled } = this.state
+    Animated.timing(this.state.scrollX, {
+        duration: 500,
+        toValue: 0
+    }).start(() =>{
+      this.setState({isScrolled: false})
+    })
   }
 
   isRepeat(tag){
@@ -60,18 +74,6 @@ class DreamEntryTags extends Component{
 
   _handleTagEdit(index, editTag){
     this.props.onEditTag(index, editTag)
-  }
-
-  _handleScrollDown(){
-    //Close keyboard and scrolldown
-    Keyboard.dismiss()
-    const { isScrolled } = this.state
-    Animated.timing(this.state.scrollX, {
-        duration: 500,
-        toValue: 0
-    }).start(() =>{
-      this.setState({isScrolled: false})
-    })
   }
 
   _pendingAddTag(){

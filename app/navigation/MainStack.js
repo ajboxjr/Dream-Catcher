@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Image } from 'react-native'
+import {Image, View, StyleSheet} from 'react-native'
 import { connect } from 'react-redux'
 import { TabNavigator, addNavigationHelpers } from 'react-navigation';
 
@@ -12,6 +12,29 @@ import UserInfoStack from '../navigation/UserInfoStack'
 import { DreamViewStack } from '../navigation/DreamViewStack'
 import NewDreamScene from '../scenes/NewDreamScene'
 
+const styles = StyleSheet.create({
+  newDreamIconContainer: {
+    height: 60,
+    width: 60,
+    borderRadius: 50,
+    borderColor: 'white',
+    position:'absolute',
+    bottom: '10%',
+    backgroundColor: "#000",
+    borderWidth: 2,
+    justifyContent:'center',
+    alignItems:'center',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: .4,
+    shadowColor: "#1B9AAA"
+  },
+  newDreamIcon: {
+    flex: 1,
+    width: '80%',
+    resizeMode: 'contain'
+  }
+})
+
 const tabOptions = {
   tab1:{
     screen: DreamViewStack,
@@ -23,12 +46,14 @@ const tabOptions = {
   tab2: {
     screen: NewDreamScene,
     navigationOptions: {
-      tabBarLabel: "Dream",
+      tabBarLabel: "New Dream",
       labelStyle: {
         fontSize: 20,
       },
       tabBarShowLabels: 'hidden',
-      tabBarIcon: <Image style={{resizeMode:'contain', height:'100%'}} source={require('../assets/new_dream.png')} />,
+      tabBarIcon: <View style={styles.newDreamIconContainer}>
+        <Image style={styles.newDreamIcon} source={require('../assets/cloud.png')} />
+      </View>
     }
   },
   tab3: {
@@ -40,11 +65,12 @@ const tabOptions = {
   }
 }
 
+
 export default MainStack = TabNavigator(tabOptions,{
   tabBarOptions: {
-  tinColor: '#fff',
-  activeTintColor: '#eee',
-  inactiveTintColor: '#fff',
+  tinColor: '#000',
+  activeTintColor: '#1B9AAA',
+  inactiveTintColor: '#000',
   showIcon: true,
   showLabel: true,
   lazyLoad: true,
@@ -53,7 +79,7 @@ export default MainStack = TabNavigator(tabOptions,{
     backgroundColor: 'transparent'
   },
   style: {
-    backgroundColor: 'rgb(59,78,227)',
+    backgroundColor: '#fff',
     borderTopWidth: 1,
   }
 }

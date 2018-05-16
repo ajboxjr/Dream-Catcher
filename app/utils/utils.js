@@ -15,6 +15,13 @@ const Month = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
 
+const formatDate = (updatedDate) =>{
+  date = new Date(updatedDate)
+  formatedDate = Month[date.getMonth()-1]+" "+date.toLocaleString('en-US', { day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })
+  return formatedDate
+}
+
+//-----------
 const getRandomInt = (top) => {
   return Math.floor(Math.random() * Math.floor(top));
 }
@@ -52,5 +59,6 @@ module.exports = {
   addListener: addListener,
   Month: Month,
   Colors:Colors,
-  getCatchPhrase: getCatchPhrase
+  getCatchPhrase: getCatchPhrase,
+  formatDate: formatDate
 }
