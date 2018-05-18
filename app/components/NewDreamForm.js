@@ -50,7 +50,8 @@ class NewDreamForm extends Component{
   componentWillMount(){
     this.setState({catchPhrase: getCatchPhrase()})
   }
-  //_------ ENTRY
+
+  //------- ENTRY
   //Open tag form
   _handleFormOpen = () => {
     this.setState({toggleTagForm: true})
@@ -266,7 +267,10 @@ class NewDreamForm extends Component{
 
         <TouchableWithoutFeedback style={styles.sumbitDreamButton} onPress={this._handleFormSubmit}>
         <View style={styles.submitDreamView}>
-          <Text style={styles.submitDreamText}> Off to the moon!</Text>
+          {this.props.isAuthenticating?
+              <ActivityIndicator style={styles.loadingIcon} size="large" color="#000000" />:
+            <Text style={styles.submitDreamText}> Off to the moon!</Text>
+          }
         </View>
         </TouchableWithoutFeedback>
     </View>

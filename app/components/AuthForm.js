@@ -15,14 +15,9 @@ class AuthForm extends Component{
       username: '',
       password: '',
       verifyPassword: '',
-      isAuthenticating: false,
       isLogin: true,
       opacity: new Animated.Value(1)
     }
-  }
-
-  componentWillMount(){
-    this.setState({isAuthenticating: this.props.isLoading})
   }
 
   _handleLoginClick = () => {
@@ -53,8 +48,8 @@ class AuthForm extends Component{
   }
 
   render(){
-    const { username, password, verifyPassword, isLogin, isAuthenticating } = this.state
-    const { error } = this.props
+    const { username, password, verifyPassword, isLogin } = this.state
+    const { error, isAuthenticating } = this.props
 
     let errorHandler =
       <View style={styles.errorContainer}>
@@ -99,10 +94,10 @@ class AuthForm extends Component{
 
           </View>
 
-          <TouchableHighlight style={styles.loginTouch} onPress={this._handleLoginClick}>
+          <TouchableHighlight style={styles.loginTouch} disabled={isAuthenticating} onPress={this._handleLoginClick}>
             <View style={styles.loginSignupButton}>
             {isAuthenticating?
-              <ActivityIndicator style={styles.loadingIcon} size="small" color="#0000ff" />:
+              <ActivityIndicator style={styles.loadingIcon} size="small" color="#000000" />:
             <Text style={styles.loginText}>Login</Text>}
             </View>
           </TouchableHighlight>
@@ -116,6 +111,8 @@ class AuthForm extends Component{
             <TextInput style={styles.inputBox}
               placeholder="Username"
               spellCheck={false}
+              autoCapitalize='none'
+              autoCorrect={false}
               onChangeText={(text) => this.setState({username: text.replace(/\s+/, "")})}
               placeholderTextColor='black'
               value={username} />
@@ -132,10 +129,10 @@ class AuthForm extends Component{
               placeholderTextColor='black'
               secureTextEntry={true} />
           </View>
-          <TouchableHighlight style={styles.loginTouch} onPress={this._handleSignUpClick}>
+          <TouchableHighlight style={styles.loginTouch} disabled={isAuthenticating} onPress={this._handleSignUpClick}>
             <View style={styles.loginSignupButton}>
               {isAuthenticating?
-                <ActivityIndicator style={styles.loadingIcon} size="small" color="#0000ff" />:
+                <ActivityIndicator style={styles.loadingIcon} size="small" color="#000000" />:
               <Text style={styles.loginText}>Sign Up</Text>}
             </View>
           </TouchableHighlight>
@@ -251,7 +248,8 @@ const styles = StyleSheet.create({
 
   },
   loginText: {
-    fontSize: 16,
+    fontSize: 28,
+    fontWeight: '500',
     textAlign: 'center',
   },
   loadingIcon: {
