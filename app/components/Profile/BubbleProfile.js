@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import {Text, View, TouchableHighlight, StyleSheet, Image,Alert, Animated} from 'react-native'
-import Bubble from '../components/Bubble'
+import Bubble from './Bubble'
 class BubbleProfile extends Component {
   constructor(props){
     super(props)

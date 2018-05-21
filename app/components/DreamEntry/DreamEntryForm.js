@@ -2,13 +2,15 @@ import React,{Component} from 'react'
 import { Text, InputField, TextInput, View, ScrollView, Image, StyleSheet, TouchableWithoutFeedback, Alert, Animated, Keyboard, KeyboardAvoidingView } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import DreamEntryTags from '../components/DreamEntryTags'
-import DreamEntryTagForm from '../components/DreamEntryTagForm'
-import {Month} from '../utils/utils.js'
+import DreamEntryTags from './DreamEntryTags'
+// import DreamEntryTagForm from '../DreamEntry/DreamEntryForm'
+import {Month} from '../../utils/utils.js'
 
 class DreamEntryForm extends Component{
   constructor(props){
     super(props)
+    this._scrollUp = this._scrollUp.bind(this)
+    this._handleScrollDown = this._handleScrollDown.bind(this)
     this._handleEditToggle = this._handleEditToggle.bind(this)
     this._handleTagAdd = this._handleTagAdd.bind(this)
     this._handleTagEdit = this._handleTagEdit.bind(this)
@@ -22,6 +24,8 @@ class DreamEntryForm extends Component{
       tags: [],
       entry: null,
       editingEntry: false,
+      scrollX: new Animated.Value(0),
+
     }
   }
 
@@ -58,6 +62,28 @@ class DreamEntryForm extends Component{
     this.setState({editingEntry: false})
     Keyboard.dismiss()
   }
+  //Tag form
+  _handleScrollDown(){
+    //Close keyboard and scrolldown
+    Keyboard.dismiss()
+    const { isScrolled } = this.state
+    Animated.timing(this.state.scrollX, {
+        duration: 500,
+        toValue: 0
+    }).start(() =>{
+      this.setState({isScrolled: false})
+    })
+  }
+
+  _scrollUp() {
+    const {isScrolled} = this.state
+      Animated.timing(this.state.scrollX, {
+          duration: 500,
+          toValue: 1
+      }).start(() => {
+        this.setState({isScrolled: true})
+      })
+  }
 
   _handleTagAdd = (newTag) => {
     const { tags } = this.state
@@ -79,18 +105,19 @@ class DreamEntryForm extends Component{
       console.log('saving');
       //Pass in edit fields
       this.props.onEdit(title, entry, tags)
+      this._handleScrollDown()
     }
     this.setState({isEditable: !this.state.isEditable})
   }
 
   render(){
-    const { isEditable, editingEntry, title, tags, entry } = this.state
+    const { isEditable, editingEntry, title, tags, entry, isScrolled } = this.state
     const { lastEdited } = this.props.dream
     let toggleEditButton
     if (isEditable){
       toggleEditButton =
           <TouchableWithoutFeedback onPress={this._finishEntryEditing}>
-              <Image style={styles.editButton} source={require('../assets/check_button.png')} />
+              <Image style={styles.editButton} source={require('../../assets/check_button.png')} />
           </TouchableWithoutFeedback>
     }
     else {
@@ -114,12 +141,12 @@ class DreamEntryForm extends Component{
                 }
               </TouchableWithoutFeedback>
               <TouchableWithoutFeedback onPress={this.props.onDeleteEntry}>
-                <Image style={styles.TrashCanIcon} source={require('../assets/trash.png')} />
+                <Image style={styles.TrashCanIcon} source={require('../../assets/trash.png')} />
               </TouchableWithoutFeedback>
             </View>
           </View>
-          <View style={styles.DreamEntryTitleContainer}>
-            <TextInput style={[styles.DreamEntryTitleText, {borderWidth: isEditable ? 1 : 0}]}
+          <View style={[styles.DreamEntryTitleContainer, {shadowOpacity: isEditable ? .3 : .001}]}>
+            <TextInput style={styles.DreamEntryTitleText}
             value={title}
             returnKeyType='done'
             onChangeText={(text)=> this.setState({title: text})}
@@ -131,7 +158,7 @@ class DreamEntryForm extends Component{
             </Text>
           </View>
         </View>
-        <View style={[styles.DreamContentContainer, {borderWidth: isEditable ? 1 : 0}]}>
+        <View style={[styles.DreamContentContainer, {shadowOpacity: isEditable ? .3 : 0}]}>
           {toggleEditButton}
           <TextInput style={styles.DreamContentText}
             value={entry}
@@ -143,6 +170,10 @@ class DreamEntryForm extends Component{
 
         <DreamEntryTags
           tags={tags}
+          isScrolled={isScrolled}
+          scrollDown={this._handleScrollDown}
+          scrollX={this.state.scrollX}
+          scrollUp={this._scrollUp}
           onAddTag={this._handleTagAdd}
           onEditTag={this._handleTagEdit}
           onDeleteTag={this._handleTagDelete}
@@ -187,8 +218,13 @@ const styles = StyleSheet.create({
   },
   DreamEntryTitleContainer:{
     // 1
-    flex: .55,
-    justifyContent: 'center'
+    width:'70%',
+    height: '100%',
+    // borderWidth:1,
+    flex: .50,
+    margin: 4,
+    justifyContent: 'center',
+    shadowOffset: {width:0, height:0},
   },
   DreamEntryTitleText:{
     marginLeft: '2%',
@@ -204,6 +240,7 @@ const styles = StyleSheet.create({
   },
   DreamContentContainer: {
     flex: .55,
+    shadowOffset: {width: 0, height:0},
     flexDirection:'column',
     marginHorizontal: '4%',
   },

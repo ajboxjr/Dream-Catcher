@@ -15,9 +15,6 @@ class Bubble extends Component {
       bubbleScale: new Animated.Value(1),
     }
   }
-  // componentDidUpdate(){
-  //   this.animateBubble(this.getAnimationInitials())
-  // }
 
   componentDidMount(){
     this.animateBubble(this.getAnimationInitials())

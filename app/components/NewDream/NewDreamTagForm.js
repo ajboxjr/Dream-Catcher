@@ -2,11 +2,11 @@ import React,{Component} from 'react'
 import { Text, InputField, TextInput, View, ScrollView, Image, Keyboard, StyleSheet, TouchableWithoutFeedback, Alert, Animated} from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-class DreamEntryTagForm extends Component {
+class NewDreamTagForm extends Component {
   constructor(props){
     super(props)
-    this._handleTags = this._handleTags.bind(this)
     this.addTag = this.addTag.bind(this)
+    this._handleTagInput = this._handleTagInput.bind(this)
     this.openForm = this.openForm.bind(this)
     this.closeForm = this.closeForm.bind(this)
     this.state = {
@@ -49,12 +49,9 @@ class DreamEntryTagForm extends Component {
     }
   }
   _handleTagInput = (tag) => {
-    if (tag < 18){
+    if (tag.length < 18){
       this.setState({tagInput: tag})
     }
-  }
-  _handleTags = ()=> {
-    this.props.onSubmit()
   }
 
   render(){
@@ -62,15 +59,15 @@ class DreamEntryTagForm extends Component {
     const { tagInput } = this.state
     const { tags }  =this.props
     return(
-      <Animated.View style={[styles.TagFormContainer, {top: this.state.scrollX.interpolate({
+      <Animated.View style={[styles.tagFormContainer, {top: this.state.scrollX.interpolate({
         inputRange: [0, 1],
         outputRange: ['-50%','0%']
       }),}]}>
-        <View style={{flex:1, flexDirection:'column', borderWidth:1}}>
-          <View style={styles.TagInputContainer}>
-            <View style={styles.TagInputCenter}>
+        <View style={styles.tagFormContainerInner}>
+          <View style={styles.tagInputContainer}>
+            <View style={styles.tagInputCenter}>
               <TextInput
-                style={styles.TagInput}
+                style={styles.tagInput}
                 value={tagInput}
                 onSubmitEditing={this.addTag}
                 blurOnSubmit={false}
@@ -78,21 +75,21 @@ class DreamEntryTagForm extends Component {
                 onChangeText={this._handleTagInput}
                 placeholder="Add Tags"/>
             </View>
-            <View style={styles.TagInputRight}>
+            <View style={styles.tagInputRight}>
               <TouchableWithoutFeedback onPress={this.props.onClose}>
-                <Icon style={styles.CloseIcon} name="cancel" size={30} />
+                <Icon style={styles.closeIcon} color="#28EBEB" name="cancel" size={30} />
               </TouchableWithoutFeedback>
             </View>
           </View>
           <ScrollView
-            style={styles.TagScroll}>
-            <View style={styles.TagListContainer}>
+            style={styles.tagScroll}>
+            <View style={styles.tagListContainer}>
               {tags.map((tag,i) => {
                 return (
-                  <View key={i} style={styles.TagItem}>
-                    <Text style={styles.TagItemText}>{tag}</Text>
+                  <View key={i} style={styles.tagItem}>
+                    <Text style={styles.tagItemText}>{tag}</Text>
                     <TouchableWithoutFeedback onPress={() =>  this.props.onDelete(i)}>
-                      <Icon style={styles.DeleteTagIcon} name="cancel" size={17} />
+                      <Icon style={styles.deleteTagIcon} name="cancel" size={17} />
                     </TouchableWithoutFeedback>
                   </View>
                 )
@@ -105,59 +102,66 @@ class DreamEntryTagForm extends Component {
   }
 }
 const styles = StyleSheet.create({
-  TagFormContainer:{
-    overflow: 'hidden',
+  tagFormContainer:{
+    // overflowX: 'hidden',
     position:'absolute',
     zIndex: 1,
-    height: '25%',
+    height: '27%',
     width:'100%',
-    borderRadius: 2,
     backgroundColor: "#1B4782",
+    borderBottomLeftRadius: 3,
+    borderBottomRightRadius: 3,
+    shadowOffset: {width: 0, height:10},
+    shadowOpacity: 1.3
   },
-  TagInputContainer: {
+  tagFormContainerInner:{
+    flex:1
+  },
+  tagInputContainer: {
     flex:.6,
     flexDirection: 'row'
   },
-  CloseIcon:{
+  closeIcon:{
     alignSelf:'center'
   },
-  SubmitIcon:{
+  submitIcon:{
     alignSelf:'center'
   },
-  TagInputCenter: {
+  tagInputCenter: {
     flex:.8,
     marginLeft: 15,
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
-  TagInput: {
-    width:'70%',
+  tagInput: {
+    width:'75%',
     textAlign:'left',
     fontSize: 26,
     color: 'white',
-    borderBottomColor:'rgba(255,255,255,.8)',
+    borderBottomColor:'rgba(255,255,255,1)',
     borderBottomWidth: 3,
     marginHorizontal: 5,
+    marginVertical: 2
   },
-  TagInputRight: {
+  tagInputRight: {
     flex: .2,
     marginTop: 5,
     justifyContent:'flex-start',
     justifyContent:'center',
   },
-  TagScroll: {
+  tagScroll: {
     width:'100%',
     flex:.5,
   },
-  TagListContainer: {
+  tagListContainer: {
     marginHorizontal: '2%',
     flex:1,
     flexWrap: 'wrap',
     flexDirection:'row',
   },
-  TagItem:{
+  tagItem:{
     height: 25,
-    padding: 3,
+    padding: 6,
     flexDirection:'row',
     borderWidth:1,
     alignItems:'center',
@@ -167,8 +171,8 @@ const styles = StyleSheet.create({
     borderRadius:5,
 
   },
-  TagItemText:{
+  tagItemText:{
     fontSize: 16,
   }
 })
-export default DreamEntryTagForm;
+export default NewDreamTagForm;

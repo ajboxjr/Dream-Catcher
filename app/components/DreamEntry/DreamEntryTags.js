@@ -2,12 +2,12 @@ import React,{Component} from 'react'
 import { Text, InputField, TextInput, View, ScrollView, Image, StyleSheet, TouchableWithoutFeedback, Alert, Animated, Keyboard} from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import DreamEntryTagItem from './DreamEntryTagItem'
+
 
 class DreamEntryTags extends Component{
   constructor(props){
     super(props)
-    this._scrollUp = this._scrollUp.bind(this)
-    this._handleScrollDown = this._handleScrollDown.bind(this)
     this._pendingAddTag = this._pendingAddTag.bind(this)
     this._cancelAddTag = this._cancelAddTag.bind(this)
     this._handleNewTagText = this._handleNewTagText.bind(this)
@@ -15,39 +15,14 @@ class DreamEntryTags extends Component{
     this._handleDeleteTag = this._handleDeleteTag.bind(this)
     this.isRepeat = this.isRepeat.bind(this)
     this.state = {
-      scrollX: new Animated.Value(0),
       isScrolled: false,
       isEditingTag: false,
       newTagText: ''
     }
   }
 
-  componentDidUpdate(){
-    if(this.props.isEditable == false){
-      this._handleScrollDown()
-    }
-  }
 
-  _scrollUp() {
-    const {isScrolled} = this.state
-      Animated.timing(this.state.scrollX, {
-          duration: 500,
-          toValue: 1
-      }).start(() => {
-        this.setState({isScrolled: true})
-      })
-  }
-  _handleScrollDown(){
-    //Close keyboard and scrolldown
-    Keyboard.dismiss()
-    const { isScrolled } = this.state
-    Animated.timing(this.state.scrollX, {
-        duration: 500,
-        toValue: 0
-    }).start(() =>{
-      this.setState({isScrolled: false})
-    })
-  }
+
 
   isRepeat(tag){
     const { tags } = this.props
@@ -77,7 +52,7 @@ class DreamEntryTags extends Component{
   }
 
   _pendingAddTag(){
-    this._scrollUp()
+    this.props.scrollUp()
     this.setState({isEditingTag: true})
   }
 
@@ -93,8 +68,8 @@ class DreamEntryTags extends Component{
 
   render(){
     const color= ['#3ED67F', '#56CCF2', '#EBB617', '#9B51E0', '#EB5757', '#2D9CDB','#FF7800', '#3DFF45', '#F2994A','#AF07B2']
-    const {isScrolled, isEditingTag, newTagText } = this.state
-    const { isEditable, tags } = this.props
+    const { isEditingTag, newTagText } = this.state
+    const { isScrolled, isEditable, tags, scrollUp, scrollDown } = this.props
 
 
     let scrollable = null
@@ -102,7 +77,6 @@ class DreamEntryTags extends Component{
     let deleteButton = null
     let newTagItemContent = null
 
-    //{deleteButton} ??
     if (isEditingTag){
       newTagItemContent=
       <View style={{flex:1, justifyContent: 'center'}}>
@@ -111,7 +85,14 @@ class DreamEntryTags extends Component{
             <Icon name="close" size={13} />
           </View>
          </TouchableWithoutFeedback>
-         <TextInput style={styles.NewTextTag} placeholder="Enter Tag" value={newTagText} onChangeText={this._handleNewTagText} autoFocus/>
+         <TextInput
+          style={styles.NewTextTag}
+          placeholder="Enter Tag"
+          value={newTagText}
+          onChangeText={this._handleNewTagText}
+          blurOnSubmit={false}
+          onSubmitEditing={this._handleSubmitTag}
+          autoFocus/>
          <TouchableWithoutFeedback onPress={this._handleSubmitTag}>
            <View style={[styles.circle, styles.CreateTagIcon]}>
             <Icon name="check" size={14} />
@@ -125,7 +106,7 @@ class DreamEntryTags extends Component{
     if (isScrolled){
       scrollButton =
                   <View>
-                    <TouchableWithoutFeedback onPress={this._handleScrollDown}>
+                    <TouchableWithoutFeedback onPress={scrollDown}>
                       <Icon name="close" size={25}/>
                     </TouchableWithoutFeedback>
                   </View>
@@ -133,7 +114,7 @@ class DreamEntryTags extends Component{
     else{
       scrollButton =
                     <View>
-                      <TouchableWithoutFeedback onPress={this._scrollUp}>
+                      <TouchableWithoutFeedback onPress={scrollUp}>
                         <Icon name="keyboard-arrow-up" size={25}/>
                       </TouchableWithoutFeedback>
                     </View>
@@ -148,7 +129,6 @@ class DreamEntryTags extends Component{
                 </View>
 
       // Add Delete Button to tags
-      deleteButton = <View style={[styles.DeleteTagIcon, styles.circle]}><Icon name="close" size={13}/></View>
       newTagItem=
         <View style={[{backgroundColor: '#8A8A8A'}, styles.TagItem]}>
           <TouchableWithoutFeedback onPress={() => this._pendingAddTag()}>
@@ -168,7 +148,7 @@ class DreamEntryTags extends Component{
 //centerContent
     return(
       <View style={styles.DreamTagsContainer}>
-          <Animated.View style={[styles.TagsView,{top: this.state.scrollX.interpolate({
+          <Animated.View style={[styles.TagsView,{top: this.props.scrollX.interpolate({
             inputRange: [0, 1],
             outputRange: ['0%','-170%'] }),}]}>
             <View style={styles.TagListContainer}>
@@ -178,27 +158,20 @@ class DreamEntryTags extends Component{
               </View>
               <ScrollView
                 centerContent={true}
+                style={{ flex:1, borderWidth:1,alignSelf:'center',width:'100%'}}
                 contentContainerStyle={styles.TagListScroll}
                 keyboardShouldPersistTaps='handled'
                 ref={ref => this.scrollView = ref} >
                 <View style={styles.TagList}>
                   {tags.map((tag, i) => {
-                    return (
-                      <View key={i} style={[{backgroundColor: color[i]}, styles.TagItem]}>
-                        <TouchableWithoutFeedback
-                          editable={isEditable}
-                          onPress={() => this._handleDeleteTag(tag)}>
-                          {deleteButton}
-                        </TouchableWithoutFeedback>
-                        <TextInput
-                          key={i}
-                          onFocus={() => this._scrollUp}
-                          editable={isEditable}
-                          value={tag}
-                          onChangeText={(text) => this._handleTagEdit(i, text)}
-                          style={styles.TagItemText}/>
-                      </View>
-                      )
+                      return (<DreamEntryTagItem
+                      key={i}
+                      scrollUp={scrollUp}
+                      isEditable={this.props.isEditable}
+                      color={color[i]}
+                      tag={tag}
+                      onDelete={this._handleDeleteTag}
+                      onEdit={(tag) => this._handleTagEdit(i, tag)}/>)
                     })}
                     {newTagItem}
                 </View>
@@ -215,9 +188,8 @@ const styles= StyleSheet.create({
     flex: .25,
     position: 'relative',
   },
-  TagListContainer: {
-  },
   TagTitleContainer:{
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
@@ -244,27 +216,38 @@ const styles= StyleSheet.create({
   },
   TagListContainer:{
     flex:1,
-    width: '100%'
+    alignItems:'center',
+    width: '100%',
+    // borderWidth:1
   },
   TagsTitleText:{
+    alignSelf: 'flex-start',
     margin: 4,
     fontSize: 20,
   },
   TagListScroll  :{
-    justifyContent:'center',
-    alignSelf:'center',
+    flexGrow: 1,
+    // height: '100%',
+    borderWidth:1,
+    // width: '100%',
   },
   TagList: {
-    width: '100%',
+    flex:1,
     flexDirection: 'row',
     flexWrap:'wrap',
     marginTop: '4%',
   },
-  DeleteTagIcon: {
-    alignSelf: 'flex-end',
+  NewTextTag:{
+    justifyContent: 'center',
+    alignSelf: 'center',
+    height: '50%',
+    width: '100%',
+    zIndex: 0,
+  },
+  CreateTagIcon: {
+    alignSelf: 'center',
     position: 'absolute',
-    top: '-10%',
-    right: '-5%'
+    bottom: '-15%',
   },
   TagItem: {
     width: '29%',
@@ -281,17 +264,11 @@ const styles= StyleSheet.create({
     fontSize: 16,
     textAlign:'center',
   },
-  NewTextTag:{
-    justifyContent: 'center',
-    alignSelf: 'center',
-    height: '50%',
-    width: '100%',
-    zIndex: 0,
-  },
-  CreateTagIcon: {
-    alignSelf: 'center',
+  DeleteTagIcon: {
+    alignSelf: 'flex-end',
     position: 'absolute',
-    bottom: '-15%',
+    top: '-10%',
+    right: '-5%'
   },
   circle: {
     alignItems:'center',
@@ -300,7 +277,6 @@ const styles= StyleSheet.create({
     height: 15,
     borderRadius: 7.5,
     borderWidth: .9
-
   }
 })
 export default DreamEntryTags;

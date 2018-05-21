@@ -1,12 +1,11 @@
 import React,{Component} from 'react'
 import { StyleSheet, Text, View, TouchableWithoutFeedback, TextInput, Animated, Image, Keyboard } from 'react-native';
-import DreamRecorder from '../components/DreamRecorder'
+import DreamRecorder from './DreamRecorder'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import DreamEntryTagForm from '../components/DreamEntryTagForm'
-import ButtonWithShadow from '../components/ButtonWithShadow'
+import  NewDreamTagForm from './NewDreamTagForm'
 // import RCTKeyboardToolbarTextInput from 'react-native-textinput-utils'
 
-import { getCatchPhrase } from '../utils/utils'
+import { getCatchPhrase } from '../../utils/utils'
 
 
 
@@ -14,8 +13,6 @@ class NewDreamForm extends Component{
   constructor(props){
     super(props)
     //Tags
-    this.handleNewTag = this.handleNewTag.bind(this)
-    this.submitTag = this.submitTag.bind(this)
     this.isRepeat = this.isRepeat.bind(this)
     //Entry
     this._handleEntryFinish = this._handleEntryFinish.bind(this)
@@ -149,6 +146,7 @@ class NewDreamForm extends Component{
 //------Tags
   isRepeat(newTag){
     tagRepeated = false
+    console.log(newTag);
     this.state.tags.map((tag) => {
       if(tag.toLowerCase() === newTag.toLowerCase()){
         tagRepeated = true
@@ -157,23 +155,12 @@ class NewDreamForm extends Component{
     return tagRepeated
   }
 
-  submitTag = () => {
-    const {pendingTag,tags} = this.state
-    if (pendingTag !== "" && !this.isRepeat(pendingTag)){
-      this.setState({tags: [...tags,pendingTag]})
-    }
-    this.tagInput.setNativeProps({ text: '' })
-  }
-
-  handleNewTag = (text) => {
-    const {pendingTag} = this.state
-    //Global Util Varliable for length of string
-        this.setState({pendingTag: text})
-  }
-
-  _handleTagAdd(newTag){
+  _handleTagAdd = (newTag) => {
+    console.log('add new tag');
     const { tags } = this.state
-    this.setState({tags: [...tags, newTag]})
+    if (newTag !== "" && !this.isRepeat(newTag)){
+      this.setState({tags: [...tags,newTag]})
+    }
   }
 
   _handleTagDelete(index){
@@ -203,19 +190,19 @@ class NewDreamForm extends Component{
     let entryButton = null;
     if (isDreaming){
       entryButton= <TouchableWithoutFeedback onPress={this._handleEntryFinish}>
-        <Image source={require('../assets/check_button.png')} style={[styles.TagButton,{opacity: .4}]}></Image>
+        <Image source={require('../../assets/check_button.png')} style={[styles.TagButton,{opacity: .4}]}></Image>
       </TouchableWithoutFeedback>
     }
     else {
       entryButton= <TouchableWithoutFeedback style={styles.TagTouch} onPress={this._handleFormOpen}>
-        <Image source={require('../assets/tag_button.png')} style={[styles.TagButton]}></Image>
+        <Image source={require('../../assets/tag_button.png')} style={[styles.TagButton]}></Image>
       </TouchableWithoutFeedback>
     }
 
     return(
     <View style={styles.container}>
 
-      <DreamEntryTagForm
+      <NewDreamTagForm
         tags={tags}
         onAddTag={this._handleTagAdd}
         isOpen={toggleTagForm}
@@ -245,7 +232,7 @@ class NewDreamForm extends Component{
             }),
         }]}>
 
-            <Image style={styles.EntryImage} source={require('../assets/entry_rectangle.png')}/>
+            <Image style={styles.EntryImage} source={require('../../assets/entry_rectangle.png')}/>
               {entryButton}
 
               <DreamRecorder
@@ -333,7 +320,7 @@ const styles = StyleSheet.create({
   },
   submitDreamView: {
     backgroundColor: '#63C924',
-    width: '40%',
+    width: 150,
     padding: '4%',
     borderRadius: 3,
     shadowOffset: {width: 1, height: 3},

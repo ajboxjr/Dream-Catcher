@@ -18,7 +18,7 @@ class DeleteAccountModal extends Component {
         <View style={styles.modalInnerScreen}>
           <View style={styles.deleteModal}>
             <TouchableWithoutFeedback onPress={()=> this.props.onClose()}>
-              <Image style={styles.deleteButton} source={require('../assets/close_button.png')} />
+              <Image style={styles.deleteButton} source={require('../../assets/close_button.png')} />
             </TouchableWithoutFeedback>
             <View style={styles.modalHeader}>
               <Text style={styles.modalHeaderText}> Are you sure you want to remove your accout?</Text>

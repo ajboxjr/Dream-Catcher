@@ -2,7 +2,7 @@ import React,{Component } from 'react'
 import PropTypes from 'prop-types'
 import {View, Text, StyleSheet, ScrollView, RefreshControl} from 'react-native'
 
-import DreamItem from '../components/DreamItem'
+import DreamItem from './DreamItem'
 
 class DreamList extends Component{
   constructor(props){
@@ -24,7 +24,7 @@ class DreamList extends Component{
         }>
         <View style={styles.DreamListContainer}>
           {this.props.dreams.map((item, i) => {
-          return  <DreamItem key={item._id} dream={item} onTap={() => this.props.onDreamSelect(item._id)} />
+          return  <DreamItem key={item._id} dream={item} onTap={() => this.props.onDreamSelect(item._id)} onDelete={(id) => this.props.deleteDream(id)} isDelete={this.props.isDelete} />
           })}
         </View>
       </ScrollView>
