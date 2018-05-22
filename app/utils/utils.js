@@ -1,15 +1,4 @@
-import React from 'react';
-import {
-  createReactNavigationReduxMiddleware,
-  createReduxBoundAddListener
-} from 'react-navigation-redux-helpers';
 
-const middleware = createReactNavigationReduxMiddleware(
-  "root",
-  state => state.rootNav
-);
-
-const addListener = createReduxBoundAddListener("root");
 
 const Month = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
@@ -55,8 +44,6 @@ const getCatchPhrase = () => {
 // };
 
 module.exports = {
-  middleware: middleware,
-  addListener: addListener,
   Month: Month,
   Colors:Colors,
   getCatchPhrase: getCatchPhrase,

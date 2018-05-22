@@ -2,7 +2,13 @@ import React from 'react'
 import { StackNavigator, TabNavigator, addNavigationHelpers } from 'react-navigation'
 import { connect } from 'react-redux'
 
-import { addListener } from '../utils/utils'
+import {
+  createReactNavigationReduxMiddleware,
+  createReduxBoundAddListener
+} from 'react-navigation-redux-helpers';
+
+import { addListener } from "../store/store"
+
 
 import MainStack from '../navigation/MainStack'
 import LoginScene from '../scenes/LoginScene'
