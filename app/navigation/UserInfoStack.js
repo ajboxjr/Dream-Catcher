@@ -1,24 +1,23 @@
-import React, { Component } from 'react';
-import { StackNavigator } from 'react-navigation';
+import React, {Component} from 'react';
+import {StackNavigator} from 'react-navigation';
 
 import ProfileScene from '../scenes/ProfileScene'
 import SettingScene from '../scenes/SettingScene'
 
 export default UserInfoStack = StackNavigator({
-  Profile:{
+  Profile: {
     screen: ProfileScene
   },
-  Settings:{
+  Settings: {
     screen: SettingScene,
     navigationOptions: {
-        tabBarVisible: false
+      tabBarVisible: false
     }
   }
-},
-{
+}, {
   initialRouteName: 'Profile',
   headerMode: 'none',
-    navigationOptions: {
-        headerVisible: false,
+  navigationOptions: {
+    headerVisible: false
   }
 })
