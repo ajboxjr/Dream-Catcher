@@ -49,7 +49,7 @@ class NewDreamTagForm extends Component {
     }
   }
   _handleTagInput = (tag) => {
-    if (tag.length < 18){
+    if (tag.length < 9){
       this.setState({tagInput: tag})
     }
   }
@@ -57,7 +57,7 @@ class NewDreamTagForm extends Component {
   render(){
 
     const { tagInput } = this.state
-    const { tags }  =this.props
+    const { tags }  = this.props
     return(
       <Animated.View style={[styles.tagFormContainer, {top: this.state.scrollX.interpolate({
         inputRange: [0, 1],
@@ -160,8 +160,8 @@ const styles = StyleSheet.create({
     flexDirection:'row',
   },
   tagItem:{
-    height: 25,
-    padding: 6,
+    height: 30,
+    paddingHorizontal: 6,
     flexDirection:'row',
     borderWidth:1,
     alignItems:'center',

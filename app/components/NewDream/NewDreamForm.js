@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import { StyleSheet, Text, View, TouchableWithoutFeedback, TextInput, Animated, Image, Keyboard } from 'react-native';
+import { StyleSheet, Text, View, TouchableWithoutFeedback, TextInput, Animated, Image, Keyboard, ActivityIndicator } from 'react-native';
 import DreamRecorder from './DreamRecorder'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import  NewDreamTagForm from './NewDreamTagForm'
@@ -255,8 +255,9 @@ class NewDreamForm extends Component{
         <TouchableWithoutFeedback style={styles.sumbitDreamButton} onPress={this._handleFormSubmit}>
         <View style={styles.submitDreamView}>
           {this.props.isAuthenticating?
-              <ActivityIndicator style={styles.loadingIcon} size="large" color="#000000" />:
+            <ActivityIndicator style={styles.loadingIcon} size="large" color="#000000" />:
             <Text style={styles.submitDreamText}> Off to the moon!</Text>
+
           }
         </View>
         </TouchableWithoutFeedback>
@@ -320,11 +321,14 @@ const styles = StyleSheet.create({
   },
   submitDreamView: {
     backgroundColor: '#63C924',
-    width: 150,
-    padding: '4%',
+    // width: 150,
+    width: '50%',
+    height: '7%',
+    // paddingVertical: '4%',
     borderRadius: 3,
     shadowOffset: {width: 1, height: 3},
     shadowOpacity: .3,
+    justifyContent:'center'
   },
   submitDreamText: {
     textAlign:'center'
@@ -341,8 +345,9 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25,
     zIndex:1,
-
-
+  },
+  loadingIcon: {
+    alignSelf:'center'
   }
 
 
