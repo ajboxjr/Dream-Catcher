@@ -1,29 +1,26 @@
-import React, { Component } from 'react'
-import { View, StyleSheet, Text } from 'react-native'
+import React, {Component} from 'react'
+import {View, StyleSheet, Text} from 'react-native'
 
 import SettingContainer from '../containers/SettingContainer'
 
-class SettingScene extends Component{
-  constructor(props){
+class SettingScene extends Component {
+  constructor(props) {
     super(props)
   }
 
-  render(){
-    return (
-      <View style={styles.container}>
-        <SettingContainer navigation={this.props.navigation}/>
-      </View>
-    )
+  render() {
+    return (<View style={styles.container}>
+      <SettingContainer navigation={this.props.navigation}/>
+    </View>)
   }
 }
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
+  container: {
+    flex: 1,
     backgroundColor: "#3B4EE3",
     justifyContent: 'center',
     alignItems: 'center'
   }
 })
-
 
 export default SettingScene;

@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     color: 'rgba(0,0,0,.8)',
   },
   modalErr:{
+    color: 'red',
     textAlign: 'right',
     marginRight: 10,
     fontSize: 13,
