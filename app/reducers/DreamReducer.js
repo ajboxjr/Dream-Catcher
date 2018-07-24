@@ -1,57 +1,74 @@
 import {
-REQUEST_USER_CREATE_DREAM,
-CREATE_DREAM_SUCCESS,
-DELETE_DREAM_SUCCESS,
-EDIT_DREAM_SUCCESS,
-POPULATE_DREAM_REQUEST,
-POPULATE_DREAM_SUCCESS,
-POPULATE_DREAM_FAILURE } from '../actions/DreamActions'
+  CREATE_DREAM_REQUEST,
+  CREATE_DREAM_SUCCESS,
+  CREATE_DREAM_FAILURE,
+  DELETE_DREAM_SUCCESS,
+  EDIT_DREAM_SUCCESS,
+  POPULATE_DREAM_REQUEST,
+  POPULATE_DREAM_SUCCESS,
+  POPULATE_DREAM_FAILURE
+} from '../actions/DreamActions'
 
-import { LOGIN_USER_SUCCESS } from '../actions/AuthActions'
+import {LOGIN_USER_SUCCESS, LOGOUT_USER} from '../actions/AuthActions'
 
-const InitialState = {
+const initialState = {
   "items": [],
   "isPopulating": false,
-  "shouldPopulate": true //Inital Signin populate
+  "shouldPopulate": false, //Inital Signin/signup populate
 }
 
-
-export default DreamReducer = (state=InitialState, action) => {
+export default DreamReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_USER_SUCCESS: //ADD populate dreams on login.
+
+    case LOGIN_USER_SUCCESS:
       return {
         ...state,
         shouldPopulate: true
       }
-      break
+
     case POPULATE_DREAM_REQUEST:
       return {
         ...state,
         isPopulating: true
       }
-      break
+
     case POPULATE_DREAM_SUCCESS:
+    console.log('payload dreams',action.payload.dreams);
       return {
         ...state,
         items: action.payload.dreams,
         isPopulating: false,
         shouldPopulate: false
       }
-      break
+
     case POPULATE_DREAM_FAILURE:
       return {
         ...state,
         isPopulating: false,
         shouldPopulate: false
       }
-      break
+
+    case CREATE_DREAM_REQUEST:
+      return {
+        ...state,
+        isAuthenticating: true
+      }
 
     case CREATE_DREAM_SUCCESS:
       return {
         ...state,
-        items: [...state.items, action.payload.dream]
+        items: [
+          ...action.payload.dream, ...state.items
+        ],
+        isAuthenticating: false
       }
-      break
+
+    case CREATE_DREAM_FAILURE:
+      return {
+        ...state,
+        isAuthenticating: false
+      }
+
     case DELETE_DREAM_SUCCESS:
       return {
         ...state,
@@ -59,20 +76,22 @@ export default DreamReducer = (state=InitialState, action) => {
           return dream._id !== action.payload.dreamID
         })
       }
-      break
+
     case EDIT_DREAM_SUCCESS:
       return {
         ...state,
-        items: state.items.map((dream) =>  {
-          if(dream._id  === action.payload.dream._id){
-            return action.payload.dream
-          }
-          else {
+        items: state.items.map((dream) => {
+          if (dream._id === action.payload.dream[0]._id) {
+            return action.payload.dream[0]
+          } else {
             return dream
           }
         })
       }
-      break
+
+    case LOGOUT_USER:
+      return initialState
+
     default:
       return state
   }

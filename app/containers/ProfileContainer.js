@@ -76,7 +76,7 @@ class ProfileContainer extends Component {
         text: 'Logout',
         onPress: () => {
           console.log('OK Pressed')
-          this.props.Auth.LogoutUser()
+          this.props.Auth.LogoutUser("Sucessfully logged out")
         }
       }
     ], {cancelable: false})
