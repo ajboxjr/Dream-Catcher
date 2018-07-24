@@ -26,10 +26,9 @@ class DreamListContainer extends Component {
   }
 
   /*
-    Populate dreams on login
+    Populate new dreams on login, do nothing on token login
   */
   componentWillMount() {
-    // console.log(this.props.dreams);
     if (this.props.dreams.shouldPopulate) {
       this.props.Dream.populateDreams()
     }
@@ -119,7 +118,11 @@ class DreamListContainer extends Component {
       </View>
       <DreamList isDelete={this.state.isDelete} deleteDream={(id) => {
           this.props.Dream.deleteDream(id)
-        }} dreams={this.props.dreams.items} onDreamSelect={this._handleDreamEntry} isPopulating={this.props.dreams.isPopulating} populateDreams={this.props.Dream.populateDreams}/>
+        }}
+        dreams={this.props.dreams.items}
+        onDreamSelect={this._handleDreamEntry}
+        isPopulating={this.props.dreams.isPopulating}
+        populateDreams={this.props.Dream.populateDreams}/>
     </View>)
   }
 }
@@ -140,7 +143,8 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderBottomWidth: 1
   },
   deleteView: {
     borderBottomLeftRadius: 4,

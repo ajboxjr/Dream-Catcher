@@ -33,7 +33,7 @@ class BubbleProfile extends Component {
       this.setState({renderBubbles: false})
     }, 1000 * 60)
   }
-
+  
   /*
     Store 20 bubble positions to state
   */
@@ -106,22 +106,21 @@ class BubbleProfile extends Component {
       renderBubbles
     } = this.state
     return (<View style={styles.bubbleContainer}>
-      <Animated.View style={[
-          this.props.getDimensions(10),
+      <Animated.View style={[ this.props.getDimensions(10),
           styles.profileCircle, {
-            transform: [
-              {
-                scale: this.state.circleBorder
-              }
-            ]
-          }
-        ]}/> {
+                transform: [
+                  {
+                    scale: this.state.circleBorder
+                  }
+                ]
+              }]}/>
+        {
         renderBubbles
           ? this.state.bubblePropsArr.map((item, i) => {
             return (<Bubble key={i} left={item.left} up={item.up}/>)
           })
           : null
-      }
+        }
     </View>)
   }
 }

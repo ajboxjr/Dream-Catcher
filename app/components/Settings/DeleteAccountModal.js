@@ -9,6 +9,7 @@ class DeleteAccountModal extends Component {
         password: '',
       }
     }
+
   render(){
     return (
       <View>

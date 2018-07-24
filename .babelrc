@@ -1,26 +1,3 @@
 {
-  "presets": ["react-native"],
-    "env": {
-      "development": {
-        "plugins": [
-          "transform-react-jsx-source",
-          ["module-resolver", {
-            "root": ["./"],
-            "alias": {
-              "actions": "./app/actions",
-              "api": "./app/api",
-              "assets": "./app/assets",
-              "components": "./app/components",
-              "icons": "./app/components/icons",
-              "containers": "./app/containers",
-              "reducers": "./app/reducers",
-              "scenes": "./app/scenes",
-              "store": "./app/store",
-              "utils": "./app/utils"
-            }
-          }]
-        ]
-      }
-    }
-
+  "presets": ["react-native"]
 }

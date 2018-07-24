@@ -5,6 +5,28 @@ import android.app.Application;
 import com.facebook.react.ReactApplication;
 import com.wenkesj.voice.VoicePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.wenkesj.voice.VoicePackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.wenkesj.voice.VoicePackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.wenkesj.voice.VoicePackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.wenkesj.voice.VoicePackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.wenkesj.voice.VoicePackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.wenkesj.voice.VoicePackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.wenkesj.voice.VoicePackage;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.wenkesj.voice.VoicePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.wenkesj.voice.VoicePackage;
@@ -29,6 +51,28 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new VoicePackage(),
+            new VectorIconsPackage(),
+            new RNDeviceInfo(),
+            new VoicePackage(),
+            new VectorIconsPackage(),
+            new RNDeviceInfo(),
+            new VoicePackage(),
+            new VectorIconsPackage(),
+            new RNDeviceInfo(),
+            new VoicePackage(),
+            new VectorIconsPackage(),
+            new RNDeviceInfo(),
+            new VoicePackage(),
+            new VectorIconsPackage(),
+            new RNDeviceInfo(),
+            new VoicePackage(),
+            new VectorIconsPackage(),
+            new RNDeviceInfo(),
+            new RNDeviceInfo(),
+            new VoicePackage(),
+            new VectorIconsPackage(),
+            new RNDeviceInfo(),
             new VoicePackage(),
             new VectorIconsPackage(),
             new VoicePackage(),

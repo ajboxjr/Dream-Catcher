@@ -244,6 +244,7 @@ const styles = StyleSheet.create({
   },
   DreamEntryTitleContainer: {
     // 1
+    backgroundColor: '#FFFFFF',
     width: '70%',
     height: '100%',
     // borderWidth:1,
@@ -270,6 +271,7 @@ const styles = StyleSheet.create({
     flex: .55,
     // borderWidth:1,
     // width:'100%',
+    backgroundColor: '#FFFFFF',
     height: '100%',
     shadowOffset: {
       width: 0,

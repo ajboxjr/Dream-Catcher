@@ -142,7 +142,8 @@ class AuthForm extends Component {
           }
         ]}>
         <View style={styles.loginContainer}>
-          <LoginHeader switchLogin={(bool) => this._handleAuthSwitch(bool)} isLogin={this.state.isLogin}/> {this.loginSignUp(isLogin)}
+        <LoginHeader switchLogin={(bool) => this._handleAuthSwitch(bool)} isLogin={this.state.isLogin}/>
+          {this.loginSignUp(isLogin)}
         </View>
       </Animated.View>
       {errorHandler}
@@ -196,6 +197,7 @@ const styles = StyleSheet.create({
   errorContainer: {
     position: 'absolute',
     bottom: 0,
+    height: 30,
     flex: 1,
     justifyContent: 'flex-end',
     marginBottom: '2%'

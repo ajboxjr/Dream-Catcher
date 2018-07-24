@@ -21,7 +21,10 @@ class DreamList extends Component {
       <View style={styles.DreamListContainer}>
         {
           this.props.dreams.map((item, i) => {
-            return <DreamItem key={item._id} dream={item} onTap={() => this.props.onDreamSelect(item._id)} onDelete={(id) => this.props.deleteDream(id)} isDelete={this.props.isDelete}/>
+            return <DreamItem key={item._id} dream={item}
+                    onTap={() => this.props.onDreamSelect(item._id)}
+                    onDelete={(id) => this.props.deleteDream(id)}
+                    isDelete={this.props.isDelete}/>
           })
         }
       </View>
@@ -30,6 +33,7 @@ class DreamList extends Component {
 }
 const styles = StyleSheet.create({
   DreamListContainer: {
+    paddingTop: 3,
     flex: .85
   }
 })

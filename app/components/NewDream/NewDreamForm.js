@@ -323,7 +323,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#63C924',
     // width: 150,
     width: '50%',
-    height: '7%',
+    height: '9%',
     // paddingVertical: '4%',
     borderRadius: 3,
     shadowOffset: {width: 1, height: 3},

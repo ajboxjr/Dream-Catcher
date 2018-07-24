@@ -80,6 +80,11 @@ export default MainStack = TabNavigator(tabOptions, {
     },
     style: {
       backgroundColor: '#fff',
+      shadowOpacity: .6,
+      shadowOffset: {
+        width: 0,
+        height: 3
+      },
       borderTopWidth: 1
     }
   },

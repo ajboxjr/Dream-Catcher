@@ -7,29 +7,8 @@ target 'Dream_Catcher' do
 
   # Pods for Dream_Catcher
 
-  target 'Dream_Catcher-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-    pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
-  end
-
-  target 'Dream_CatcherTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-end
-
-target 'Dream_Catcher-tvOS' do
-  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
-  # use_frameworks!
-
-  # Pods for Dream_Catcher-tvOS
-
-  target 'Dream_Catcher-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
 end

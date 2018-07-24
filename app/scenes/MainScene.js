@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
-import { TabNavigator } from 'react-navigation';
-import { Image } from 'react-native'
+import React, {Component} from 'react';
+import {TabNavigator} from 'react-navigation';
+import {Image} from 'react-native'
 
-// Home Scenes
 import MainNavigationWithState from '../navigation/MainStack'
-
 
 class MainScene extends Component {
   componentWillReceiveProps(nextProps) {
@@ -14,10 +12,8 @@ class MainScene extends Component {
     }
   }
 
-  render () {
-    return (
-      <MainNavigationWithState />
-    )
+  render() {
+    return (<MainNavigationWithState/>)
   }
 }
 

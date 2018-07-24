@@ -1,27 +1,23 @@
-import React,{ Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types'
-import { StyleSheet, View } from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import DreamEntryContainer from '../containers/DreamEntryContainer'
 
-class DreamEntryScene extends Component{
-  constructor(props){
+class DreamEntryScene extends Component {
+  constructor(props) {
     super(props)
   }
-  componentWillMount(){
-    console.log(this.props.navigation.state.params.dreamId)
-  }
-  render(){
 
-    return (
-      <View style={styles.container}>
-        <DreamEntryContainer dreamId={this.props.navigation.state.params.dreamId} navigation={this.props.navigation}/>
-      </View>
-    )
+  render() {
+
+    return (<View style={styles.container}>
+      <DreamEntryContainer dreamId={this.props.navigation.state.params.dreamId} navigation={this.props.navigation}/>
+    </View>)
   }
 }
 
-DreamEntryScene.defaultProps ={
+DreamEntryScene.defaultProps = {
   // dream: {
   //   _id: 'aslkdfjas',
   //   author: 'bob',
@@ -35,10 +31,10 @@ DreamEntryScene.defaultProps ={
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
+    flex: 1,
     backgroundColor: '#3B4EE3',
     justifyContent: 'center',
     alignItems: 'center'
-  },
+  }
 })
 export default DreamEntryScene;
